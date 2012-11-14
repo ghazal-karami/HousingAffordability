@@ -1,0 +1,410 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<head>
+	<title>INTERNATIONAL SPACE APPS CHALLENGE-#HazardMap - Real time hazard mapping by scraping social media</title>
+   <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/dot-luv/jquery-ui.css" />
+	<style>
+		#slider-range,#SlideMax{width:400px;}
+		#slider-range,#time, #SlideMax, table{margin:10px;display:block;}
+	</style>
+</head>
+
+<body>
+	<table width="100%" height="100%" style="margin-bottom: 7px">
+		<td><span>Time Slider</span></td>
+		<td>
+			<div id="slider-range"></div> <span id="SlideMax"></span>
+		</td>
+		<td width="100%"><span id="time"></span></td>
+		<td style="align:left" ><input type="submit" name="scheduleSubmit" value="Submit"
+			id="scheduleSubmit" class="ui-button ui-state-default ui-corner-all" />
+		</td>
+		<td align="right" rowspan="2" width="100%"><a target="_blank"
+			href="http://www.csdila.unimelb.edu.au"
+			style="margin-right: 20px; width: 100px; height: 120px; background-image: url('csdila/CSDILA_HQ_logo.png'); z-index: 10000; display: block;"
+			id="g-global-menu-logo"></a></td>
+		<td align="right" rowspan="2" width="100%"><a target="_blank"
+			href="http://www.unimelb.edu.au"
+			style="margin-right: 10px; width: 120px; height: 120px; background-image: url('csdila/melbourne-uni-size2.JPG'); z-index: 10000; display: block;"
+			id="g-global-menu-logo"></a></td>
+		</tr>
+	</table>
+	<br />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> 
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var startTime;
+	var endTime;
+	$("#slider-range").slider({
+		range: true, min: 0, max: 2879, values: [540, 1020], step:5, slide: slideTime, change: checkMax
+	});
+	function slideTime(event, ui){
+		var val0 = $("#slider-range").slider("values", 0),
+			val1 = $("#slider-range").slider("values", 1),
+			minutes0 = parseInt(val0 % 60, 10),
+			hours0 = parseInt(val0 / 60 % 24, 10),
+			minutes1 = parseInt(val1 % 60, 10),
+			hours1 = parseInt(val1 / 60 % 24, 10);
+			
+		startTime = getTime(hours0, minutes0);
+		endTime = getTime(hours1, minutes1);
+		$("#time").text(startTime + ' - ' + endTime);
+	}
+	function getTime(hours, minutes) {
+		var time = null;
+		minutes = minutes + "";
+		if (hours < 12) {
+			time = "AM";
+		}
+		else {
+			time = "PM";
+		}
+		if (hours == 0) {
+			hours = 12;
+		}
+		if (hours > 12) {
+			hours = hours - 12;
+		}
+		if (minutes.length == 1) {
+			minutes = "0" + minutes;
+		}
+		return hours + ":" + minutes + " " + time;
+	}
+	function checkMax() {
+		var size = $("#slider-range").slider("values", 1) - $("#slider-range").slider("values", 0);
+		if( size >= 1435) {
+			$("#slider-range div")
+				.addClass("ui-state-error")
+				.removeClass("ui-widget-header");
+			$("#scheduleSubmit")
+				.attr("disabled","disabled")
+				.addClass("ui-state-disabled")
+				.removeClass("ui-state-default");
+			$("#SlideMax").text("Cannot be more than 24 hours");
+		}
+		else {	
+			$("#slider-range div")
+				.addClass("ui-widget-header")
+				.removeClass("ui-state-error");
+			$("#scheduleSubmit")
+				.removeAttr("disabled")
+				.addClass("ui-state-default")
+				.removeClass("ui-state-disabled");
+			$("#SlideMax").text("");
+		}
+	}
+
+	$("#scheduleSubmit").on('click', function(){
+		console.log(startTime);
+		console.log(endTime);
+		$('#Schedule tbody').append('<tr>' +
+			'<td>' + startTime + '</td>' + 
+			'<td>' + endTime + '</td>' + 
+			'</tr>');
+	});
+	slideTime();
+</script>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="CoffeeCup HTML Editor (www.coffeecup.com)">
+    <meta name="created" content="Sat, 10 Mar 2012 03:27:55 GMT">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>INTERNATIONAL SPACE APPS CHALLENGE-#HazardMap - Real time hazard mapping by scraping social media</title>
+    <script src="http://extjs.cachefly.net/ext-3.2.1/adapter/ext/ext-base.js" type="text/javascript"></script>
+	<script src="http://extjs.cachefly.net/ext-3.2.1/ext-all.js" type="text/javascript"></script>
+	<script src="http://openlayers.org/api/2.11/OpenLayers.js" type="text/javascript"></script>
+	<script src="http://api.geoext.org/1.1/script/GeoExt.js" type="text/javascript"></script>
+	<script src='http://maps.google.com/maps?file=api&amp;v=2&amp;key=AIzaSyBiRc9OQy5Xx4Tw-vveqcL4v_x8TXhLLuM'></script>
+    
+	
+	<link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.1/resources/css/ext-all.css"></link>
+	<link rel="stylesheet" type="text/css" href="http://api.geoext.org/1.1/resources/css/geoext-all.css"></link>
+    <style type="text/css">
+
+    </style>
+   
+	<script type="text/javascript"> 
+	Ext.onReady(function() {
+	
+	//adding required Options for Google Maps and Sattelite
+		var options = {
+            projection: new OpenLayers.Projection("EPSG:900913"),
+			displayProjection: new OpenLayers.Projection("EPSG:4326"),
+			units: "m",
+            numZoomLevels: 18,
+			maxResolution: 156543.0339,
+            maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34)
+		};
+		var map = new OpenLayers.Map(options);
+	
+	//Adding mouse coordinates
+		map.addControl(new OpenLayers.Control.MousePosition());
+		map.addControl(new OpenLayers.Control.LayerSwitcher()); 
+		
+	//Adding Google Hybrid
+		var ghyb = new OpenLayers.Layer.Google(
+			"Google Hybrid",
+			{type:  G_HYBRID_MAP, 'sphericalMercator': true, numZoomLevels: 20}
+            );
+		map.addLayer(ghyb);
+		
+	//Adding Google Street Map
+		var gmap = new OpenLayers.Layer.Google(
+     		"Google Streets", // the default
+      		{isBaseLayer: true, numZoomLevels: 20, sphericalMercator: true,}
+	  	);
+		
+		map.addLayer(gmap);
+			   
+	 //Adding Google Sattelite
+	 	var gsat = new OpenLayers.Layer.Google(
+     		"Google Satellite",
+      		{type: G_SATELLITE_MAP, 'sphericalMercator': true, numZoomLevels: 20}
+		);
+		
+		map.addLayer(gsat);
+		
+	
+	
+		
+	
+	//adding KML map layers
+	var Hazard = new OpenLayers.Layer.Vector("Hazard", {
+            projection: map.displayProjection,
+			//strategies: [new OpenLayers.Strategy.Fixed()],
+			  strategies: [new OpenLayers.Strategy.BBOX(), new OpenLayers.Strategy.Refresh({interval: 4000, force: true})],
+            protocol: new OpenLayers.Protocol.HTTP({
+            	  url: "/Watchout-NASA/kml",
+            	 // url: "test2.kml",
+                format: new OpenLayers.Format.KML({
+                    extractStyles: true, 
+                    extractAttributes: true,
+                    maxDepth: 2
+                })
+            })
+        });
+	map.addLayer(Hazard);
+	
+
+	//Defining Map Panel
+		var mappanel = new GeoExt.MapPanel({
+        	region:"center",
+        	height: 400,
+        	width: '100%',
+        	map: map,
+			title: 'Map Layers on Google'
+    		});
+
+	//Defining Description panel
+		var descriptionPanel = new Ext.Panel({
+        	title: 'Hazard Description',
+        	Width: 200,
+        	region: "west",
+			contentEl: "description",
+       		collapsible: true,
+        	collapsed: false,
+			split: true
+    		});
+
+			
+			
+			
+			
+			
+			
+			
+			
+	
+	//Defining Main Panel
+		var mainPanel = new Ext.Panel({
+        	height: 800,
+			renderTo: "mainpanel",
+        	layout: "border",
+        	items: [mappanel, descriptionPanel]
+    		}); 
+			
+	// Zoom to the extent of KML
+	   var point = new OpenLayers.LonLat(8, 0); 
+	// Need to convert zoom point to mercator too
+       point.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));        
+	   map.setCenter(point, 3); 
+	   
+	// Extract and show KMLs information 
+	  
+	   select = new OpenLayers.Control.SelectFeature(Hazard);
+            
+            Hazard.events.on({
+                "featureselected": onFeatureSelect,
+                "featureunselected": onFeatureUnselect
+            });
+			
+			
+            map.addControl(select);
+            select.activate();   
+                
+				
+				
+				
+				
+				
+				
+				
+      /* function onPopupClose(evt) {
+          select.unselectAll();
+        }
+       function onFeatureSelect(event) {
+           var feature = event.feature;
+          var content = "<h2>"+feature.attributes.name + "</h2>" + feature.attributes.description;
+            if (content.search("<script") != -1) {
+              content = "Content contained Javascript! Escaped content below.<br>" + content.replace(/</g, "&lt;");
+            }
+            popup = new OpenLayers.Popup.FramedCloud("chicken", 
+                                   feature.geometry.getBounds().getCenterLonLat(),
+                                   new OpenLayers.Size(150,150),
+                                    content,
+                                    null, true, onPopupClose);
+            feature.popup = popup;
+            map.addPopup(popup);
+        }
+	 
+	  
+        function onFeatureUnselect(event) {
+            var feature = event.feature;
+            if(feature.popup) {
+                map.removePopup(feature.popup);
+                feature.popup.destroy();
+                delete feature.popup;
+            }
+		}
+		
+		*/
+		
+		function onPopupClose(evt) {
+            select.unselectAll();
+        }
+        function onFeatureSelect(event) {
+            var feature = event.feature;
+
+            var content = "<h2>"+feature.attributes.name + "</h2>" + feature.attributes.description;
+            if (content.search("<script") != -1) {
+                content = "Content contained Javascript! Escaped content below.<br>" + content.replace(/</g, "&lt;");
+            }
+            popup = new OpenLayers.Popup.FramedCloud("chicken", 
+                                     feature.geometry.getBounds().getCenterLonLat(),
+                                     new OpenLayers.Size(150,150),
+                                     content,
+                                     null, true, onPopupClose);
+            feature.popup = popup;
+            map.addPopup(popup);
+        }
+        function onFeatureUnselect(event) {
+            var feature = event.feature;
+            if(feature.popup) {
+                map.removePopup(feature.popup);
+                feature.popup.destroy();
+                delete feature.popup;
+            }
+		}
+		
+		
+		
+		
+		});
+		</script>
+  </head>
+  <body>
+  
+  		<div id='mainpanel'></div>
+		<div id='description'>
+			 <table width=200>
+			 	<tr>
+			 		<td>
+			 			<h1>Legend</h1><br/>
+						
+					</td>
+				</tr>
+				<tr>
+			 		<td>
+			 		<img src="avalanges.jpg" alt="Avalange" height="50" width="50" /><br/>	
+					</td>
+			 		<td>
+			 		Avalanges
+					</td>
+				</tr>
+				<tr>
+			 		<td>
+			 		<img src="eq.jpg" alt="Earthquake" height="50" width="50" /><br/>
+					</td>
+			 		<td>
+			 		Earthquake
+					</td>
+				</tr>
+				<tr>
+			 		<td>
+			 	<img src="flood.jpg" alt="Flood" height="50" width="50" /><br/>
+					</td>
+			 		<td>
+			 		Flood
+					</td>
+				</tr>
+				<tr>
+			 		<td>
+			 		<img src="landslide.jpg" alt="Landslide" height="50" width="50" /><br/>
+					</td>
+			 		<td>
+			 		Landslide
+					</td>
+				</tr>
+				<tr>
+			 		<td>
+			 		<img src="storm.jpg" alt="Storm" height="50" width="50" /><br/>
+					</td>
+			 		<td>
+			 		Storm
+					</td>
+				</tr>
+				<tr>
+			 		<td>
+			 		<img src="Tsunami.jpg" alt="Tsunami" height="50" width="50" /><br/>
+					</td>
+			 		<td>
+			 		Tsunami
+					</td>
+				</tr>
+				<tr>
+			 		<td>
+			 		<img src="volcano.jpg" alt="Volcano" height="50" width="50" /><br/>
+					</td>
+			 		<td>
+			 		Volcano
+					</td>
+				</tr>
+			</table>
+		</div>
+
+  </body>
+</html>
