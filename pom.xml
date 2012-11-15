@@ -17,24 +17,26 @@
 	</properties>
 
 	<dependencies>
-	
-	
-    
-  <dependency>
-  <groupId>org.geotools</groupId>
-  <artifactId>gt-geojson</artifactId>
-  <version>${geotools.version}</version>
-</dependency>
 
-  
+		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-geojson</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.11</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		
-				<dependency>
+
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework.version}</version>
@@ -61,6 +63,15 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
 		</dependency>
+		
+		<!-- <dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency> -->
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -341,17 +352,14 @@
 			<groupId>org.gwtopenmaps.openlayers</groupId>
 			<artifactId>gwt-openlayers-client</artifactId>
 			<version>0.5</version>
-		</dependency>	
-		
+		</dependency>
 
-         <!-- <dependency>
-			<groupId>org.geoserver</groupId>
-			<artifactId>main</artifactId>
-			<version>2.2.x</version>
-		</dependency> -->
+
+		<!-- <dependency> <groupId>org.geoserver</groupId> <artifactId>main</artifactId> 
+			<version>2.2.x</version> </dependency> -->
 	</dependencies>
-	
-	
+
+
 	<build>
 		<plugins>
 			<plugin>
@@ -416,10 +424,10 @@
 			<name>Java.net repository</name>
 			<url>http://download.java.net/maven/2</url>
 		</repository>
-		
-		
-    
-  
+
+
+
+
 
 
 

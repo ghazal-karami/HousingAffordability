@@ -108,11 +108,12 @@ import com.vividsolutions.jts.operation.overlay.PointBuilder;
 import org.geotools.kml.*;
 
 @Controller
+
 public class HelloController {
 	protected final Logger logger = Logger.getLogger(getClass());
 
 	@SuppressWarnings("deprecation")
-	@RequestMapping("/hello.html")
+	@RequestMapping("/hello.html")	
 	public String handleRequest(Model model) throws ParseException, IOException, FactoryException, InstantiationException, IllegalAccessException, MismatchedDimensionException, TransformException {
 
 		logger.debug("Returning index view");
