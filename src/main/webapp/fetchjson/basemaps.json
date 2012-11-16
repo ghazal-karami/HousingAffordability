@@ -1,0 +1,63 @@
+{ "basemaps": [
+  { "name": "OpenStreetMap"
+  , "type": "osm"
+  , "subtype": ""
+  , "img" : "../resources/maps/osm.jpg"
+  }
+, { "name": "Google - Roadmap"
+  , "type": "google"
+  , "subtype": "roadmap"
+  , "img" : "../resources/maps/google-roadmap.jpg"
+  }
+, { "name": "Google - Hybrid"
+  , "type": "google"
+  , "subtype": "hybrid"
+  , "img" : "../resources/maps/google-hybrid.jpg"
+  }
+, { "name": "Google - Terrain"
+  , "type": "google"
+  , "subtype": "terrain"
+  , "img" : "../resources/maps/google-terrain.jpg"
+  }  
+, { "name": "Google - Satellite"
+  , "type": "google"
+  , "subtype": "satellite"
+  , "img" : "../resources/maps/google-satellite.jpg"
+  }    
+, { "name": "Stamen - Toner"
+  , "type": "stamen"
+  , "subtype": "toner"
+  , "img" : "../resources/maps/stamen-toner.jpg"
+  }
+ , { "name": "Stamen - Watercolor"
+  , "type": "stamen"
+  , "subtype": "watercolor"
+  , "img" : "../resources/maps/stamen-watercolor.jpg"
+  }
+, { "name": "Cloudmade - Midnight Commander"
+  , "type": "cloudmade"
+  , "subtype": 999
+  , "img" : "../resources/maps/cloudmade-midnight.jpg"
+  }
+, { "name": "Cloudmade - Fresh"
+  , "type": "cloudmade"
+  , "subtype": 997
+  , "img" : "../resources/maps/cloudmade-fresh.jpg"
+  }
+, { "name": "Cloudmade - Pale Dawn"
+  , "type": "cloudmade"
+  , "subtype": 998
+  , "img" : "../resources/maps/cloudmade-pale.jpg"
+  }
+, { "name": "Cloudmade - Tourist"
+  , "type": "cloudmade"
+  , "subtype": 7
+  , "img" : "../resources/maps/cloudmade-tourist.jpg"
+  }
+, { "name": "Cloudmade - Red Alert"
+  , "type": "cloudmade"
+  , "subtype": 8
+  , "img" : "../resources/maps/cloudmade-redalert.jpg"
+  }
+  ]   
+}
