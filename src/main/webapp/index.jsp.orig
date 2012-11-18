@@ -1,0 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<<<<<<< HEAD
+<% response.sendRedirect("hello.html"); %>
+=======
+<% response.sendRedirect("hello.html"); %>
+>>>>>>> e43547c57b2dbb31b2e9c74fa38e4caa709b2812

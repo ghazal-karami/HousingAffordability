@@ -16,15 +16,15 @@
 <script src="https://apps.aurin.org.au/assets/js/proj4js/1.1.0/proj4js-compressed.js"></script>
 <script src="https://apps.aurin.org.au/assets/js/openlayers/OpenLayers-2.12/OpenLayers.js"></script>
 
-<script src="../lib/aura/Util.js"></script>
+<script src="/housing/lib/aura/Util.js"></script>
 
-<script src="../lib/common/OpenLayers/patch.js"></script>
-<script src="../lib/common/OpenLayers/Aura/Control/Legend.js"></script>
-<script src="../lib/common/undertow/undertow.js"></script>
+<script src="/housing/lib/common/OpenLayers/patch.js"></script>
+<script src="/housing/lib/common/OpenLayers/Aura/Control/Legend.js"></script>
+<script src="/housing/lib/common/undertow/undertow.js"></script>
 
 
-<script src="../lib/simple/simple.js"></script>
+<script src="/housing/lib/simple/simple.js"></script>
 
 </head>
-<body></body>
+<body>hiiiiiii</body>
 </html>

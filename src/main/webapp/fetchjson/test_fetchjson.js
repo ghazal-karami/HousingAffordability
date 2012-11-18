@@ -2,7 +2,7 @@
 
 
 Ext.Loader.setConfig({enabled: true});
-Ext.Loader.setPath('Aura', '../lib/aura');
+Ext.Loader.setPath('Aura', '/housing/lib/aura');
 
 var Aura = Aura || {}; // global Aura namespace
 Ext.WindowMgr.zseed = 9001;

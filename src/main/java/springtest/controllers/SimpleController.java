@@ -61,6 +61,7 @@ public class SimpleController {
     jsonParam.put("property", (Integer)jsonParam.get("property")*2);
     return jsonParam;
   }
+  
 
 
 }

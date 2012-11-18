@@ -167,7 +167,7 @@ public class HelloController {
 	    
         exportToShapeFile(type, newBufferFeatures) ;
 	    
-	    return "hello";
+	    return "simple";
     }	
 	
 	//**********************************************************************************************************************

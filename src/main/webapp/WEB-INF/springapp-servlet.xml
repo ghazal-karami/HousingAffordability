@@ -9,6 +9,8 @@
          http://www.springframework.org/schema/context/spring-context-3.0.xsd
       http://www.springframework.org/schema/mvc
       http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+      
+      
 
   <!-- the application context definition for the springapp DispatcherServlet -->
     <!-- Scans within the base package of the application for @Components to
@@ -22,9 +24,10 @@
   <mvc:annotation-driven/>
   <!-- <mvc:resources mapping="/resources/**" location="classpath:resources"/> -->
 
-  <!-- <bean id="viewResolver"
+  <bean id="viewResolver"
     class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-    <property name="prefix" value="/WEB-INF/jsp/" />
+    <!-- <property name="prefix" value="/WEB-INF/jsp/" /> -->
+    <property name="prefix" value="/simple/" />
     <property name="suffix" value=".jsp" />
-  </bean> -->
+  </bean>
 </beans>

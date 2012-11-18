@@ -1,5 +1,5 @@
 Ext.Loader.setConfig({enabled: true});
-Ext.Loader.setPath('Aura', '../lib/aura');
+Ext.Loader.setPath('Aura', '/housing/lib/aura');
 
 var Aura = Aura || {}; // global Aura namespace
 Ext.WindowMgr.zseed = 9001;
@@ -31,7 +31,7 @@ function build() {
       defaults: {
         labelAlign: 'right',
         labelWidth: 150,
-        anchor: '100%',
+        anchor: '50%',
         width: 200
       },
 
@@ -50,7 +50,7 @@ function build() {
           var jsonData = JSON.parse(panel.getForm().findField('field1').getValue());
 
           Ext.Ajax.request({
-            url: '/housing-1.0-SNAPSHOT/simple-controller/postAndReturnJson',
+            url: '/housing/simple-controller/postAndReturnJson',
             method: 'post',
             jsonData: jsonData,
             /*headers: {
