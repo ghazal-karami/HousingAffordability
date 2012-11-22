@@ -58,7 +58,11 @@ public class SimpleController {
     LOGGER.info("*******>> /handle  post for ="+jsonParam.toString());
     System.out.println("*******>> /handle  post for ="+jsonParam.toString());
 
-    jsonParam.put("property", (Integer)jsonParam.get("property")*2);
+//    jsonParam.put("sliderValue", (Integer)jsonParam.get("property")*2);
+    
+    
+    System.out.println("*******>> /handle  post for ="+jsonParam.get("sliderValue").toString());
+    
     return jsonParam;
   }
   

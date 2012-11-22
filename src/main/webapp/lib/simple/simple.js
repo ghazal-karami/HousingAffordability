@@ -22,7 +22,9 @@ Ext.onReady( function() {
 function build() {
 
 
-    var panel = Ext.create('Ext.form.Panel', {
+    var panel = Ext.create('Ext.form.Panel', 
+     {
+    	
       header: false,
       bodyPadding: 5,
 

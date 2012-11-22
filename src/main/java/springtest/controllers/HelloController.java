@@ -113,7 +113,7 @@ public class HelloController {
 	protected final Logger logger = Logger.getLogger(getClass());
 
 	@SuppressWarnings("deprecation")
-	@RequestMapping("/hello.html")	
+	@RequestMapping("/hello0.html")	
 	public String handleRequest(Model model) throws ParseException, IOException, FactoryException, InstantiationException, IllegalAccessException, MismatchedDimensionException, TransformException {
 
 		logger.debug("Returning index view");
@@ -132,7 +132,7 @@ public class HelloController {
 		SimpleFeatureTypeBuilder typeBuilder = new SimpleFeatureTypeBuilder();
 		typeBuilder.setName("a-type-name");
 		CoordinateReferenceSystem crs = CRS.decode("EPSG:28355");
-		typeBuilder.setCRS(crs);
+		typeBuilder.setCRS(featureSource.getSchema().getCoordinateReferenceSystem());
 		typeBuilder.add("location", Polygon.class);
 		typeBuilder.add("name", String.class);
 		typeBuilder.add("id", Integer.class);			
@@ -167,7 +167,7 @@ public class HelloController {
 	    
         exportToShapeFile(type, newBufferFeatures) ;
 	    
-	    return "simple";
+	    return "mainPage";
     }	
 	
 	//**********************************************************************************************************************
