@@ -17,11 +17,8 @@ Ext.onReady(function() {
 function build() {
 
 	var panel = Ext.create('Ext.form.Panel', {
-
 		header : false,
 		bodyPadding : 5,
-
-		// Fields will be arranged vertically, stretched to full width
 		layout : 'anchor',
 		defaults : {
 			labelAlign : 'right',
@@ -32,12 +29,6 @@ function build() {
 		
 
 		items : [{
-					xtype : 'numberfield',
-					fieldLabel : 'Enter a number',
-					id : 'numberId',
-					width : 40,
-					value : 0
-				}, {
 					xtype : 'sliderfield',
 					fieldLabel : 'Train Station Distance',
 					id : 'TrainStationId',
@@ -61,16 +52,69 @@ function build() {
 					value : 0,
 					minValue : 0,
 					maxValue : 5000
+				}, {
+					xtype : 'sliderfield',
+					fieldLabel : 'Education',
+					id : 'EducationId',
+					width : 200,
+					value : 0,
+					minValue : 0,
+					maxValue : 5000
+				}, {
+					xtype : 'sliderfield',
+					fieldLabel : 'Recreation',
+					id : 'RecreationId',
+					width : 200,
+					value : 0,
+					minValue : 0,
+					maxValue : 5000
+				}, {
+					xtype : 'sliderfield',
+					fieldLabel : 'Medical',
+					id : 'MedicalId',
+					width : 200,
+					value : 0,
+					minValue : 0,
+					maxValue : 5000
+				}, {
+					xtype : 'sliderfield',
+					fieldLabel : 'Community',
+					id : 'CommunityId',
+					width : 200,
+					value : 0,
+					minValue : 0,
+					maxValue : 5000
+				}, {
+					xtype : 'sliderfield',
+					fieldLabel : 'Utility',
+					id : 'UtilityId',
+					width : 200,
+					value : 0,
+					minValue : 0,
+					maxValue : 5000
+				}, {
+					xtype : 'sliderfield',
+					fieldLabel : 'Employment',
+					id : 'EmploymentId',
+					width : 200,
+					value : 0,
+					minValue : 0,
+					maxValue : 5000
 				}],
 
 		buttons : [{
-			text : 'Process',
+			text : 'Analyse',
 			handler : function() {
 
 				var TrainStationValue = JSON.parse(panel.getForm().findField('TrainStationId').getValue());
 				var TrainRouteValue = JSON.parse(panel.getForm().findField('TrainRouteId').getValue());
 				var TramRouteValue = JSON.parse(panel.getForm().findField('TramRouteId').getValue());
-				var numberValue = JSON.parse(panel.getForm().findField('numberId').getValue());
+				
+				var EducationValue = JSON.parse(panel.getForm().findField('EducationId').getValue());
+				var RecreationValue = JSON.parse(panel.getForm().findField('RecreationId').getValue());
+				var MedicalValue = JSON.parse(panel.getForm().findField('MedicalId').getValue());
+				var CommunityValue = JSON.parse(panel.getForm().findField('CommunityId').getValue());
+				var UtilityValue = JSON.parse(panel.getForm().findField('UtilityId').getValue());
 
 				Ext.Ajax.request({
 							url : '/housing/housing-controller/postAndReturnJson',
@@ -80,7 +124,12 @@ function build() {
 								TrainStationValue : TrainStationValue,
 								TrainRouteValue : TrainRouteValue,
 								TramRouteValue : TramRouteValue,
-								numberValue : numberValue
+								EducationValue : EducationValue,
+								RecreationValue : RecreationValue,
+								MedicalValue : MedicalValue,
+								CommunityValue : CommunityValue,
+								UtilityValue : UtilityValue
+								
 								// var2 : 56,
 								// var3 : [1, 2, 3]
 							},
@@ -91,7 +140,7 @@ function build() {
 								// panel.getForm().findField('field1').setValue(response.responseText);
 								// process server response here
 								var text = response.responseText;
-								Ext.MessageBox.alert(sliderValue1.toString()+ '   ' + numberValue.toString());
+								Ext.MessageBox.alert(TrainStationValue.toString());
 							}
 						});
 			}

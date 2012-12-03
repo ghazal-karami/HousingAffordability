@@ -16,10 +16,18 @@
     <!-- Scans within the base package of the application for @Components to
     configure as beans -->
   <!-- @Controller, @Service, @Configuration, etc. -->
-  <context:component-scan base-package="springtest" />
+  
+  <context:component-scan base-package="au.org.housing.start" />
+  <context:component-scan base-package="au.org.housing.controller" />
+  <context:component-scan base-package="au.org.housing.service"/>
+  
+  <!-- <context:component-scan base-package="au.org.housing.service" /> -->
+  <!-- <context:component-scan base-package="springtest" /> -->
 
   <mvc:resources location="/resources/" mapping="/resources/**"/>
   <mvc:resources location="/lib/" mapping="/lib/**"/>
+
+  <context:annotation-config />
 
   <mvc:annotation-driven/>
   <!-- <mvc:resources mapping="/resources/**" location="classpath:resources"/> -->
@@ -30,4 +38,12 @@
     <property name="prefix" value="/ui-jsp/" />
     <property name="suffix" value=".jsp" />
   </bean>
+  
+  
+    <!-- <bean id="housingHandler" class="au.org.housing.controller.HousingController" /> -->
+    <!-- <bean id="housingService" class="au.org.housing.service.impl.TransportationBufferServiceImpl" /> -->
+    <bean id="housingModel" class="au.org.housing.model.Parameter" />
+ 
+
+
 </beans>
