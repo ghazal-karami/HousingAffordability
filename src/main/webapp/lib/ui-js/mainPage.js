@@ -20,6 +20,7 @@ function build() {
 		header : false,
 		bodyPadding : 5,
 		layout : 'anchor',
+		
 		defaults : {
 			labelAlign : 'right',
 			labelWidth : 150,
@@ -29,6 +30,15 @@ function build() {
 		
 
 		items : [{
+					xtype : 'sliderfield',
+					fieldLabel : 'DPI',
+					id : 'DPI_Id',
+					width : 200,
+					value : 0,
+					
+					minValue : 0.0,
+					maxValue : 1.0
+				},{
 					xtype : 'sliderfield',
 					fieldLabel : 'Train Station Distance',
 					id : 'TrainStationId',
@@ -106,6 +116,7 @@ function build() {
 			text : 'Analyse',
 			handler : function() {
 
+				var DPI_Value = JSON.parse(panel.getForm().findField('DPI_Id').getValue());
 				var TrainStationValue = JSON.parse(panel.getForm().findField('TrainStationId').getValue());
 				var TrainRouteValue = JSON.parse(panel.getForm().findField('TrainRouteId').getValue());
 				var TramRouteValue = JSON.parse(panel.getForm().findField('TramRouteId').getValue());
@@ -121,6 +132,7 @@ function build() {
 							method : 'post',
 							waitMsg : 'Saving changes...',
 							jsonData : {
+								DPI_Value : DPI_Value,
 								TrainStationValue : TrainStationValue,
 								TrainRouteValue : TrainRouteValue,
 								TramRouteValue : TramRouteValue,

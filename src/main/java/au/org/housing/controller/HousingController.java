@@ -1,6 +1,7 @@
 package au.org.housing.controller;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Map;
 import org.opengis.geometry.MismatchedDimensionException;
 import org.opengis.referencing.FactoryException;
@@ -16,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import au.org.housing.service.DPICalculatorService;
 import au.org.housing.service.FacilitiesBufferService;
 import au.org.housing.service.TransportationBufferService;
 import com.vividsolutions.jts.io.ParseException;
 import org.geotools.data.Join;
+
+
 
 @Controller 
 @RequestMapping("/housing-controller")
@@ -31,25 +35,27 @@ public class HousingController {
 	
 	@Autowired
 	private FacilitiesBufferService facilitiesBufferService ;	
+	
+	@Autowired
+	private DPICalculatorService dpiCalculatorService ;	
 	    
 	@RequestMapping(method = RequestMethod.POST, value = "/postAndReturnJson", headers = "Content-Type=application/json")
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody Map<String, Object> handleRequest(@RequestBody Map<String, Object> jsonParam) throws ParseException, IOException, FactoryException, InstantiationException, IllegalAccessException, MismatchedDimensionException, TransformException {    	
+    public @ResponseBody Map<String, Object> handleRequest(@RequestBody Map<String, Object> jsonParam) throws ParseException, IOException, FactoryException, InstantiationException, IllegalAccessException, MismatchedDimensionException, TransformException, URISyntaxException {    	
     	 
-    	getTransportationBufferService().getParameter().setTrain_St_BufferDistance((Integer) jsonParam.get("TrainStationValue"));  
-    	getTransportationBufferService().getParameter().setTrain_Rt_BufferDistance((Integer) jsonParam.get("TrainRouteValue"));  
-    	getTransportationBufferService().getParameter().setTram_Rt_BufferDistance((Integer) jsonParam.get("TramRouteValue"));  
-    	getTransportationBufferService().generateTranportBuffer();
-    	
-    	getFacilitiesBufferService().getParameter().setEducation_BufferDistance((Integer) jsonParam.get("EducationValue"));  
-    	getFacilitiesBufferService().getParameter().setRecreation_BufferDistance((Integer) jsonParam.get("RecreationValue"));  
-    	getFacilitiesBufferService().getParameter().setMedical_BufferDistance((Integer) jsonParam.get("MedicalValue"));  
-    	getFacilitiesBufferService().getParameter().setCommunity_BufferDistance((Integer) jsonParam.get("CommunityValue"));  
-    	getFacilitiesBufferService().getParameter().setUtility_BufferDistance((Integer) jsonParam.get("UtilityValue"));
-    	getFacilitiesBufferService().generateFacilityBuffer();
-    	
-    	
-    	
+		getTransportationBufferService().getParameter().setDpi((Float) jsonParam.get("DPI_Value"));  
+		
+//    	getTransportationBufferService().getParameter().setTrain_St_BufferDistance((Integer) jsonParam.get("TrainStationValue"));  
+//    	getTransportationBufferService().getParameter().setTrain_Rt_BufferDistance((Integer) jsonParam.get("TrainRouteValue"));  
+//    	getTransportationBufferService().getParameter().setTram_Rt_BufferDistance((Integer) jsonParam.get("TramRouteValue"));  
+//    	getTransportationBufferService().generateTranportBuffer();
+//    	
+//    	getFacilitiesBufferService().getParameter().setEducation_BufferDistance((Integer) jsonParam.get("EducationValue"));  
+//    	getFacilitiesBufferService().getParameter().setRecreation_BufferDistance((Integer) jsonParam.get("RecreationValue"));  
+//    	getFacilitiesBufferService().getParameter().setMedical_BufferDistance((Integer) jsonParam.get("MedicalValue"));  
+//    	getFacilitiesBufferService().getParameter().setCommunity_BufferDistance((Integer) jsonParam.get("CommunityValue"));  
+//    	getFacilitiesBufferService().getParameter().setUtility_BufferDistance((Integer) jsonParam.get("UtilityValue"));
+//    	getFacilitiesBufferService().generateFacilityBuffer();
     	
     	return jsonParam;
     	

@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,6 +28,7 @@ import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.data.simple.SimpleFeatureStore;
 import org.geotools.feature.DefaultFeatureCollection;
 import org.geotools.feature.FeatureCollections;
+import org.geotools.feature.FeatureIterator;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.geojson.feature.FeatureJSON;
@@ -51,86 +55,82 @@ import au.org.housing.service.TransportationBufferService;
 @Service
 public class TransportationBufferServiceImpl implements TransportationBufferService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(HousingController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TransportationBufferServiceImpl.class);
 	Collection<Geometry> trasportationbufferCollection ;
 	
 	@Autowired
 	private Parameter parameter;
 	
-	public void generateTranportBuffer() throws NoSuchAuthorityCodeException, IOException, FactoryException{
+	public void generateTranportBuffer() throws NoSuchAuthorityCodeException, IOException, FactoryException, URISyntaxException{
 		
 		trasportationbufferCollection = new ArrayList<Geometry>();
 		
-		//these lines will be changed after getting dataset as GeoJSON format or reading from PostGIS
-		List<File> shpFileList = this.getShapeFiles();    	
-    	FileDataStore train_St_store = createFileDataStore(shpFileList.get(0));  
-    	FileDataStore train_Rt_store = createFileDataStore(shpFileList.get(1));
-    	FileDataStore tram_Rt_store = createFileDataStore(shpFileList.get(2));
-    	
-    	SimpleFeatureCollection train_St_Features = createFeaturesOfFileStore(train_St_store);
-    	SimpleFeatureCollection train_Rt_Features = createFeaturesOfFileStore(train_Rt_store);
-    	SimpleFeatureCollection tram_Rt_Features = createFeaturesOfFileStore(tram_Rt_store);
-    	
     	if (parameter.getTrain_St_BufferDistance() != 0){
-    		createBuffer(train_St_Features, parameter.getTrain_St_BufferDistance(), "Train-Station");
+    		File train_St_file = new File(this.getClass().getClassLoader().getResource("/shps-transport/Train_Station_QGis_metric.shp").toURI());
+//    		File train_St_file = new File("C:/Programming/Projects/Data/Train-Station/GDA94_MGA_zone_55/Train_Station_QGis_metric.shp");        	
+    		FileDataStore train_St_store = FileDataStoreFinder.getDataStore(train_St_file);
+    		createBuffer(createFeaturesOfFileStore(train_St_store), parameter.getTrain_St_BufferDistance(), "Train-Station");
     	}
     	if (parameter.getTrain_Rt_BufferDistance() != 0){
-    		createBuffer(train_Rt_Features, parameter.getTrain_Rt_BufferDistance(), "Train-Route");
+    		File train_Rt_file = new File(this.getClass().getClassLoader().getResource("shps-transport/Train_Route_ArcGis_metric.shp").toURI());        	
+//    		File train_Rt_file = new File(this.getClass().getClassLoader().getResource("shps-transport/Train_Route_ArcGis_metric.shp").toURI());
+    		FileDataStore train_Rt_store = FileDataStoreFinder.getDataStore(train_Rt_file);
+    		createBuffer(createFeaturesOfFileStore(train_Rt_store), parameter.getTrain_Rt_BufferDistance(), "Train-Route");
     	}
     	if (parameter.getTram_Rt_BufferDistance() != 0){
-    		createBuffer(tram_Rt_Features, parameter.getTram_Rt_BufferDistance(), "Tram-Route");
+    		File tram_Rt_file = new File(this.getClass().getClassLoader().getResource("shps-transport/Tram_Route_ArcGis_metric.shp").toURI());        	
+//    		File tram_Rt_file = new File(this.getClass().getClassLoader().getResource("shps-transport/Tram_Route_ArcGis_metric.shp").toURI());
+    		FileDataStore tram_Rt_store = FileDataStoreFinder.getDataStore(tram_Rt_file);
+        	createBuffer(createFeaturesOfFileStore(tram_Rt_store), parameter.getTram_Rt_BufferDistance(), "Tram-Route");
     	}
     	    	
-    	DefaultFeatureCollection unionFeatures = (DefaultFeatureCollection) FeatureCollections.newCollection();
-    	File newFile = new File("C:/Programming/Projects/Data/TransportBuffer/GDA94_MGA_zone_55/Housing_Transport_Buffer_union.shp");
+    	URL url = this.getClass().getResource("/shps-transport");
+        File parentDirectory = new File(new URI(url.toString()));
+        File newFile = new File(parentDirectory, "Housing_Transport_Union.shp");
+//    	File newFile = new File("C:/Programming/Projects/Data/TransportBuffer/GDA94_MGA_zone_55/Housing_Transport_Buffer_union.shp");
+    	
+        DefaultFeatureCollection unionFeatures = (DefaultFeatureCollection) FeatureCollections.newCollection();
     	SimpleFeatureBuilder builder = createFeatureBuilder();
     	builder.add(createUnion());
     	unionFeatures.add(builder.buildFeature(null));
     	featuresExportToShapeFile(builder.getFeatureType(), unionFeatures, newFile);
 	}
 	
-	
-	//*************************   ***************************
-    private List<File> getShapeFiles() throws IOException{
-    	List<File> shpFileList = new ArrayList<File>();
-    	File train_St_file = new File("C:/Programming/Projects/Data/Train-Station/GDA94_MGA_zone_55/Train_Station_ArcGis_metric.shp");
-    	shpFileList.add(train_St_file) ;    	
-    	File train_Rt_file = new File("C:/Programming/Projects/Data/Train-Route/GDA94_MGA_zone_55/Train_Route_ArcGis_metric.shp");
-    	shpFileList.add(train_Rt_file) ;    	
-    	File tram_Rt_file = new File("C:/Programming/Projects/Data/Tram-Route/GDA94_MGA_zone_55/Tram_Route_ArcGis_metric.shp");
-    	shpFileList.add(tram_Rt_file) ;    	
-    	return shpFileList;
-    }
-
-    
-    //*************************   ***************************
-    private FileDataStore createFileDataStore(File file) throws IOException{
-    	return FileDataStoreFinder.getDataStore(file);
-    }
-
     //*************************   ***************************	
     private SimpleFeatureCollection createFeaturesOfFileStore(FileDataStore store) throws IOException{
     	SimpleFeatureSource featureSource = store.getFeatureSource();	
+    	System.out.println("featureSource.getFeatures()=="+featureSource.getFeatures().size());
 		return featureSource.getFeatures();	
     }
     
     //*************************   ***************************
-    private void createBuffer (SimpleFeatureCollection features, double distance, String fileName) throws NoSuchAuthorityCodeException, IOException, FactoryException{
+    private void createBuffer (SimpleFeatureCollection features, double distance, String fileName) throws NoSuchAuthorityCodeException, IOException, FactoryException, URISyntaxException{
 		DefaultFeatureCollection newBufferFeatures = (DefaultFeatureCollection) FeatureCollections.newCollection();
 		SimpleFeatureBuilder builder = createFeatureBuilder();
+		System.out.println("features  =="+features.size());
+		SimpleFeatureIterator simpleFeatureIterator = features.features();
 		
-		SimpleFeatureIterator simpleFeatureIterator = features.features();	
-        while(simpleFeatureIterator.hasNext()){
-        	SimpleFeature simpleFeature = simpleFeatureIterator.next();			
-        	Geometry featureGeometry = (Geometry)simpleFeature.getDefaultGeometryProperty().getValue();
-        	Geometry bufferGeometry = featureGeometry.buffer(distance);
-        	newBufferFeatures = createNewFeatures(builder, newBufferFeatures, bufferGeometry);
-        	trasportationbufferCollection.add(bufferGeometry);
-		} 
-        simpleFeatureIterator.close();
-        
-        // this is only for displaying the middle layers 
-        File newFile = new File("C:/Programming/Projects/Data/"+fileName+"/GDA94_MGA_zone_55/Housing_"+fileName+"_Buffer.shp");
+		int i = 1;
+		try {
+			while (simpleFeatureIterator.hasNext()) {
+				SimpleFeature simpleFeature = simpleFeatureIterator.next();
+				Geometry featureGeometry = (Geometry) simpleFeature
+						.getDefaultGeometryProperty().getValue();
+				Geometry bufferGeometry = featureGeometry.buffer(distance);
+				newBufferFeatures = createNewFeatures(builder,newBufferFeatures, bufferGeometry);
+				trasportationbufferCollection.add(bufferGeometry);
+				System.out.println("i==" + i++);
+			}
+		} finally {
+			simpleFeatureIterator.close(); // IMPORTANT
+		}
+		System.out.println("newBufferFeatures=="+ newBufferFeatures.size());
+       
+        URL url = this.getClass().getResource("/shps-transport");
+        File parentDirectory = new File(new URI(url.toString()));
+        File newFile = new File(parentDirectory, "Housing_"+fileName+".shp");
+
+//        File newFile = new File("C:/Programming/Projects/Data/"+fileName+"/GDA94_MGA_zone_55/Housing_"+fileName+"_Buffer.shp");
         featuresExportToShapeFile(builder.getFeatureType(), newBufferFeatures, newFile);
 	}
     
@@ -162,14 +162,10 @@ public class TransportationBufferServiceImpl implements TransportationBufferServ
 				unionGeometry = geometry;
 			} else {
 				unionGeometry = unionGeometry.union(geometry);
-			}
-			
-		}
-		
+			}			
+		}		
 		return unionGeometry;
-	}
-    
-    
+	}   
 	
     //*************************   ***************************    
     private void exportToGeoJson(SimpleFeatureCollection featureCollection) throws IOException {

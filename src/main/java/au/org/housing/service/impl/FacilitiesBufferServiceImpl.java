@@ -56,7 +56,7 @@ import au.org.housing.service.TransportationBufferService;
 @Service
 public class FacilitiesBufferServiceImpl implements FacilitiesBufferService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(HousingController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FacilitiesBufferServiceImpl.class);
 	Collection<Geometry> facilityBufferCollection ;
 	Collection<Geometry> educationBufferCollection ;
 	Collection<Geometry> recreationBufferCollection ;
@@ -91,37 +91,26 @@ public class FacilitiesBufferServiceImpl implements FacilitiesBufferService {
     	SimpleFeatureCollection community_Features = createFeaturesOfFileStore(community_store);
     	SimpleFeatureCollection utility_Features = createFeaturesOfFileStore(utility_store);
     	
-//    	Geometry educationGeometry = null;
-//    	Geometry recreationGeometry= null;
-//    	Geometry medicalGeometry= null;
-//    	Geometry communityGeometry= null;
-//    	Geometry utilityGeometry= null;
-    	
     	List<Geometry> intersectGeoms = new ArrayList<Geometry>();
     	
     	if (parameter.getEducation_BufferDistance() != 0){
     		educationBufferCollection = createBuffer(education_Features, parameter.getEducation_BufferDistance(), "Education-Facilities", educationBufferCollection);
-//    		educationGeometry = createUnion(educationBufferCollection);
     		intersectGeoms.add(createUnion(educationBufferCollection)) ;
     	}
     	if (parameter.getRecreation_BufferDistance() != 0){
     		recreationBufferCollection = createBuffer(recreation_Features, parameter.getRecreation_BufferDistance(), "Recreation_Facilities", recreationBufferCollection);
-//    		 recreationGeometry = createUnion(recreationBufferCollection);
     		 intersectGeoms.add(createUnion(recreationBufferCollection)) ;
     	}
     	if (parameter.getMedical_BufferDistance() != 0){
     		medicalBufferCollection = createBuffer(medical_Features, parameter.getMedical_BufferDistance(), "Medical_Facilities", medicalBufferCollection);
-//    		 medicalGeometry = createUnion(medicalBufferCollection);
     		 intersectGeoms.add(createUnion(medicalBufferCollection)) ;
     	}
     	if (parameter.getCommunity_BufferDistance() != 0){
     		communityBufferCollection = createBuffer(community_Features, parameter.getCommunity_BufferDistance(), "Community_Facilities", communityBufferCollection);
-//    		 communityGeometry = createUnion(communityBufferCollection);
     		 intersectGeoms.add(createUnion(communityBufferCollection)) ;
     	}
     	if (parameter.getUtility_BufferDistance() != 0){
     		utilityBufferCollection = createBuffer(utility_Features, parameter.getUtility_BufferDistance(), "Utility_Facilities", utilityBufferCollection);
-//    		 utilityGeometry = createUnion(utilityBufferCollection);
     		 intersectGeoms.add(createUnion(utilityBufferCollection)) ;
     	} 
     	Geometry intersected = null;
@@ -210,7 +199,7 @@ public class FacilitiesBufferServiceImpl implements FacilitiesBufferService {
 		return (DefaultFeatureCollection) newFeatures;
 	}
     
-  //*************************   ***************************
+    //*************************   ***************************
   	private Geometry createUnion(Collection<Geometry> gc) {
   		Geometry unionGeometry = null;
   		for (Iterator<Geometry> i = gc.iterator(); i.hasNext();) {
@@ -227,26 +216,8 @@ public class FacilitiesBufferServiceImpl implements FacilitiesBufferService {
   		
   		return unionGeometry;
   	}
-      
-	    
-    //*************************   ***************************    
-    private void exportToGeoJson(SimpleFeatureCollection featureCollection) throws IOException {
-  		OutputStream output = new FileOutputStream(
-  					"C:/Programming/Projects/Data/Train-Station/Train_Station_28355/Housing_Buffer.json");	
-  		FeatureJSON fjson = new FeatureJSON();	
-  		fjson.writeFeatureCollection(featureCollection, output);
-  	}		 
-  	  	
-    //*************************   ***************************
-  	private void exportToKML(DefaultFeatureCollection featureCollection) throws IOException {
-  		OutputStream output = new FileOutputStream(
-  				"C:/Programming/Projects/Data/Train-Station/Train_Station_28355/Housing_Buffer.kml");			
-  		Encoder encoder = new Encoder(new KMLConfiguration());
-  		encoder.setIndenting(true);		
-  		encoder.encode(featureCollection, KML.kml, output);
-  	}
-  	
-  	//**********************************************************************************************************************
+       
+    //**********************************************************************************************************************
 	private void featuresExportToShapeFile(SimpleFeatureType type,
 			SimpleFeatureCollection simpleFeatureCollection, File newFile)
 			throws IOException, NoSuchAuthorityCodeException, FactoryException {

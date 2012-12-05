@@ -25,7 +25,15 @@ import java.util.Date;
  *
  */
 public class Parameter {
+	
+	Float dpi = 0F;  	
 
+	public Float getDpi() {
+		return dpi;
+	}
+	public void setDpi(Float dpi) {
+		this.dpi = dpi;
+	}
 	Integer train_St_BufferDistance = 0 ;  	
 	Integer train_Rt_BufferDistance = 0;  
 	Integer tram_Rt_BufferDistance = 0;  
