@@ -18,6 +18,7 @@
   <context:component-scan base-package="au.org.housing.start" />
   <context:component-scan base-package="au.org.housing.controller" />
   <context:component-scan base-package="au.org.housing.service"/>
+ <!--  <context:component-scan base-package="au.org.housing.model"/> -->
   
   <!-- <context:component-scan base-package="au.org.housing.service" /> -->
   <!-- <context:component-scan base-package="springtest" /> -->

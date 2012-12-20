@@ -27,13 +27,7 @@ import java.util.Date;
 public class Parameter {
 	
 	Float dpi = 0F;  	
-
-	public Float getDpi() {
-		return dpi;
-	}
-	public void setDpi(Float dpi) {
-		this.dpi = dpi;
-	}
+	
 	Integer train_St_BufferDistance = 0 ;  	
 	Integer train_Rt_BufferDistance = 0;  
 	Integer tram_Rt_BufferDistance = 0;  
@@ -43,6 +37,171 @@ public class Parameter {
 	Integer medical_BufferDistance = 0;  
 	Integer community_BufferDistance = 0;  
 	Integer utility_BufferDistance = 0;  
+	
+	Boolean residential = false;
+	Boolean business = false;
+	Boolean rural = false;
+	Boolean mixedUse = false;
+	Boolean specialPurpose = false;
+	Boolean urbanGrowthBoundry = false;
+	
+	Boolean floodway = false;	
+	Boolean inundation = false;
+	Boolean neighborhood = false;
+	Boolean designDevelopment = false;
+	Boolean developPlan = false;
+	Boolean parking = false;
+	Boolean bushfire = false;
+	Boolean erosion = false;
+	Boolean vegprotection = false;
+	Boolean salinity = false;
+	Boolean contamination = false;
+	Boolean envSignificance = false;
+	Boolean envAudit = false;
+	Boolean heritage = false;
+
+	Boolean publicAcquision = true;
+	Boolean commonwealth = false;
+	
+	
+	public Boolean getPublicAcquision() {
+		return publicAcquision;
+	}
+	public void setPublicAcquision(Boolean publicAcquision) {
+		this.publicAcquision = publicAcquision;
+	}
+	public Boolean getCommonwealth() {
+		return commonwealth;
+	}
+	public void setCommonwealth(Boolean commonwealth) {
+		this.commonwealth = commonwealth;
+	}
+	public Boolean getFloodway() {
+		return floodway;
+	}
+	public void setFloodway(Boolean floodway) {
+		this.floodway = floodway;
+	}
+	public Boolean getInundation() {
+		return inundation;
+	}
+	public void setInundation(Boolean inundation) {
+		this.inundation = inundation;
+	}
+	public Boolean getNeighborhood() {
+		return neighborhood;
+	}
+	public void setNeighborhood(Boolean neighborhood) {
+		this.neighborhood = neighborhood;
+	}
+	public Boolean getDesignDevelopment() {
+		return designDevelopment;
+	}
+	public void setDesignDevelopment(Boolean designDevelopment) {
+		this.designDevelopment = designDevelopment;
+	}
+	public Boolean getDevelopPlan() {
+		return developPlan;
+	}
+	public void setDevelopPlan(Boolean developPlan) {
+		this.developPlan = developPlan;
+	}
+	public Boolean getParking() {
+		return parking;
+	}
+	public void setParking(Boolean parking) {
+		this.parking = parking;
+	}
+	public Boolean getBushfire() {
+		return bushfire;
+	}
+	public void setBushfire(Boolean bushfire) {
+		this.bushfire = bushfire;
+	}
+	public Boolean getErosion() {
+		return erosion;
+	}
+	public void setErosion(Boolean erosion) {
+		this.erosion = erosion;
+	}
+	public Boolean getVegprotection() {
+		return vegprotection;
+	}
+	public void setVegprotection(Boolean vegprotection) {
+		this.vegprotection = vegprotection;
+	}
+	public Boolean getSalinity() {
+		return salinity;
+	}
+	public void setSalinity(Boolean salinity) {
+		this.salinity = salinity;
+	}
+	public Boolean getContamination() {
+		return contamination;
+	}
+	public void setContamination(Boolean contamination) {
+		this.contamination = contamination;
+	}
+	public Boolean getEnvSignificance() {
+		return envSignificance;
+	}
+	public void setEnvSignificance(Boolean envSignificance) {
+		this.envSignificance = envSignificance;
+	}
+	public Boolean getEnvAudit() {
+		return envAudit;
+	}
+	public void setEnvAudit(Boolean envAudit) {
+		this.envAudit = envAudit;
+	}
+	public Boolean getHeritage() {
+		return heritage;
+	}
+	public void setHeritage(Boolean heritage) {
+		this.heritage = heritage;
+	}
+	public Boolean getResidential() {
+		return residential;
+	}
+	public void setResidential(Boolean residential) {
+		this.residential = residential;
+	}
+	public Boolean getBusiness() {
+		return business;
+	}
+	public void setBusiness(Boolean business) {
+		this.business = business;
+	}
+	public Boolean getRural() {
+		return rural;
+	}
+	public void setRural(Boolean rural) {
+		this.rural = rural;
+	}
+	public Boolean getMixedUse() {
+		return mixedUse;
+	}
+	public void setMixedUse(Boolean mixedUse) {
+		this.mixedUse = mixedUse;
+	}
+	public Boolean getSpecialPurpose() {
+		return specialPurpose;
+	}
+	public void setSpecialPurpose(Boolean specialPurpose) {
+		this.specialPurpose = specialPurpose;
+	}
+	public Boolean getUrbanGrowthBoundry() {
+		return urbanGrowthBoundry;
+	}
+	public void setUrbanGrowthBoundry(Boolean urbanGrowthBoundry) {
+		this.urbanGrowthBoundry = urbanGrowthBoundry;
+	}
+	public Float getDpi() {
+		return dpi;
+	}
+	public void setDpi(Float dpi) {
+		this.dpi = dpi;
+	}
 	
 	public Integer getTrain_St_BufferDistance() {
 		return train_St_BufferDistance;
