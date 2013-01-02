@@ -57,16 +57,8 @@ public class HousingController {
 		params.put("schema", "public");
 		params.put("database", "HouseAffordability");
 		params.put("user", "postgres");
-		params.put("passwd", "1q2w3e4r");
-//		params.put(JDBCDataStoreFactory.FETCHSIZE.key,20); 
-		
+		params.put("passwd", "1q2w3e4r"); 		
 		DataStore dataStore =  DataStoreFinder.getDataStore(params);
-		
-//		DataStore dataStore = JDBCDataStoreFactory.this.g
-		
-//		DataStore dataStore = DataStoreFinder.getDataStore(params);
-//		dataStore.g
-	
 		
 		
 		//********************************* Buffer Transport  *********************************
@@ -111,8 +103,10 @@ public class HousingController {
 //		plan_overlay
 		
 		
-    	//********************************* DPI *********************************    	
-//		transportationBufferService.getParameter().setDpi((Float) jsonParam.get("DPI_Value"));
+    	//********************************* DPI *********************************    
+		LOGGER.info("---"+jsonParam.get("dpiVal").toString());
+		
+		transportationBufferService.getParameter().setDpi(Float.valueOf(jsonParam.get("dpiVal").toString()));
 		
 		//********************************* Land Use *********************************    	
 //		transportationBufferService.getParameter().setResidential((Boolean) jsonParam.get("Residential_Value"));

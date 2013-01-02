@@ -26,7 +26,7 @@ import java.util.Date;
  */
 public class Parameter {
 	
-	Float dpi = 0F;  	
+	Float dpi = Float.valueOf(0);	
 	
 	Integer train_St_BufferDistance = 0 ;  	
 	Integer train_Rt_BufferDistance = 0;  
@@ -38,7 +38,7 @@ public class Parameter {
 	Integer community_BufferDistance = 0;  
 	Integer utility_BufferDistance = 0;  
 	
-	Boolean residential = false;
+	Boolean residential = false; 
 	Boolean business = false;
 	Boolean rural = false;
 	Boolean mixedUse = false;
@@ -60,7 +60,7 @@ public class Parameter {
 	Boolean envAudit = false;
 	Boolean heritage = false;
 
-	Boolean publicAcquision = true;
+	Boolean publicAcquision = false;
 	Boolean commonwealth = false;
 	
 	

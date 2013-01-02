@@ -100,11 +100,12 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 
 		// ********************************* DPI Filter *********************************
 		if (parameter.getDpi() != 0) {
+			System.out.println("parameter.getDpi() != 0"); 
 			Divide divide = ff.divide(ff.property("sv_current_year"),ff.property("civ_current_year"));
 			List<Filter> match = new ArrayList<Filter>();
-			filter = ff.greaterOrEqual(divide, ff.literal(0.5));
+			filter = ff.greaterOrEqual(divide, ff.literal(parameter.getDpi()));
 			match.add(filter);
-			filter = ff.less(divide, ff.literal(0.6));
+			filter = ff.less(divide, ff.literal(parameter.getDpi()+0.1));
 			match.add(filter);
 			Filter filterDPI = ff.and(match);
 			propertyFilters.add(filterDPI);
@@ -155,7 +156,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		SimpleFeatureCollection publicAcquisitions = null;
 		if (parameter.getPublicAcquision()) {
 			System.out.println("------- PUBLIC ACQUISION true");	 
-			filter = ff.equal(ff.property("group1"),ff.literal("PUBLIC ACQUISION OVERLAY"));
+			filter = ff.equals(ff.property("group1"),ff.literal("PUBLIC ACQUISION OVERLAY"));
 			publicAcquisitions = overayFilters(filter);			
 			System.out.println("publicAcquisitions size==="+publicAcquisitions.size());
 			SimpleFeatureIterator overlayIt = publicAcquisitions.features();
@@ -170,7 +171,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		SimpleFeatureCollection commonWealths = null;
 		if ( parameter.getCommonwealth() ) {
 			System.out.println("------- Commonwealth true");	 
-			filter = ff.equal(ff.property("group1"),ff.literal("COMMONWEALTH LAND"));
+			filter = ff.equals(ff.property("group1"),ff.literal("COMMONWEALTH LAND"));
 			commonWealths = overayFilters(filter);			
 			System.out.println("commonWealths size==="+commonWealths.size());
 			SimpleFeatureIterator overlayIt = commonWealths.features();
@@ -208,24 +209,24 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 			// propertyQuery.setPropertyNames(new String[] { "zoning",
 			// "lga_code",propertyFc.getSchema().getGeometryDescriptor().getName().getLocalPart()
 			// });
-//			propertyQuery.setMaxFeatures(5); 
-			List<Filter> fs = new ArrayList<Filter>();
-			filter = ff.equals(ff.property("pfi"),ff.literal("4788308"));//floodway
-			fs.add(filter);
-			filter = ff.equals(ff.property("pfi"),ff.literal("1317010"));
-			fs.add(filter);
-			filter = ff.equals(ff.property("pfi"),ff.literal("4787005"));//inundation
-			fs.add(filter);
-//			filter = ff.equals(ff.property("pfi"),ff.literal("218965278"));//inundation
+//			propertyQuery.setMaxFeatures(12000); 
+//			List<Filter> fs = new ArrayList<Filter>();
+//			filter = ff.equals(ff.property("pfi"),ff.literal("4788308"));//floodway
 //			fs.add(filter);
-//			filter = ff.equals(ff.property("pfi"),ff.literal("2939395"));//inundation
+//			filter = ff.equals(ff.property("pfi"),ff.literal("1317010"));
 //			fs.add(filter);
-			filter = ff.equals(ff.property("pfi"),ff.literal("3539423"));//inundation
-			fs.add(filter);
-			filter = ff.equals(ff.property("pfi"),ff.literal("1170714"));
-			fs.add(filter);
-			filter = ff.or(fs);
-			propertyQuery.setFilter(filter);
+//			filter = ff.equals(ff.property("pfi"),ff.literal("4787005"));//inundation
+//			fs.add(filter);
+////			filter = ff.equals(ff.property("pfi"),ff.literal("218965278"));//inundation
+////			fs.add(filter);
+////			filter = ff.equals(ff.property("pfi"),ff.literal("2939395"));//inundation
+////			fs.add(filter);
+//			filter = ff.equals(ff.property("pfi"),ff.literal("3539423"));//inundation
+//			fs.add(filter);
+//			filter = ff.equals(ff.property("pfi"),ff.literal("1170714"));
+//			fs.add(filter);
+//			filter = ff.or(fs);
+//			propertyQuery.setFilter(filter);
 			properties = propertyFc.getFeatures(propertyQuery);
 		}
 		System.out.println("properties == " + properties.size());
@@ -381,7 +382,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 				sfb.addAll(sf.getAttributes());
 				Geometry propertyGeom = (Geometry) sf.getDefaultGeometry();
 				// propertyGeom.setSRID(4283);
-				System.out.println("--- property pfi == "+ sf.getAttribute("pfi"));
+//				System.out.println("--- property pfi == "+ sf.getAttribute("pfi"));
 				if (!propertyGeom.isValid()) {
 					System.out.print(" ,    polygon  not valid ");
 				}
@@ -576,7 +577,9 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 				newList.add(newFeature);
 
 				i++;
-				if (i == 1) {
+				if (i == 10000) {
+					System.out.println("properties.size() < 10000");
+					
 					featureCollectionNew = new ListFeatureCollection(
 							newFeatureType, newList);
 					exportToShpService.featuresExportToPostGis(newFeatureType,
@@ -593,6 +596,14 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 			}
 		} finally {
 			propertyIt.close();
+		}
+		
+		if (!newList.isEmpty()){
+			System.out.println("properties.size() < 10000");
+			featureCollectionNew = new ListFeatureCollection(
+					newFeatureType, newList);
+			exportToShpService.featuresExportToPostGis(newFeatureType,
+					featureCollectionNew, createSchema, dataStore);
 		}
 
 		System.out.println(new Date());
