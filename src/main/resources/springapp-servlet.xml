@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-3.0.xsd
+      http://www.springframework.org/schema/mvc
+      http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+  <!-- the application context definition for the springapp DispatcherServlet -->
+    <!-- Scans within the base package of the application for @Components to
+    configure as beans -->
+  <!-- @Controller, @Service, @Configuration, etc. -->
+  
+  <context:component-scan base-package="au.org.housing.start" />
+  <context:component-scan base-package="au.org.housing.controller" />
+  <context:component-scan base-package="au.org.housing.service"/>
+ <!--  <context:component-scan base-package="au.org.housing.model"/> -->
+  
+  <!-- <context:component-scan base-package="au.org.housing.service" /> -->
+  <!-- <context:component-scan base-package="springtest" /> -->
+
+  <mvc:resources location="/resources/" mapping="/resources/**"/>
+  <mvc:resources location="/lib/" mapping="/lib/**"/>
+
+  <context:annotation-config />
+
+  <mvc:annotation-driven/>
+  <!-- <mvc:resources mapping="/resources/**" location="classpath:resources"/> -->
+
+  <bean id="viewResolver"
+    class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <!-- <property name="prefix" value="/WEB-INF/jsp/" /> -->
+    <property name="prefix" value="/ui-jsp/" />
+    <property name="suffix" value=".jsp" />
+  </bean>
+  
+  
+    <!-- <bean id="housingHandler" class="au.org.housing.controller.HousingController" /> -->
+    <!-- <bean id="housingService" class="au.org.housing.service.impl.TransportationBufferServiceImpl" /> -->
+    <bean id="housingModel" class="au.org.housing.model.Parameter" />
+ 
+
+
+</beans>

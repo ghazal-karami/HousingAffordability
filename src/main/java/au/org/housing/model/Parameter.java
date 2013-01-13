@@ -26,6 +26,16 @@ import java.util.Date;
  */
 public class Parameter {
 	
+	Float dpiVal = Float.valueOf(0);
+	
+	
+	
+	public Float getDpiVal() {
+		return dpiVal;
+	}
+	public void setDpiVal(Float dpiVal) {
+		this.dpiVal = dpiVal;
+	}
 	Float dpi = Float.valueOf(0);	
 	
 	Integer train_St_BufferDistance = 0 ;  	
@@ -61,8 +71,7 @@ public class Parameter {
 	Boolean heritage = false;
 
 	Boolean publicAcquision = false;
-	Boolean commonwealth = false;
-	
+	Boolean commonwealth = false;	
 	
 	public Boolean getPublicAcquision() {
 		return publicAcquision;

@@ -1,5 +1,5 @@
 Ext.onReady(function() {
-	
+	Ext.Ajax.timeout = 14000000;
 	var dpi = Ext.create('Ext.form.Panel', {
 
 				frame : true,
@@ -441,15 +441,13 @@ Ext.onReady(function() {
 									publicAcquisitionVal : publicAcquisitionVal
 									
 								},
-								failure : function(response) {
-									Ext.MessageBox.alert('Warning', 'Oops...');
+								failure:function(response,options){
+								  Ext.MessageBox.alert(response.responseText);
 								},
 								success : function(response) {
-									// panel.getForm().findField('field1').setValue(response.responseText);
-									// process server response here
-									var text = response.responseText;
-									Ext.MessageBox.alert(TrainStationValue
-											.toString());
+									if (response.responseText != null){
+										Ext.MessageBox.alert(response.responseText);
+									}
 								}
 							});
 				}
