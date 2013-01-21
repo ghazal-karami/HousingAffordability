@@ -60,8 +60,8 @@ public class FacilitiesBufferServiceImpl implements FacilitiesBufferService {
 	}
 
 	private Geometry analyse(Geometry intersected, String layerName , Integer distance) throws IOException, NoSuchAuthorityCodeException, FactoryException, URISyntaxException, LayerValidationException{
-//		SimpleFeatureSource fc = Config.getDefaultFactory().getDataStore(layerName).getFeatureSource(layerName);
-		SimpleFeatureSource fc = Config.getGeoJSONFileFactory().getDataStore(layerName).getFeatureSource(layerName);
+//		SimpleFeatureSource fc = Config.getDefaultFactory().getFeatureSource(layerName);
+		SimpleFeatureSource fc =  (SimpleFeatureSource) Config.getGeoJSONFileFactory().getFeatureSource(layerName);
 		if ( validationService.isPolygon(fc, layerName) && validationService.isMetric(fc, layerName) ){
 			LOGGER.info("distance "+ distance);
 			Collection<Geometry> bufferCollection = bufferService.createFeaturesBuffer(fc.getFeatures(), distance, layerName);

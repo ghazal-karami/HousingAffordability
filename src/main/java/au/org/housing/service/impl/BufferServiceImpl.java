@@ -33,11 +33,11 @@ public class BufferServiceImpl implements BufferService {
 			while (it.hasNext()) {
 				SimpleFeature simpleFeature = it.next(); 
 				Geometry featureGeometry = (Geometry) simpleFeature.getDefaultGeometryProperty().getValue();
-				if (!featureGeometry.isValid()){
-					Messages.setMessage(Messages._NOT_VALID);
-					LOGGER.error(Messages._NOT_VALID);
-					return null;
-				}
+//				if (!featureGeometry.isValid()){
+//					Messages.setMessage(Messages._NOT_VALID);
+//					LOGGER.error(Messages._NOT_VALID);
+//					return null;
+//				}
 				Geometry bufferGeometry = featureGeometry.buffer(distance);
 				bufferCollection.add(bufferGeometry);
 			}

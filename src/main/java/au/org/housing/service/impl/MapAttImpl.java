@@ -29,9 +29,17 @@ public class MapAttImpl {
 
 	//------------------  PostGis  -------------------
 
-		static String property = "property";
+//		static String property = "Property";
+//		static String property = "Property_Metric";
+		static String property = "Victoria:Property_Value_NWMRLGA"; // 14 lga
+//		static String property = "CoM:com_capacities_2010"; // 14 lga
+//		static String property = "PTV:stopinformation_victoria"; // 14 lga
+//		static String property = "Victoria:Property_Value_5LGA"; // 14 lga
+		
 	static String property_svCurrentYear = "sv_current_year";
+//	static String property_svCurrentYear = "objectid";
 	static String property_civCurrentYear = "civ_current_year";
+//	static String property_civCurrentYear = "block_id";
 	static String property_zoning = "zoning";
 
 	static String zonecodesTbl = "tbl_zonecodes";
@@ -39,7 +47,11 @@ public class MapAttImpl {
 	static String zonecodes_group1 = "group1";
 
 //	static String planOverlay = "plan_overlay";
-	static String planOverlay = "plan_overlay_arcgis_metric";
+//	static String planOverlay = "plan_overlay_shp";
+	
+	static String planOverlay = "Plan_Overlay";
+//	static String planOverlay = "plan_overlay";
+//	static String planOverlay = "plan_overlay_arcgis_metric";
 	static String planOverlay_zoneCode = "zone_code";
 
 	static String planCodes = "plan_codelist";
@@ -53,16 +65,16 @@ public class MapAttImpl {
 	static String trainRoute = "train_route_arcgis_metric";
 	static String tramRoute = "tram_route_arcgis_metric";
 
-//	static String educationFacilities = "education_facilities";
-//	static String recreationFacilities = "recreation_facilities";
-//	static String medicalFacilities = "medical_facilities";
-//	static String communityFacilities = "community_facilities";
-//	static String utilityFacilities = "utility_facilities";
-	static String educationFacilities = "education_facilities_arcgis_metric";
-	static String recreationFacilities = "recreation_facilities_arcgis_metric";
-	static String medicalFacilities = "medical_facilities_arcgis_metric";
-	static String communityFacilities = "community_facilities_arcgis_metric";
-	static String utilityFacilities = "utility_facilities_arcgis_metric";
+	static String educationFacilities = "education_facilities";
+	static String recreationFacilities = "recreation_facilities";
+	static String medicalFacilities = "medical_facilities";
+	static String communityFacilities = "community_facilities";
+	static String utilityFacilities = "utility_facilities";
+//	static String educationFacilities = "education_facilities_arcgis_metric";
+//	static String recreationFacilities = "recreation_facilities_arcgis_metric";
+//	static String medicalFacilities = "medical_facilities_arcgis_metric";
+//	static String communityFacilities = "community_facilities_arcgis_metric";
+//	static String utilityFacilities = "utility_facilities_arcgis_metric";
 
 
 	//------------------  Shapefile  -------------------	

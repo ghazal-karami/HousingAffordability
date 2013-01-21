@@ -25,8 +25,7 @@ import com.vividsolutions.jts.geom.Geometry;
 @Service
 public class TransportationBufferServiceImpl implements TransportationBufferService {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(TransportationBufferServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TransportationBufferServiceImpl.class);
 
 	@Autowired
 	private Parameter parameter;
@@ -51,7 +50,8 @@ public class TransportationBufferServiceImpl implements TransportationBufferServ
 		trasportationbufferCollection = new ArrayList<Geometry>();
 
 		if (parameter.getTrain_St_BufferDistance() != 0) {
-			trainStationFc = Config.getDefaultFactory().getDataStore(MapAttImpl.trainStation).getFeatureSource(MapAttImpl.trainStation);
+//			trainStationFc = Config.getDefaultFactory().getFeatureSource(MapAttImpl.trainStation);
+			trainStationFc = Config.getGeoJSONFileFactory().getFeatureSource(MapAttImpl.trainStation);
 			if (validationService.isPoint(trainStationFc,MapAttImpl.trainStation) && validationService.isMetric(trainStationFc,MapAttImpl.trainStation)) {
 				Collection<Geometry> bufferCollection = bufferService.createFeaturesBuffer(trainStationFc.getFeatures(),
 						parameter.getTrain_St_BufferDistance(), MapAttImpl.trainStation);
@@ -61,7 +61,7 @@ public class TransportationBufferServiceImpl implements TransportationBufferServ
 			}
 		}
 		if (parameter.getTrain_Rt_BufferDistance() != 0) {
-			trainRouteFc = Config.getDefaultFactory().getDataStore(MapAttImpl.trainRoute).getFeatureSource(MapAttImpl.trainRoute);
+			trainRouteFc = Config.getGeoJSONFileFactory().getFeatureSource(MapAttImpl.trainRoute);
 			if (validationService.isLine(trainRouteFc, MapAttImpl.trainRoute) && validationService.isMetric(trainRouteFc,MapAttImpl.trainRoute)) {
 				Collection<Geometry> bufferCollection = bufferService.createFeaturesBuffer(trainRouteFc.getFeatures(),
 						parameter.getTrain_Rt_BufferDistance(),MapAttImpl.trainRoute);
@@ -71,7 +71,7 @@ public class TransportationBufferServiceImpl implements TransportationBufferServ
 			}
 		}
 		if (parameter.getTram_Rt_BufferDistance() != 0) {
-			tramRouteFc = Config.getDefaultFactory().getDataStore(MapAttImpl.tramRoute).getFeatureSource(MapAttImpl.tramRoute);
+			tramRouteFc = Config.getGeoJSONFileFactory().getFeatureSource(MapAttImpl.tramRoute);
 			if (validationService.isLine(tramRouteFc, MapAttImpl.tramRoute) && validationService.isMetric(tramRouteFc,MapAttImpl.tramRoute)) {
 				Collection<Geometry> bufferCollection = bufferService.createFeaturesBuffer(tramRouteFc.getFeatures(),
 						parameter.getTram_Rt_BufferDistance(),MapAttImpl.tramRoute); 

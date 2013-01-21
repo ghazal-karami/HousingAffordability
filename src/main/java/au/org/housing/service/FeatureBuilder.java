@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
+import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
@@ -18,4 +19,6 @@ public interface FeatureBuilder {
 	public SimpleFeatureCollection buildFeatureCollection(Collection<Geometry> geometryCollection);
 	
 	public SimpleFeatureBuilder createFeatureBuilder();
+	
+	public SimpleFeatureTypeBuilder createFeatureTypeBuilder(SimpleFeatureType sft, String typeName);
 }

@@ -3,8 +3,6 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-
-
 	<groupId>housing</groupId>
 	<artifactId>housing</artifactId>
 	<version>1.0-SNAPSHOT</version>
@@ -14,23 +12,37 @@
 	<properties>
 		<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
 		<javax.servlet.jstl.version>1.2</javax.servlet.jstl.version>
-		<geotools.version>2.7.4</geotools.version>
+		<geotools.version>8.4</geotools.version>
+		<ektorp.version>1.2.2</ektorp.version>
+		<!-- <geotools.version>9-SNAPSHOT</geotools.version> -->
+		<!-- <geotools.version>2.6.1</geotools.version> -->
 		<slf4jVersion>1.6.1</slf4jVersion>
 		<!-- <servlet-hotdeploy>/Users/dreamind/aurin/tomcat/apache-tomcat-6.0.35/webapps</servlet-hotdeploy> -->
-
-
-
 	</properties>
 
-
-
 	<dependencies>
-	
-	<dependency>
-	<groupId>org.kubek2k</groupId>
-	<artifactId>springockito-annotations</artifactId>
-	<version>1.0.6</version>
-</dependency>
+		<dependency>
+			<groupId>org.ektorp</groupId>
+			<artifactId>org.ektorp</artifactId>
+			<version>${ektorp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ektorp</groupId>
+			<artifactId>org.ektorp.spring</artifactId>
+			<version>${ektorp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		
+
+		<dependency>
+			<groupId>org.kubek2k</groupId>
+			<artifactId>springockito-annotations</artifactId>
+			<version>1.0.6</version>
+		</dependency>
 
 		<dependency>
 			<groupId>cglib</groupId>
@@ -41,15 +53,15 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<version>1.8.4</version>			
+			<version>1.8.4</version>
 		</dependency>
-        
-        <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymock</artifactId>
-            <version>2.2</version>
-            <scope>test</scope>
-        </dependency>
+
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>2.2</version>
+			<scope>test</scope>
+		</dependency>
 
 
 		<dependency>
@@ -64,6 +76,12 @@
 			<version>${slf4jVersion}</version>
 		</dependency>
 
+
+<!-- <dependency>
+	<groupId>org.codehaus.jackson</groupId>
+	<artifactId>jackson-jaxrs</artifactId>
+	<version>1.9.11</version>
+</dependency> -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
@@ -79,6 +97,11 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.0.0</version>
 		</dependency>
+		<!-- <dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.11</version>
+		</dependency> -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
@@ -91,11 +114,7 @@
 			<version>${geotools.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.9.11</version>
-		</dependency>
+		
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -317,11 +336,8 @@
 			<artifactId>gt-jdbc</artifactId>
 			<version>${geotools.version}</version>
 		</dependency>
-		<!-- <dependency>
-			<groupId>org.geotools.jdbc</groupId>
-			<artifactId>gt-jdbc-postgis</artifactId>
-			<version>${geotools.version}</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.geotools.jdbc</groupId> <artifactId>gt-jdbc-postgis</artifactId> 
+			<version>${geotools.version}</version> </dependency> -->
 
 		<dependency>
 			<groupId>org.geotools.jdbc</groupId>

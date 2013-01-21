@@ -12,4 +12,8 @@ public class Config {
 	public static DataStoreFactory getGeoJSONFileFactory() {
 		return DataStoreFactoryBuilder.getBuilder("GeoJSONFileFactory");
 	}
+	
+	public static DataStoreFactory getShapeFileFactory() {
+		return DataStoreFactoryBuilder.getBuilder("ShapeFileFactory");
+	}
 }

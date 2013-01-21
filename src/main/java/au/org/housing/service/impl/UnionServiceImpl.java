@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.data.simple.SimpleFeatureIterator;
 import org.opengis.feature.simple.SimpleFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,16 +48,16 @@ public class UnionServiceImpl implements UnionService {
 
 	public Geometry createUnion(SimpleFeatureCollection simpleFeatureCollection) {
 		Geometry unionGeometry = null;
-		Iterator<SimpleFeature> i = null;		
+		SimpleFeatureIterator i = null;		
 		try{
-			for (i = simpleFeatureCollection.iterator(); i.hasNext();) {				
+			for (i = simpleFeatureCollection.features(); i.hasNext();) {				
 				SimpleFeature sf = i.next();
 				Geometry geometry = (Geometry) sf.getDefaultGeometry();
-				if (!geometry.isValid()){
-					Messages.setMessage(Messages._NOT_VALID);
-					LOGGER.error(Messages._NOT_VALID);
-					return null;
-				}
+//				if (!geometry.isValid()){
+//					Messages.setMessage(Messages._NOT_VALID);
+//					LOGGER.error(Messages._NOT_VALID);
+//					return null;
+//				}
 				if (geometry == null)
 					continue;				
 				if (unionGeometry == null) {
@@ -68,8 +69,10 @@ public class UnionServiceImpl implements UnionService {
 		}catch(TopologyException e){
 			LOGGER.error(e.getMessage());			
 		}finally{
-			simpleFeatureCollection.close(i);
+			i.close(); 
 		}
+		
+		
 		return unionGeometry;
 	}
 

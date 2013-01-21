@@ -8,8 +8,9 @@ public class Messages {
 	public final static String _NOT_LINE = "layer is not Line!";
 	public final static String _NOT_HAVE_REQUIRED_FIELDS = "layer does not contain required attributes!";
 	public final static String _NOT_VALID = "Geometry is not valid!";
+	public final static String _SUCCESS = "Analyse Done Successfully.";
 	
-	private static String message = "Analyse Done Successfully.";
+	private static String message = Messages._SUCCESS;
 
 	public static String getMessage() {
 		return message;

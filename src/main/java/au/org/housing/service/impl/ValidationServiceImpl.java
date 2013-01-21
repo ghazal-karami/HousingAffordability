@@ -40,21 +40,25 @@ public class ValidationServiceImpl implements ValidationService {
 			LOGGER.info(layerName + " layer does not contain required attributes!");	
 			Messages.setMessage(layerName + Messages._NOT_METRIC);
 			return false;
+//			ForceCoordinateSystemFeatureResults h;
 		}
 		return true;
 	}
 
 	public boolean propertyValidated(SimpleFeatureSource propertyFc, String layerName) throws IOException { 
-//		AttributeDescriptor svCurrentYearAtt = propertyFc.getSchema().getDescriptor(MapAttImpl.property_svCurrentYear);
-//		AttributeDescriptor civCurrentYearAtt = propertyFc.getSchema().getDescriptor(MapAttImpl.property_civCurrentYear);
-//		AttributeDescriptor zoningAtt = propertyFc.getSchema().getDescriptor(MapAttImpl.property_zoning);		 
-//		if (svCurrentYearAtt == null ||
-//				civCurrentYearAtt == null ||
-//				zoningAtt == null ){
+		AttributeDescriptor svCurrentYearAtt = propertyFc.getSchema().getDescriptor(MapAttImpl.property_svCurrentYear);
+		AttributeDescriptor civCurrentYearAtt = propertyFc.getSchema().getDescriptor(MapAttImpl.property_civCurrentYear);
+		AttributeDescriptor zoningAtt = propertyFc.getSchema().getDescriptor(MapAttImpl.property_zoning);		 
+		if (svCurrentYearAtt == null ||
+				civCurrentYearAtt == null ||
+				zoningAtt == null ){
 		LOGGER.debug(layerName + " layer does not contain required attributes!");	
-//			Messages.setMessage(layerName + " " + Messages._NOT_HAVE_REQUIRED_FIELDS);
-//			return false;
-//		}
+			Messages.setMessage(layerName + " " + Messages._NOT_HAVE_REQUIRED_FIELDS);
+			return false;
+		}
+		
+		LOGGER.info(svCurrentYearAtt + " svCurrentYearAtt");	
+		
 		return true;
 	}
 

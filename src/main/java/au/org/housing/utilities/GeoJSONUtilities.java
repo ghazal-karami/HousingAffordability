@@ -24,7 +24,7 @@ import java.io.OutputStream;
 import java.net.URL;
 
 import org.geotools.data.simple.SimpleFeatureCollection;
-import org.geotools.feature.FeatureCollection;
+import org.geotools.feature.DefaultFeatureCollection;
 import org.geotools.feature.FeatureCollections;
 import org.geotools.feature.FeatureIterator;
 import org.geotools.geojson.feature.FeatureJSON;
@@ -43,144 +43,155 @@ import org.slf4j.LoggerFactory;
  */
 public final class GeoJSONUtilities {
 
-	static final Logger LOGGER = LoggerFactory.getLogger(GeoJSONUtilities.class);
+  static final Logger LOGGER = LoggerFactory.getLogger(GeoJSONUtilities.class);
 
-	private GeoJSONUtilities() {
-	}
+  private GeoJSONUtilities() {
+  }
 
-	/**
-	 * Writes out a SimpleFeatureCollection to a file as geojson
-	 * @param features The features to write
-	 * @param file The file to write to
-	 */
-	public static void writeFeatures(SimpleFeatureCollection features, File file) {
-		FeatureJSON fjson = new FeatureJSON();
-		OutputStream os;
-		try {
-			os = new FileOutputStream(file);
-			try {
-				if (features.getSchema().getCoordinateReferenceSystem() != null) {
-					fjson.setEncodeFeatureCollectionBounds(true);
-					fjson.setEncodeFeatureCollectionCRS(true);
-					
-				} else {
-					LOGGER.info("CRS is null");
-				}
-				fjson.writeFeatureCollection(features, os);
-			} finally {
-				os.close();
-			}
-		} catch (FileNotFoundException e1) {
-			LOGGER.error("Failed to write feature collection " + e1.getMessage());
-		} catch (IOException e) {
-			LOGGER.error("Failed to write feature collection " + e.getMessage());
-		}
-	}
+  /**
+   * Writes out a SimpleFeatureCollection to a file as geojson
+   * @param features The features to write
+   * @param file The file to write to
+   */
+  public static void writeFeatures(SimpleFeatureCollection features, File file) {
+    FeatureJSON fjson = new FeatureJSON();
+    OutputStream os;
+    try {
+      os = new FileOutputStream(file);
+      try {
+        // fjson.writeCRS(features.getSchema().getCoordinateReferenceSystem(),
+        // os);
 
-	/**
-	 * Writes a SimpleFeatureCollection to a URL as geojson
-	 * 
-	 * @param features
-	 *          The features to write out
-	 * @param file
-	 *          The URL to write to (will overwrite existing)
-	 */
-	public static URL writeFeatures(SimpleFeatureCollection features,
-			URL dataStoreURL) {
-		String dataStore = dataStoreURL.toString();
+        if (features.getSchema().getCoordinateReferenceSystem() != null) {
+          fjson.setEncodeFeatureCollectionBounds(true);
+          fjson.setEncodeFeatureCollectionCRS(true);
+        } else {
+          LOGGER.info("CRS is null");
+        }
+     //   LOGGER.info("CRS: {}", features.getSchema()
+     //       .getCoordinateReferenceSystem().toString());
+        // if
+        // (features.getSchema().getCoordinateReferenceSystem().toString().contains("UNIT[\"m"))
+        // {
+        // LOGGER.info("CRS in metres!");
+        // } else {
+        // LOGGER.error("CRS not in metres");
+        // }
+        fjson.setEncodeNullValues(true);
+        fjson.writeFeatureCollection(features, os);
+      } finally {
+        os.close();
+      }
+    } catch (FileNotFoundException e1) {
+      LOGGER.error("Failed to write feature collection " + e1.getMessage());
+    } catch (IOException e) {
+      LOGGER.error("Failed to write feature collection " + e.getMessage());
+    }
+  }
 
-		try {
-			LOGGER.info("Writing to File resource {}", dataStore);
-			writeFeatures(features, new File(dataStoreURL.toURI()));
-			return dataStoreURL;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-		}
-		return null; // FIXME: add proper error handling
-	}
+  /**
+   * Writes a SimpleFeatureCollection to a URL as geojson
+   * 
+   * @param features
+   *          The features to write out
+   * @param file
+   *          The URL to write to (will overwrite existing)
+   */
+  public static URL writeFeatures(SimpleFeatureCollection features,
+      URL dataStoreURL) {
+    String dataStore = dataStoreURL.toString();
 
-	/**
-	 * Writes a single feature to file
-	 * 
-	 * @param feature
-	 * @param file
-	 */
-	public static void writeFeature(SimpleFeature feature, File file) {
-		FeatureJSON fjson = new FeatureJSON();
-		try {
-			OutputStream os = new FileOutputStream(file);
-			try {
-				// fjson.setEncodeFeatureCRS(true);
-				// fjson.writeCRS(feature.getType().getCoordinateReferenceSystem(), os);
-				fjson.writeFeature(feature, os);
-			} finally {
-				os.close();
-			}
-		} catch (IOException e) {
-			LOGGER.error("Failed to write feature collection" + e.getMessage());
-		}
-	}
+    try {
+      LOGGER.info("Writing to File resource {}", dataStore);
+      writeFeatures(features, new File(dataStoreURL.toURI()));
+      return dataStoreURL;
+    } catch (Exception e) {
+      LOGGER.error(e.getMessage());
+    }
+    return null; // FIXME: add proper error handling
+  }
 
-	/**
-	 * Reads a single feature from GeoJSON
-	 * 
-	 * @param url
-	 *          A URL pointing to a GeoJSON feature
-	 * @return The feature from the URL
-	 * @throws IOException
-	 */
-	public static SimpleFeature readFeature(URL url) throws IOException {
-		FeatureJSON io = new FeatureJSON();
-		// io.setEncodeFeatureCRS(true);
-		return io.readFeature(url.openConnection().getInputStream());
-	}
+  /**
+   * Writes a single feature to file
+   * 
+   * @param feature
+   * @param file
+   */
+  public static void writeFeature(SimpleFeature feature, File file) {
+    FeatureJSON fjson = new FeatureJSON();
+    try {
+      OutputStream os = new FileOutputStream(file);
+      try {
+        // fjson.setEncodeFeatureCRS(true);
+        // fjson.writeCRS(feature.getType().getCoordinateReferenceSystem(), os);
+        fjson.writeFeature(feature, os);
+      } finally {
+        os.close();
+      }
+    } catch (IOException e) {
+      LOGGER.error("Failed to write feature collection" + e.getMessage());
+    }
+  }
 
-	/**
-	 * Gets a FeatureIterator from a GeoJSON URL, does not need to read all the
-	 * features?
-	 * 
-	 * @param url
-	 *          The FeatureCollection URL
-	 * @return An Iterator for the features at the URL
-	 * @throws IOException
-	 */
-	public static FeatureIterator<SimpleFeature> getFeatureIterator(URL url)
-			throws IOException {
-		LOGGER.info("Reading features from URL {}", url);
-		FeatureJSON io = new FeatureJSON();
-		// SslUtil.trustSelfSignedSSL();
-		io.setEncodeFeatureCollectionCRS(true);
-		return io.streamFeatureCollection(url.openConnection().getInputStream());
-	}
+  /**
+   * Reads a single feature from GeoJSON
+   * 
+   * @param url
+   *          A URL pointing to a GeoJSON feature
+   * @return The feature from the URL
+   * @throws IOException
+   */
+  public static SimpleFeature readFeature(URL url) throws IOException {
+    FeatureJSON io = new FeatureJSON();
+    // io.setEncodeFeatureCRS(true);
+    return io.readFeature(url.openConnection().getInputStream());
+  }
 
-	/**
-	 * Gets a SimpleFeatureCollection from a GeoJSON URL - reads all the features
-	 * 
-	 * @param url
-	 *          The FeatureCollection URL
-	 * @return The features at the URL
-	 * @throws IOException
-	 */
-	public static SimpleFeatureCollection readFeatures(URL url)
-			throws IOException {
-		FeatureJSON io = new FeatureJSON();
-		// io.setEncodeFeatureCollectionCRS(true);
+  /**
+   * Gets a FeatureIterator from a GeoJSON URL, does not need to read all the
+   * features?
+   * 
+   * @param url
+   *          The FeatureCollection URL
+   * @return An Iterator for the features at the URL
+   * @throws IOException
+   */
+  public static FeatureIterator<SimpleFeature> getFeatureIterator(URL url)
+      throws IOException {
+    LOGGER.info("Reading features from URL {}", url);
+    FeatureJSON io = new FeatureJSON();
+    // SslUtil.trustSelfSignedSSL();
+    io.setEncodeFeatureCollectionCRS(true);
+    return io.streamFeatureCollection(url.openConnection().getInputStream());
+  }
 
-		LOGGER.info("READING GeoJSON from {}", url);
-		// io.readCRS(url.openConnection().getInputStream()));
-		SimpleFeatureCollection collection = (SimpleFeatureCollection) io.readFeatureCollection(url.openConnection().getInputStream());
+  /**
+   * Gets a SimpleFeatureCollection from a GeoJSON URL - reads all the features
+   * 
+   * @param url
+   *          The FeatureCollection URL
+   * @return The features at the URL
+   * @throws IOException
+   */
+  public static SimpleFeatureCollection readFeatures(URL url)
+      throws IOException {
+    FeatureJSON io = new FeatureJSON();
+    // io.setEncodeFeatureCollectionCRS(true);
 
-		//    System.out.println(collection.s); 
+    LOGGER.info("READING GeoJSON from {}", url);
+    // io.readCRS(url.openConnection().getInputStream()));
+    FeatureIterator<SimpleFeature> features = io.streamFeatureCollection(url.openConnection().getInputStream());
+//    SimpleFeatureCollection collection = (SimpleFeatureCollection) io.readFeatureCollection(url.openConnection().getInputStream());
+    @SuppressWarnings("deprecation")
+    DefaultFeatureCollection collection = (DefaultFeatureCollection) FeatureCollections.newCollection();
+//
+    while (features.hasNext()) {
+      SimpleFeature feature = (SimpleFeature) features.next();
+      
+//      System.out.prinstln(feature.getAttribute("ogc_fid"));
+      collection.add(feature);
+    }
 
-
-		//    FeatureIterator<SimpleFeature> features = io.streamFeatureCollection(url.openConnection().getInputStream());
-		//    SimpleFeatureCollection collection = FeatureCollections.newCollection();
-
-		//    while (features.hasNext()) {
-		//      SimpleFeature feature = (SimpleFeature) features.next();
-		//      collection.add(feature);
-		//    }
-
-		return collection;
-	}
+    return (SimpleFeatureCollection)collection;
+  }
 }

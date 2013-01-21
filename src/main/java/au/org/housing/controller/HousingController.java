@@ -69,7 +69,7 @@ public class HousingController {
 			propertyFilterService.setBufferAllParams(facilitiesGeometry);
 		}
 
-		propertyFilterService.createFilters();
+		propertyFilterService.propertyAnalyse();
 
 		Map<String, Object> response = new HashMap<String, Object>();
 		response.put("message", Messages.getMessage());

@@ -77,9 +77,4 @@ public class UnionServiceTest {
 
 	}
 
-	@Test
-	public void testCreateUnionSimpleFeatureCollection() {
-		fail("Not yet implemented"); // TODO
-	}
-
 }

@@ -1,6 +1,7 @@
 package au.org.housing.service.impl;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,8 +9,12 @@ import javax.annotation.PreDestroy;
 
 import org.geotools.data.DataStore;
 import org.geotools.data.DataStoreFinder;
+import org.geotools.data.DataUtilities;
+import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.data.simple.SimpleFeatureSource;
 
 import au.org.housing.service.DataStoreFactory;
+import au.org.housing.utilities.GeoJSONUtilities;
 
 public class PostGISDataStoreFactoryImpl implements DataStoreFactory {
 	private DataStore dataStore = null;
@@ -17,6 +22,11 @@ public class PostGISDataStoreFactoryImpl implements DataStoreFactory {
 	@PreDestroy
 	public void dipose(){
 		dataStore.dispose();
+	}
+
+	@Override
+	public SimpleFeatureSource getFeatureSource(String layerName) throws IOException {
+		return getDataStore(layerName).getFeatureSource(layerName);
 	}
 
 	@Override
@@ -32,8 +42,8 @@ public class PostGISDataStoreFactoryImpl implements DataStoreFactory {
 			params.put("port", 5432);
 			params.put("schema", "public");
 			// params.put("database", "postgisHousingMetric");
-			// params.put("database", "housing_4283");
-			params.put("database", "housing_28355");
+			 params.put("database", "housing_4283");
+//			params.put("database", "housing_28355");
 			params.put("user", "postgres");
 			params.put("passwd", "1q2w3e4r");
 			dataStore = DataStoreFinder.getDataStore(params);
@@ -44,6 +54,6 @@ public class PostGISDataStoreFactoryImpl implements DataStoreFactory {
 	@Override
 	public DataStore getExportableDataStore() throws Exception {
 		return getPOSTGISDataStore();
-	}
+	}	
 
 }

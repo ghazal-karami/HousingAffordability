@@ -10,12 +10,15 @@ import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.feature.type.AttributeDescriptor;
+import org.opengis.feature.type.GeometryDescriptor;
 import org.springframework.stereotype.Service;
 
 import au.org.housing.service.FeatureBuilder;
 
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Polygon;
 
 @Service
 public class FeatureBuilderImpl implements FeatureBuilder{
@@ -51,5 +54,20 @@ public class FeatureBuilderImpl implements FeatureBuilder{
 //		SimpleFeatureType type = typeBuilder.buildFeatureType();
 		type = typeBuilder.buildFeatureType();
 		return new SimpleFeatureBuilder(type);
+	}
+	
+	public SimpleFeatureTypeBuilder createFeatureTypeBuilder(SimpleFeatureType sft, String typeName) {
+		SimpleFeatureTypeBuilder stb = new SimpleFeatureTypeBuilder();
+		stb.setName(typeName);
+		for (AttributeDescriptor attDisc : sft.getAttributeDescriptors()) {
+			String name = attDisc.getLocalName();
+			Class type = attDisc.getType().getBinding();  
+			if (attDisc instanceof GeometryDescriptor) {
+				stb.add( name, Polygon.class );
+			}else{
+				stb.add(name, type);
+			}
+		}
+		return stb;
 	}
 }
