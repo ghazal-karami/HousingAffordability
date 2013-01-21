@@ -2,15 +2,12 @@ package au.org.housing.model;
 
 import java.util.Set;
 
-
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.ektorp.docref.DocumentReferences;
 import org.ektorp.docref.FetchType;
 import org.ektorp.spring.*;
 import org.ektorp.support.*;
 import org.joda.time.*;
-
-
 
 
 @JsonIgnoreProperties
