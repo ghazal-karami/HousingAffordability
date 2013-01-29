@@ -14,11 +14,6 @@
       http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util-3.1.xsd
       http://www.ektorp.org/schema/couchdb http://www.ektorp.org/schema/couchdb/couchdb.xsd">
 
-	<!-- the application context definition for the springapp DispatcherServlet -->
-	<!-- Scans within the base package of the application for @Components to 
-		configure as beans -->
-	<!-- @Controller, @Service, @Configuration, etc. -->
-
 	<context:component-scan base-package="au.org.housing.start" />
 	<context:component-scan base-package="au.org.housing.controller" />
 	<context:component-scan base-package="au.org.housing.service" />
@@ -26,13 +21,15 @@
 
 	<mvc:resources location="/resources/" mapping="/resources/**" />
 	<mvc:resources location="/lib/" mapping="/lib/**" />
+	<!-- <mvc:resources mapping="/resources/**" location="classpath:resources"/> -->
 
 	<context:annotation-config />
 
 	<mvc:annotation-driven />
-	<!-- <mvc:resources mapping="/resources/**" location="classpath:resources"/> -->
 
 	<util:properties id="couchdbProperties" location="classpath:/couchdb.properties" />
+	
+	
 	<couchdb:database id="housing_database" name="housing_database"
 		url="http://localhost:5984" />
 
@@ -42,14 +39,19 @@
 		<property name="prefix" value="/ui-jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-
-
-	<!-- <bean id="housingHandler" class="au.org.housing.controller.HousingController" 
-		/> -->
-	<!-- <bean id="housingService" class="au.org.housing.service.impl.TransportationBufferServiceImpl" 
-		/> -->
-	<bean id="housingModel" class="au.org.housing.model.Parameter" />
-
-
+	
+	<bean id="housing_database" class="org.ektorp.impl.StdCouchDbConnector">
+                <constructor-arg value="layers" />
+                <constructor-arg>
+                        <bean id="couchDbInstance" class="org.ektorp.impl.StdCouchDbInstance">
+                                <constructor-arg>
+                                        <bean class="org.ektorp.spring.HttpClientFactoryBean" />
+                                </constructor-arg>
+                        </bean>
+                </constructor-arg>
+        </bean>
+        
+	
+	<!-- <bean id="housingModel" class="au.org.housing.model.ParameterDevelopPotential" /> -->
 
 </beans>

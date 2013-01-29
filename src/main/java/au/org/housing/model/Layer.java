@@ -13,15 +13,32 @@ import org.joda.time.*;
 @JsonIgnoreProperties
 public class Layer extends CouchDbDocument{
 	private static final long serialVersionUID = 1L;
-	
+
 	@TypeDiscriminator
-	private String name;
-	
-	@DocumentReferences(fetch = FetchType.LAZY,backReference = "layerName")
+	private String name = "property";
+
+	@DocumentReferences(fetch = FetchType.LAZY,backReference = "layer")
 	private Set<Attribute> attributes;
 
 	private String location;
+
+	public Layer(String name , String location){
+		this.name = name;
+		this.location = location;
+	}
 	
+	public Layer(){
+		super();
+	}
+
+	public Set<Attribute> getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(Set<Attribute> attributes) {
+		this.attributes = attributes;
+	}
+
 	public String getLocation() {
 		return location;
 	}
@@ -38,6 +55,6 @@ public class Layer extends CouchDbDocument{
 		this.name = name;
 	}
 
-	
-	
+
+
 }

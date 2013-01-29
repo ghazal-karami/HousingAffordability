@@ -1,0 +1,7 @@
+
+1- fetch the LGAs from DataBase
+2- get the values of form 2 from DB
+3- develope the backend of form 2
+4- exporting the output to shapefile in form1
+5- importing the property layer to postgis
+6- moving all layer names and locations and datasets to properties file

@@ -23,6 +23,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import au.org.housing.exception.Messages;
+import au.org.housing.model.LayerMapping;
 import au.org.housing.service.Config;
 import au.org.housing.service.ExportService;
 import au.org.housing.service.FeatureBuilder;
@@ -36,6 +37,10 @@ public class UnionServiceTest {
 	@Autowired ExportService exportService;
 
 	@Autowired FeatureBuilder featureBuilder;
+	
+	@Autowired
+	private LayerMapping layerMapping;
+
 
 	public UnionServiceTest() {
 	}
@@ -48,7 +53,7 @@ public class UnionServiceTest {
 	public void testCreateUnionGeometryCollection() throws IOException, NoSuchAuthorityCodeException, FactoryException {
 
 		Collection<Geometry> bufferCollection = new ArrayList<Geometry>();
-		String layerName = MapAttImpl.educationFacilities;
+		String layerName = layerMapping.getEducationFacilities();
 		SimpleFeatureSource featureSource =  Config.getDefaultFactory().getDataStore(layerName).getFeatureSource(layerName);
 		assertNotNull(featureSource);
 		SimpleFeatureCollection features = featureSource.getFeatures();

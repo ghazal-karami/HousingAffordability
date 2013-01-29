@@ -8,12 +8,17 @@ import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.opengis.feature.simple.SimpleFeature;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import au.org.housing.model.LayerMapping;
 import au.org.housing.service.impl.WFSDataStoreFactoryImpl;
 import junit.framework.TestCase;
 
 public class WFSDataStoreFactoryTest extends TestCase {
 
+	@Autowired
+	private LayerMapping layerMapping;
+	
 	public WFSDataStoreFactoryTest(String name) {
 		super(name);
 	}
@@ -32,7 +37,7 @@ public class WFSDataStoreFactoryTest extends TestCase {
 	//
 	public void testGetDataStore() throws IOException {
 		WFSDataStoreFactoryImpl wfsDataStoreFactoryImpl = new WFSDataStoreFactoryImpl();
-		DataStore dataStoreProperty = wfsDataStoreFactoryImpl.getDataStore(MapAttImpl.property);
+		DataStore dataStoreProperty = wfsDataStoreFactoryImpl.getDataStore(layerMapping.getProperty());
 		DataStore dataStoreCSDILA = wfsDataStoreFactoryImpl.getCSDILADataStore();
 		assertSame(dataStoreProperty, dataStoreCSDILA);
 	}

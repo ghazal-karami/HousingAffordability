@@ -41,9 +41,8 @@ public class PostGISDataStoreFactoryImpl implements DataStoreFactory {
 			params.put("host", "localhost");
 			params.put("port", 5432);
 			params.put("schema", "public");
-			// params.put("database", "postgisHousingMetric");
-			 params.put("database", "housing_4283");
-//			params.put("database", "housing_28355");
+//			 params.put("database", "housing_4283");
+			params.put("database", "housingmetric");
 			params.put("user", "postgres");
 			params.put("passwd", "1q2w3e4r");
 			dataStore = DataStoreFinder.getDataStore(params);

@@ -1,11 +1,13 @@
 package au.org.housing.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import au.org.housing.model.Parameter;
+import au.org.housing.model.ParameterDevelopPotential;
 import au.org.housing.service.InitService;
 
 
@@ -13,7 +15,7 @@ import au.org.housing.service.InitService;
 public class InitServiceImpl implements InitService {
 	
 	@Autowired
-	private Parameter parameter;		
+	private ParameterDevelopPotential parameter;		
 	
 	public void initParams(Map<String, Object> housingParams) {
 		
@@ -46,6 +48,10 @@ public class InitServiceImpl implements InitService {
 		parameter.setMixedUse((Boolean) housingParams.get("mixedUseVal"));
 		parameter.setSpecialPurpose((Boolean) housingParams.get("specialPurposeVal"));
 		parameter.setUrbanGrowthBoundry((Boolean) housingParams.get("urbanGrowthBoundryVal"));
+				
+		parameter.setSelectedLGAs((List<Integer>) housingParams.get("selectedLGAs"));
+		System.out.println("selected LGAs=="+ parameter.getSelectedLGAs());
+		
 	}
 
 }

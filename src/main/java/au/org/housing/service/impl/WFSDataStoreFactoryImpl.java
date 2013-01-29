@@ -13,11 +13,16 @@ import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.data.wfs.WFSDataStore;
 import org.geotools.data.wfs.WFSDataStoreFactory;
 import org.geotools.data.wfs.v1_1_0.WFS_1_1_0_DataStore;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import au.org.housing.model.LayerMapping;
 import au.org.housing.service.DataStoreFactory;
 
 public class WFSDataStoreFactoryImpl implements DataStoreFactory {
 
+	@Autowired
+	private LayerMapping layerMapping;
+	
 	private DataStore DSEDataStore = null;
 	private DataStore CSDILADataStore = null;
 	private DataStore NewCastleDataStore = null;
@@ -36,12 +41,12 @@ public class WFSDataStoreFactoryImpl implements DataStoreFactory {
 
 	@Override
 	public DataStore getDataStore(String layername) throws IOException {
-		if (MapAttImpl.planOverlay.equals(layername) ||
-				MapAttImpl.trainStation.equals(layername) ||
-				MapAttImpl.trainRoute.equals(layername)||
-				MapAttImpl.tramRoute.equals(layername)  ) {
+		if (layerMapping.getPlanOverlay().equals(layername) ||
+				layerMapping.getTrainStation().equals(layername) ||
+				layerMapping.getTrainRoute().equals(layername)||
+				layerMapping.getTramRoute().equals(layername)  ) {
 			return getDSEDataStore();
-		} else if (MapAttImpl.property.equals(layername)) {
+		} else if (layerMapping.getProperty().equals(layername)) {
 			return getCSDILADataStore();
 		}
 		return null;

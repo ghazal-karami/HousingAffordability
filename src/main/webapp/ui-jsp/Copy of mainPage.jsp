@@ -5,9 +5,6 @@
 <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700'
 	rel='stylesheet' type='text/css' />
 <link
-	href="/housing/lib/ui-css/checkboxmodel.css"
-	rel="stylesheet" type="text/css" />
-<link
 	href='https://apps.aurin.org.au/assets/js/extjs-4.1.0/resources/css/ext-all.css'
 	rel='stylesheet' type='text/css' />
 <link
@@ -15,8 +12,6 @@
 	rel="stylesheet" type="text/css" />
 
 <script src="https://apps.aurin.org.au/assets/js/extjs-4.1.0/ext-all.js"></script>
-
-
 <script src="https://apps.aurin.org.au/assets/js/sprintf/sprintf-0.6.js"></script>
 <script
 	src="https://apps.aurin.org.au/assets/js/extjs-4.1.0/ux/CheckColumn.js"></script>
@@ -38,9 +33,13 @@
 <script src="/housing/lib/common/OpenLayers/patch.js"></script>
 <script src="/housing/lib/common/OpenLayers/Aura/Control/Legend.js"></script>
 <script src="/housing/lib/common/undertow/undertow.js"></script>
+
+
+<script src="/housing/lib/ui-js/mainPage.js">
+
+
 <!-- OpenLayers core js -->
-<script src="http://www.openlayers.org/dev/OpenLayers.js">
-	
+	<script src="http://www.openlayers.org/dev/OpenLayers.js">
 </script>
 
 <!-- OpenStreetMap base layer js -->
@@ -49,20 +48,11 @@
 <!-- Google Maps -->
 
 
-<script src="/housing/lib/ui-js/OperatorsComboBox.js"></script>
-<script src="/housing/lib/ui-js/LGAComboBox1.js"></script>
-<script src="/housing/lib/ui-js/LGAComboBox2.js"></script>
-<script src="/housing/lib/ui-js/AppCategories.js"></script>
-<script src="/housing/lib/ui-js/AppOutcomes.js"></script>
-<script src="/housing/lib/ui-js/Development_Potential.js"></script>
-<script src="/housing/lib/ui-js/Development_Assessment.js"></script>
-<script src="/housing/lib/ui-js/mainPage.js"></script>
-
 
 </head>
 
-<body>
-
-</body>
+ <body >
+	
+</body> 
 </html>
 

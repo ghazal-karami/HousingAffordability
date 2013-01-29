@@ -14,10 +14,12 @@ import org.opengis.feature.type.AttributeDescriptor;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import au.org.housing.controller.HousingController;
 import au.org.housing.exception.Messages;
+import au.org.housing.model.LayerMapping;
 import au.org.housing.service.ValidationService;
 
 import com.vividsolutions.jts.geom.Geometry;
@@ -33,6 +35,9 @@ import com.vividsolutions.jts.geom.Polygon;
 public class ValidationServiceImpl implements ValidationService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HousingController.class);
 
+	@Autowired
+	private LayerMapping layerMapping;
+	
 	public boolean isMetric(SimpleFeatureSource fc, String layerName) { 
 		CoordinateReferenceSystem crs = fc.getSchema().getGeometryDescriptor().getCoordinateReferenceSystem();
 		Unit<?> uom = crs.getCoordinateSystem().getAxis(0).getUnit();
@@ -46,9 +51,9 @@ public class ValidationServiceImpl implements ValidationService {
 	}
 
 	public boolean propertyValidated(SimpleFeatureSource propertyFc, String layerName) throws IOException { 
-		AttributeDescriptor svCurrentYearAtt = propertyFc.getSchema().getDescriptor(MapAttImpl.property_svCurrentYear);
-		AttributeDescriptor civCurrentYearAtt = propertyFc.getSchema().getDescriptor(MapAttImpl.property_civCurrentYear);
-		AttributeDescriptor zoningAtt = propertyFc.getSchema().getDescriptor(MapAttImpl.property_zoning);		 
+		AttributeDescriptor svCurrentYearAtt = propertyFc.getSchema().getDescriptor(layerMapping.getProperty_svCurrentYear());
+		AttributeDescriptor civCurrentYearAtt = propertyFc.getSchema().getDescriptor(layerMapping.getProperty_civCurrentYear());
+		AttributeDescriptor zoningAtt = propertyFc.getSchema().getDescriptor(layerMapping.getProperty_zoning());		 
 		if (svCurrentYearAtt == null ||
 				civCurrentYearAtt == null ||
 				zoningAtt == null ){
@@ -63,7 +68,7 @@ public class ValidationServiceImpl implements ValidationService {
 	}
 
 	public boolean planOverlayValidated(SimpleFeatureSource planOverlayFc, String layerName) { 
-		AttributeDescriptor planOverlay_zoneCodeAtt = planOverlayFc.getSchema().getDescriptor(MapAttImpl.planOverlay_zoneCode);
+		AttributeDescriptor planOverlay_zoneCodeAtt = planOverlayFc.getSchema().getDescriptor(layerMapping.getPlanOverlay_zoneCode());
 		if (planOverlay_zoneCodeAtt == null){
 			LOGGER.debug(layerName + " layer does not contain required attributes!");	
 			Messages.setMessage(layerName + " " + Messages._NOT_HAVE_REQUIRED_FIELDS);
@@ -73,8 +78,8 @@ public class ValidationServiceImpl implements ValidationService {
 	}
 
 	public boolean planCodeListValidated(SimpleFeatureSource planCodeListFc, String layerName) { 		
-		AttributeDescriptor planCodes_zoneCodeAtt = planCodeListFc.getSchema().getDescriptor(MapAttImpl.planCodes_zoneCode);
-		AttributeDescriptor planCodes_group1Att = planCodeListFc.getSchema().getDescriptor(MapAttImpl.planCodes_group1);
+		AttributeDescriptor planCodes_zoneCodeAtt = planCodeListFc.getSchema().getDescriptor(layerMapping.getPlanCodes_zoneCode());
+		AttributeDescriptor planCodes_group1Att = planCodeListFc.getSchema().getDescriptor(layerMapping.getPlanCodes_group1());
 		if (planCodes_zoneCodeAtt == null ||
 				planCodes_group1Att == null ){
 			LOGGER.debug(layerName + " layer does not contain required attributes!");	
@@ -85,8 +90,8 @@ public class ValidationServiceImpl implements ValidationService {
 	}
 
 	public boolean zonecodesValidated(SimpleFeatureSource zonecodesFc, String layerName) { 		
-		AttributeDescriptor zonecodes_zoneCodeAtt = zonecodesFc.getSchema().getDescriptor(MapAttImpl.zonecodes_zoneCode);
-		AttributeDescriptor zonecodes_group1Att = zonecodesFc.getSchema().getDescriptor(MapAttImpl.zonecodes_group1);
+		AttributeDescriptor zonecodes_zoneCodeAtt = zonecodesFc.getSchema().getDescriptor(layerMapping.getZonecodes_zoneCode());
+		AttributeDescriptor zonecodes_group1Att = zonecodesFc.getSchema().getDescriptor(layerMapping.getZonecodes_group1());
 		if (zonecodes_zoneCodeAtt == null ||
 				zonecodes_group1Att == null ){
 			LOGGER.debug(layerName + " layer does not contain required attributes!");		

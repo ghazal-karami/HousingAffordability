@@ -6,7 +6,12 @@ public class Attribute extends CouchDbDocument implements Comparable<Attribute>{
 	private static final long serialVersionUID = 1L;
 
 	private String name;
-	private String layerName;
+	private Layer layer ;
+	
+	public Attribute(String name, Layer layer  ){
+		this.name = name;
+		this.layer = layer;
+	}
 
 	public String getName() {
 		return name;
@@ -16,12 +21,12 @@ public class Attribute extends CouchDbDocument implements Comparable<Attribute>{
 		this.name = name;
 	}
 
-	public String getLayerName() {
-		return layerName;
+	public Layer getLayer() {
+		return layer;
 	}
 
-	public void setLayerName(String layerName) {
-		this.layerName = layerName;
+	public void setLayer(Layer layer) {
+		this.layer = layer;
 	}
 
 	@Override

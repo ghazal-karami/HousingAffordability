@@ -37,7 +37,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.vividsolutions.jts.geom.Geometry;
 
 import au.org.housing.exception.Messages;
-import au.org.housing.model.Parameter;
+import au.org.housing.model.LayerMapping;
+import au.org.housing.model.ParameterDevelopPotential;
 import au.org.housing.service.Config;
 import au.org.housing.service.ExportService;
 import au.org.housing.service.FeatureBuilder;
@@ -51,7 +52,7 @@ import au.org.housing.utilities.GeoJSONUtilities;
 public class PropertyFilterServiceTest {
 
 	@Autowired
-	private Parameter parameter;	
+	private ParameterDevelopPotential parameter;	
 
 	@Autowired
 	private ValidationService validationService;
@@ -64,6 +65,9 @@ public class PropertyFilterServiceTest {
 	
 	@Autowired 
 	private FeatureBuilder featureBuilder;
+	
+	@Autowired
+	private LayerMapping layerMapping;
 
 	@Autowired
 	private TransportationBufferService transportationBufferService;
@@ -102,10 +106,10 @@ public class PropertyFilterServiceTest {
 
 	@Test
 	public void layersValidationTest() throws IOException {
-		if (!validationService.propertyValidated(propertyFc, MapAttImpl.property)  || !validationService.isPolygon(propertyFc, MapAttImpl.property) || !validationService.isMetric(propertyFc, MapAttImpl.property) ||
-				!validationService.planOverlayValidated(planOverlayFc, MapAttImpl.planOverlay) || !validationService.isMetric(planOverlayFc, MapAttImpl.planOverlay) || !validationService.isPolygon(planOverlayFc, MapAttImpl.planOverlay) ||
-				!validationService.planCodeListValidated(planCodeListFc, MapAttImpl.planCodes) ||
-				!validationService.zonecodesValidated(zonecodesFc, MapAttImpl.zonecodesTbl) ){
+		if (!validationService.propertyValidated(propertyFc, layerMapping.getProperty())  || !validationService.isPolygon(propertyFc, layerMapping.getProperty()) || !validationService.isMetric(propertyFc, layerMapping.getProperty()) ||
+				!validationService.planOverlayValidated(planOverlayFc, layerMapping.getPlanOverlay()) || !validationService.isMetric(planOverlayFc, layerMapping.getPlanOverlay()) || !validationService.isPolygon(planOverlayFc, layerMapping.getPlanOverlay()) ||
+				!validationService.planCodeListValidated(planCodeListFc, layerMapping.getPlanCodes()) ||
+				!validationService.zonecodesValidated(zonecodesFc, layerMapping.getZonecodesTbl()) ){
 			fail(Messages.getMessage());
 		}
 		assertTrue(true);
@@ -145,8 +149,8 @@ public class PropertyFilterServiceTest {
 //	@Test
 	private void overlayCollectionTest() throws IOException {
 		Query codeListQuery = new Query();
-		codeListQuery.setPropertyNames(new String[] { MapAttImpl.planCodes_zoneCode, MapAttImpl.planCodes_group1 });
-		Filter filter = ff.equals(ff.property(MapAttImpl.planCodes_group1),ff.literal("LAND SUBJECT TO INUNDATION OVERLAY"));
+		codeListQuery.setPropertyNames(new String[] { layerMapping.getPlanCodes_zoneCode(), layerMapping.getPlanCodes_group1() });
+		Filter filter = ff.equals(ff.property(layerMapping.getPlanCodes_group1()),ff.literal("LAND SUBJECT TO INUNDATION OVERLAY"));
 		codeListQuery.setFilter(filter);
 
 		SimpleFeatureCollection codeList = planCodeListFc.getFeatures(codeListQuery);
@@ -159,8 +163,8 @@ public class PropertyFilterServiceTest {
 		List<Filter> match = new ArrayList<Filter>();
 		while (it.hasNext()) {
 			SimpleFeature zoneCode = it.next();
-			Object value = zoneCode.getAttribute(MapAttImpl.planOverlay_zoneCode);
-			filter = ff.equals(ff.property(MapAttImpl.planOverlay_zoneCode), ff.literal(value));
+			Object value = zoneCode.getAttribute(layerMapping.getPlanOverlay_zoneCode());
+			filter = ff.equals(ff.property(layerMapping.getPlanOverlay_zoneCode()), ff.literal(value));
 			match.add(filter);
 		}
 		it.close();
@@ -197,7 +201,7 @@ public class PropertyFilterServiceTest {
 	public void testPropertyCSDILA() throws Exception {
 		
 		ff = CommonFactoryFinder.getFilterFactory2(GeoTools.getDefaultHints());		
-		propertyFc = Config.getWFSFactory().getFeatureSource(MapAttImpl.property);
+		propertyFc = Config.getWFSFactory().getFeatureSource(layerMapping.getProperty());
 		List<Filter> fs = new ArrayList<Filter>();
 		Filter filter = ff.equals(ff.property("pfi"),ff.literal("3539423"));// no inundation 
 		fs.add(filter);
@@ -221,8 +225,8 @@ public class PropertyFilterServiceTest {
 		File newFile = new File("C:/programming/Projects/Housing_"+ "Property_Value_NWMRLGAnew" +".shp");	      
 		exportService.featuresExportToShapeFile(propertyFc.getSchema(), properties, newFile, true);	
 		
-		planOverlayFc = Config.getDefaultFactory().getFeatureSource(MapAttImpl.planOverlay);
-		planCodeListFc = Config.getDefaultFactory().getFeatureSource(MapAttImpl.planCodes);
+		planOverlayFc = Config.getDefaultFactory().getFeatureSource(layerMapping.getPlanOverlay());
+		planCodeListFc = Config.getDefaultFactory().getFeatureSource(layerMapping.getPlanCodes());
 		this.overlayCollectionTest();
 		
 //		File jsonfile2 = new File(parentDirectory, "Housing_"+ "planOverlaynew" +".json"); 

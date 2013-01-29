@@ -15,14 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import au.org.housing.exception.Messages;
+import au.org.housing.model.LayerRepository;
+import au.org.housing.service.DevelpmentAssessment;
 import au.org.housing.service.FacilitiesBufferService;
+import au.org.housing.service.InitDevelopAssessment;
 import au.org.housing.service.InitService;
 import au.org.housing.service.PropertyFilterService;
 import au.org.housing.service.TransportationBufferService;
-
-import com.vividsolutions.jts.geom.Geometry;
-
-
 
 @Controller 
 @RequestMapping("/housing-controller")
@@ -40,15 +39,26 @@ public class HousingController {
 
 	@Autowired
 	public InitService initService;
+	
+	@Autowired
+	public InitDevelopAssessment initDevelopAssessment;
 
-	@RequestMapping(method = RequestMethod.POST, value = "/postAndReturnJson", headers = "Content-Type=application/json")
+	@Autowired
+	public DevelpmentAssessment developAssessment;
+	
+	
+	@Autowired LayerRepository layerRepo;
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/developmentPotential", headers = "Content-Type=application/json")
 	@ResponseStatus(HttpStatus.OK)
 	public @ResponseBody Map<String, Object> handleRequest(@RequestBody Map<String, Object> housingParams) throws Exception { 
 
+//		layerRepo.create();
+		
 		initService.initParams(housingParams);
 		
 		//********************************* Buffer Transport  *********************************/
-		Geometry transportGeometry  = transportationBufferService.generateTranportBuffer();
+		/*Geometry transportGeometry  = transportationBufferService.generateTranportBuffer();
 		LOGGER.info("^^^ transportGeometry"+ transportGeometry);
 
 		//********************************* Buffer Facilities *********************************
@@ -69,11 +79,28 @@ public class HousingController {
 			propertyFilterService.setBufferAllParams(facilitiesGeometry);
 		}
 
-		propertyFilterService.propertyAnalyse();
+		propertyFilterService.propertyAnalyse();*/
 
 		Map<String, Object> response = new HashMap<String, Object>();
 		response.put("message", Messages.getMessage());
 
 		return response;    	
 	}	
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/developmentAssessment", headers = "Content-Type=application/json")
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody Map<String, Object> developmentAssessment(@RequestBody Map<String, Object> assessmentParams) throws Exception { 
+
+		
+		initDevelopAssessment.initParams(assessmentParams);		
+		developAssessment.analyse();
+		
+		
+		
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("message", Messages.getMessage());
+
+		return response;    	
+	}	
+	
 }

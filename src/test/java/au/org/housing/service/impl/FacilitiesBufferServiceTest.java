@@ -22,7 +22,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import au.org.housing.exception.LayerValidationException;
-import au.org.housing.model.Parameter;
+import au.org.housing.model.ParameterDevelopPotential;
 import au.org.housing.service.BufferService;
 import au.org.housing.service.ExportService;
 import au.org.housing.service.FeatureBuilder;
@@ -36,7 +36,7 @@ import com.vividsolutions.jts.geom.Geometry;
 @ContextConfiguration(locations = {"classpath:/springapp-servlet.xml"})
 public class FacilitiesBufferServiceTest {
 
-	@Autowired Parameter parameter;
+	@Autowired ParameterDevelopPotential parameter;
 
 	@Autowired FeatureBuilder featureBuilder;
 

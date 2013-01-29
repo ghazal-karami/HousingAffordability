@@ -13,7 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import au.org.housing.exception.LayerValidationException;
-import au.org.housing.model.Parameter;
+import au.org.housing.model.LayerMapping;
+import au.org.housing.model.ParameterDevelopPotential;
 import au.org.housing.service.BufferService;
 import au.org.housing.service.Config;
 import au.org.housing.service.FacilitiesBufferService;
@@ -28,7 +29,7 @@ public class FacilitiesBufferServiceImpl implements FacilitiesBufferService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UnionServiceImpl.class);
 	
 	@Autowired
-	private Parameter parameter;
+	private ParameterDevelopPotential parameter;
 
 	@Autowired
 	private BufferService bufferService;
@@ -39,22 +40,25 @@ public class FacilitiesBufferServiceImpl implements FacilitiesBufferService {
 	@Autowired
 	private ValidationService validationService;
 	
+	@Autowired
+	private LayerMapping layerMapping;
+	
 	public Geometry generateFacilityBuffer() throws NoSuchAuthorityCodeException, IOException, FactoryException, URISyntaxException, LayerValidationException{
 		Geometry intersected = null;		
 		if (parameter.getEducation_BufferDistance() != 0){
-			intersected = analyse(intersected, MapAttImpl.educationFacilities, parameter.getEducation_BufferDistance());
+			intersected = analyse(intersected, layerMapping.getEducationFacilities(), parameter.getEducation_BufferDistance());
 		}
 		if (parameter.getRecreation_BufferDistance() != 0){ 
-			intersected = analyse(intersected, MapAttImpl.recreationFacilities, parameter.getRecreation_BufferDistance());
+			intersected = analyse(intersected, layerMapping.getRecreationFacilities(), parameter.getRecreation_BufferDistance());
 		}
 		if (parameter.getMedical_BufferDistance() != 0){ 
-			intersected = analyse(intersected, MapAttImpl.medicalFacilities, parameter.getMedical_BufferDistance());
+			intersected = analyse(intersected, layerMapping.getMedicalFacilities(), parameter.getMedical_BufferDistance());
 		}
 		if (parameter.getCommunity_BufferDistance() != 0){ 
-			intersected = analyse(intersected, MapAttImpl.communityFacilities, parameter.getCommunity_BufferDistance());
+			intersected = analyse(intersected, layerMapping.getCommunityFacilities(), parameter.getCommunity_BufferDistance());
 		}
 		if (parameter.getUtility_BufferDistance() != 0){ 
-			intersected = analyse(intersected, MapAttImpl.utilityFacilities, parameter.getUtility_BufferDistance());
+			intersected = analyse(intersected, layerMapping.getUtilityFacilities(), parameter.getUtility_BufferDistance());
 		}
 		return intersected;
 	}

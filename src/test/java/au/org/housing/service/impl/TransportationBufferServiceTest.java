@@ -23,7 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-import au.org.housing.model.Parameter;
+import au.org.housing.model.ParameterDevelopPotential;
 import au.org.housing.service.BufferService;
 import au.org.housing.service.ExportService;
 import au.org.housing.service.FeatureBuilder;
@@ -35,7 +35,7 @@ import au.org.housing.utilities.GeoJSONUtilities;
 @ContextConfiguration(locations = {"classpath:/springapp-servlet.xml"})
 public class TransportationBufferServiceTest {
 
-	@Autowired Parameter parameter;
+	@Autowired ParameterDevelopPotential parameter;
 
 	@Autowired FeatureBuilder featureBuilder;
 

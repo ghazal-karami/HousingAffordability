@@ -20,6 +20,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import au.org.housing.exception.Messages;
+import au.org.housing.model.LayerMapping;
 import au.org.housing.service.Config;
 import au.org.housing.service.ExportService;
 import au.org.housing.service.FeatureBuilder;
@@ -33,6 +34,9 @@ public class BufferServiceTest {
 	@Autowired ExportService exportService;
 	
 	@Autowired FeatureBuilder featureBuilder;
+	
+	@Autowired
+	private LayerMapping layerMapping;
 
 	public BufferServiceTest() {
 	}
@@ -42,7 +46,7 @@ public class BufferServiceTest {
 
 //		String layerName = MapAttImpl.trainStation;
 //		String layerName = MapAttImpl.educationFacilities;
-		String layerName = MapAttImpl.recreationFacilities;
+		String layerName = layerMapping.getRecreationFacilities();
 		double distance = 2000;
 
 		SimpleFeatureSource featureSource =  Config.getDefaultFactory().getDataStore(layerName).getFeatureSource(layerName);

@@ -16,12 +16,17 @@ import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import au.org.housing.model.LayerMapping;
 import au.org.housing.service.Config;
 import au.org.housing.utilities.GeoJSONUtilities;
 
 public class GeoJSONUtilitiesTest {
 
+	@Autowired
+	private LayerMapping layerMapping;
+	
 	public GeoJSONUtilitiesTest() {
 	}
 
@@ -46,7 +51,7 @@ public class GeoJSONUtilitiesTest {
 	
 	@Test
 	public void testreadFeaturesFromURL() throws IOException, URISyntaxException {	
-		String layerName = MapAttImpl.property;
+		String layerName = layerMapping.getProperty();
 		URL url = this.getClass().getResource("/geoJSON/Housing_"+layerName+".json");
 //		URL url = this.getClass().getResource("C:/Programming/Projects/Data/Property/GDA94_MGA_zone_55/Housing_"+layerName+".json");
 		
