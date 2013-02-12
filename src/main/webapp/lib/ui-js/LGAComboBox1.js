@@ -22,7 +22,6 @@ var lgaCombo1 = new Ext.form.ComboBox({
 			store : lgaStore1,
 			displayField : 'lgaName',
 			valueField : 'lgaCode',
-			typeAhead : true,
 			mode : 'local',
 			fieldLabel : 'LGA',
 			anchor : '50%',
@@ -32,7 +31,6 @@ var lgaCombo1 = new Ext.form.ComboBox({
 			emptyText : 'Select LGAs...',
 			selectOnFocus : true,
 			margin : '6 0 10 10',
-			typeAhead : true,
 			listeners : {
 				select : function(obj, records) {
 					selectedLGAs1 = [];

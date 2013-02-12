@@ -36,10 +36,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+import au.org.housing.config.DataStoreConfig;
+import au.org.housing.config.LayersConfig;
 import au.org.housing.exception.Messages;
-import au.org.housing.model.LayerMapping;
 import au.org.housing.model.ParameterDevelopPotential;
-import au.org.housing.service.Config;
 import au.org.housing.service.ExportService;
 import au.org.housing.service.FeatureBuilder;
 import au.org.housing.service.TransportationBufferService;
@@ -67,7 +67,7 @@ public class PropertyFilterServiceTest {
 	private FeatureBuilder featureBuilder;
 	
 	@Autowired
-	private LayerMapping layerMapping;
+	private LayersConfig layerMapping;
 
 	@Autowired
 	private TransportationBufferService transportationBufferService;
@@ -201,7 +201,7 @@ public class PropertyFilterServiceTest {
 	public void testPropertyCSDILA() throws Exception {
 		
 		ff = CommonFactoryFinder.getFilterFactory2(GeoTools.getDefaultHints());		
-		propertyFc = Config.getWFSFactory().getFeatureSource(layerMapping.getProperty());
+		propertyFc = DataStoreConfig.getWFSFactory().getFeatureSource(layerMapping.getProperty());
 		List<Filter> fs = new ArrayList<Filter>();
 		Filter filter = ff.equals(ff.property("pfi"),ff.literal("3539423"));// no inundation 
 		fs.add(filter);
@@ -225,8 +225,8 @@ public class PropertyFilterServiceTest {
 		File newFile = new File("C:/programming/Projects/Housing_"+ "Property_Value_NWMRLGAnew" +".shp");	      
 		exportService.featuresExportToShapeFile(propertyFc.getSchema(), properties, newFile, true);	
 		
-		planOverlayFc = Config.getDefaultFactory().getFeatureSource(layerMapping.getPlanOverlay());
-		planCodeListFc = Config.getDefaultFactory().getFeatureSource(layerMapping.getPlanCodes());
+		planOverlayFc = DataStoreConfig.getDefaultFactory().getFeatureSource(layerMapping.getPlanOverlay());
+		planCodeListFc = DataStoreConfig.getDefaultFactory().getFeatureSource(layerMapping.getPlanCodes());
 		this.overlayCollectionTest();
 		
 //		File jsonfile2 = new File(parentDirectory, "Housing_"+ "planOverlaynew" +".json"); 

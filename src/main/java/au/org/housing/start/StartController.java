@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import au.org.housing.config.DataStoreConfig;
+import au.org.housing.config.LayersConfig;
 import au.org.housing.model.AppCategoryOutcome;
 import au.org.housing.model.AttributeRepository;
 import au.org.housing.model.LGA;
-import au.org.housing.model.LayerMapping;
-import au.org.housing.model.LayerRepository;
-import au.org.housing.service.Config;
+import au.org.housing.service.PostGISService;
 import au.org.housing.service.impl.PropertyFilterServiceImpl;
 
 import com.vividsolutions.jts.io.ParseException;
@@ -46,13 +46,13 @@ public class StartController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PropertyFilterServiceImpl.class);
 
 	@Autowired
-	LayerRepository layerRepo;
-
-	@Autowired
 	AttributeRepository attRepo;
 
 	@Autowired
-	private LayerMapping layerMapping;
+	private LayersConfig layersConfig;
+	
+	@Autowired
+	private PostGISService postGISService;
 
 
 	@RequestMapping("/hello.html")	
@@ -85,13 +85,13 @@ public class StartController {
 	public @ResponseBody Map<String,? extends Object> loadAppCategories() throws Exception { 
 		List<AppCategoryOutcome> appCategories = new ArrayList<AppCategoryOutcome>();		 
 
-		SimpleFeatureSource fc =  Config.getDefaultFactory().getFeatureSource(layerMapping.getAppCategory());
+		SimpleFeatureSource fc =  postGISService.getFeatureSource(layersConfig.getAppCategory());
 		SimpleFeatureCollection collection = fc.getFeatures( );
 		SimpleFeatureIterator simpleFeatureIterator = collection.features();
 		while(simpleFeatureIterator.hasNext()){
 			SimpleFeature simpleFeature = simpleFeatureIterator.next();
-			Short code = (Short) simpleFeature.getAttribute(layerMapping.getAppCategory_code());
-			String desc = (String) simpleFeature.getAttribute(layerMapping.getAppCategory_desc());
+			Short code = (Short) simpleFeature.getAttribute(layersConfig.getAppCategory_code());
+			String desc = (String) simpleFeature.getAttribute(layersConfig.getAppCategory_desc());
 			appCategories.add(new AppCategoryOutcome(code,desc));
 		}				
 		HashMap<String, List<AppCategoryOutcome>> modelMap = new HashMap<String,List<AppCategoryOutcome>>();		
@@ -103,16 +103,19 @@ public class StartController {
 	@RequestMapping(value="getAppOutcomes.json", method = RequestMethod.GET)
 	public @ResponseBody Map<String,? extends Object> loadAppOutcomes() throws Exception { 
 		List<AppCategoryOutcome> appCategories = new ArrayList<AppCategoryOutcome>();		 
-
-		SimpleFeatureSource fc =  Config.getDefaultFactory().getFeatureSource(layerMapping.getAppOutcome());
+		try{
+		SimpleFeatureSource fc =  postGISService.getFeatureSource(layersConfig.getAppOutcome());
 		SimpleFeatureCollection collection = fc.getFeatures( );
 		SimpleFeatureIterator simpleFeatureIterator = collection.features();
 		while(simpleFeatureIterator.hasNext()){
 			SimpleFeature simpleFeature = simpleFeatureIterator.next();
-			Short code = (Short) simpleFeature.getAttribute(layerMapping.getAppOutcome_code());
-			String desc = (String) simpleFeature.getAttribute(layerMapping.getAppOutcome_desc());
+			Short code = (Short) simpleFeature.getAttribute(layersConfig.getAppOutcome_code());
+			String desc = (String) simpleFeature.getAttribute(layersConfig.getAppOutcome_desc());
 			appCategories.add(new AppCategoryOutcome(code,desc));
-		}				
+		}		
+		}catch(Exception e){
+			System.out.println("sdcflkjsjdfhnskdfhvk");
+		}
 		HashMap<String, List<AppCategoryOutcome>> modelMap = new HashMap<String,List<AppCategoryOutcome>>();		
 		modelMap.put("outcomes", appCategories);        
 		return modelMap;    	

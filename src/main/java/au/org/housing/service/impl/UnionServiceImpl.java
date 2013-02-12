@@ -50,8 +50,11 @@ public class UnionServiceImpl implements UnionService {
 		Geometry unionGeometry = null;
 		SimpleFeatureIterator i = null;		
 		try{
-			for (i = simpleFeatureCollection.features(); i.hasNext();) {				
+			for (i = simpleFeatureCollection.features(); i.hasNext();) {	
+				
 				SimpleFeature sf = i.next();
+				System.out.print(",   -------------"+ sf.getAttribute("objectid"));
+//				System.out.println();;
 				Geometry geometry = (Geometry) sf.getDefaultGeometry();
 //				if (!geometry.isValid()){
 //					Messages.setMessage(Messages._NOT_VALID);
@@ -70,9 +73,10 @@ public class UnionServiceImpl implements UnionService {
 			LOGGER.error(e.getMessage());			
 		}finally{
 			i.close(); 
+			System.out.println("finallyyyyyyyyyyyyyyyy");
 		}
 		
-		
+		System.out.println("returrrrrrrrrrrrrrrrrn");
 		return unionGeometry;
 	}
 

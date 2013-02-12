@@ -18,14 +18,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import au.org.housing.model.LayerMapping;
-import au.org.housing.service.Config;
+import au.org.housing.config.DataStoreConfig;
+import au.org.housing.config.LayersConfig;
 import au.org.housing.utilities.GeoJSONUtilities;
 
 public class GeoJSONUtilitiesTest {
 
 	@Autowired
-	private LayerMapping layerMapping;
+	private LayersConfig layerMapping;
 	
 	public GeoJSONUtilitiesTest() {
 	}

@@ -26,6 +26,9 @@ public class InitDevelopAssessmentImpl implements InitDevelopAssessment {
 		
 		parameter.setNumOfObjectionOperateor((String) params.get("numOfObjectionOperateorVal"));  
 		parameter.setNumOfObjection((Integer) params.get("numOfObjectionVal"));  
+		
+		System.out.println(parameter.getNumOfObjectionOperateor());
+		System.out.println(parameter.getNumOfObjection());
 
 		if ((Boolean) params.get("furtherInfoVal")){
 			parameter.setFurtherInfo(2);

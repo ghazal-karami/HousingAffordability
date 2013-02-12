@@ -10,7 +10,8 @@
 
 	<name>Our Spring test project</name>
 	<properties>
-		<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
+		<!-- <org.springframework.version>3.2.0.RELEASE</org.springframework.version> -->
+		<org.springframework.version>3.1.4.RELEASE</org.springframework.version>
 		<javax.servlet.jstl.version>1.2</javax.servlet.jstl.version>
 		<geotools.version>8.4</geotools.version>
 		<ektorp.version>1.2.2</ektorp.version>
@@ -21,6 +22,66 @@
 	</properties>
 
 	<dependencies>
+		<!-- ///////////////////// -->
+
+		<dependency>
+			<groupId>it.geosolutions</groupId>
+			<artifactId>geoserver-manager</artifactId>
+			<version>1.5.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.1</version>
+		</dependency>
+
+
+		<!-- <dependency> <groupId>commons-httpclient</groupId> <artifactId>commons-httpclient</artifactId> 
+			<version>3.1</version> </dependency> -->
+
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.5.11</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> 
+			<version>${slf4jVersion}</version> </dependency> -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.5.11</version>
+
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.5.11</version>
+		</dependency>
+
+
+		<!-- ///////////////////// -->
+
 		<dependency>
 			<groupId>org.ektorp</groupId>
 			<artifactId>org.ektorp</artifactId>
@@ -36,10 +97,7 @@
 			<artifactId>joda-time</artifactId>
 			<version>1.6.1</version>
 		</dependency>
-		
 
-      
-      
 		<dependency>
 			<groupId>org.kubek2k</groupId>
 			<artifactId>springockito-annotations</artifactId>
@@ -66,24 +124,8 @@
 		</dependency>
 
 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4jVersion}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>${slf4jVersion}</version>
-		</dependency>
-
-
-<!-- <dependency>
-	<groupId>org.codehaus.jackson</groupId>
-	<artifactId>jackson-jaxrs</artifactId>
-	<version>1.9.11</version>
-</dependency> -->
+		<!-- <dependency> <groupId>org.codehaus.jackson</groupId> <artifactId>jackson-jaxrs</artifactId> 
+			<version>1.9.11</version> </dependency> -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
@@ -99,24 +141,14 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.0.0</version>
 		</dependency>
-		<!-- <dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.9.11</version>
-		</dependency> -->
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.2.1</version>
-		</dependency>
+		<!-- <dependency> <groupId>org.codehaus.jackson</groupId> <artifactId>jackson-mapper-asl</artifactId> 
+			<version>1.9.11</version> </dependency> -->
 
 		<dependency>
 			<groupId>org.geotools</groupId>
 			<artifactId>gt-geojson</artifactId>
 			<version>${geotools.version}</version>
 		</dependency>
-
-		
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -141,16 +173,30 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>3.1.3.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>3.1.3.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>3.1.3.RELEASE</version>
+		</dependency>
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>${javax.servlet.jstl.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
-		</dependency>
+		<!-- <dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> 
+			<version>1.2.16</version> </dependency> -->
 
 		<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> 
 			</dependency> <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-log4j12</artifactId> 
@@ -396,6 +442,22 @@
 			<artifactId>net.opengis.ows</artifactId>
 			<version>${geotools.version}</version>
 		</dependency>
+
+
+		<dependency>
+			<groupId>org.geotools.xsd</groupId>
+			<artifactId>gt-xsd-ows</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.geotools.ogc</groupId>
+			<artifactId>net.opengis.ows</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+
+
+
+
 		<dependency>
 			<groupId>org.geotools.ogc</groupId>
 			<artifactId>net.opengis.wfs</artifactId>
@@ -435,7 +497,24 @@
 			<version>0.5</version>
 		</dependency>
 
-
+		<!-- <dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlets</artifactId>
+			<version>8.1.8.v20121106</version>
+		</dependency> -->
+		
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>1.4</version>
+		</dependency>
+        <dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlets</artifactId>
+			<version>8.1.8.v20121106</version>
+		</dependency>
+		
+		    
 		<!-- <dependency> <groupId>org.geoserver</groupId> <artifactId>main</artifactId> 
 			<version>2.2.x</version> </dependency> -->
 	</dependencies>
@@ -472,6 +551,24 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				 <artifactId>jetty-maven-plugin</artifactId> 
+ 				<version>8.1.8.v20121106</version> 
+ 				<!-- <artifactId>maven-jetty-plugin</artifactId>
+				<version>6.1.26</version> --> 
+				<configuration>
+              	  <webAppConfig>
+                  
+                  	<defaultsDescriptor>webdefault.xml</defaultsDescriptor>
+                	</webAppConfig>
+           		 <webApp>
+     				 <contextPath>/housing</contextPath>
+    				</webApp>
+           		 </configuration>
+			</plugin>
+			
+			
 		</plugins>
 		<resources>
 			<resource>
@@ -526,11 +623,11 @@
 		</repository>
 
 
-
-
-
-
-
+		<repository>
+			<id>geo-solutions</id>
+			<name>Geoserver Repository</name>
+			<url>http://maven.geo-solutions.it/</url>
+		</repository>
 
 
 	</repositories>

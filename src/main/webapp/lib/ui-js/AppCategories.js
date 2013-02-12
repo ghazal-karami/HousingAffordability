@@ -27,6 +27,7 @@ var categoriesGrid = Ext.create('Ext.grid.Panel', {
 						dataIndex : 'desc',
 						flex : 1
 					}],
-			height : 312,
-			anchor : '100%'
+			height : 200,
+			anchor : '100%',
+			margin : '8 10 5 0'
 		});

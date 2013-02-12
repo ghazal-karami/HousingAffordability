@@ -1,52 +1,79 @@
 package au.org.housing.service.impl;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PreDestroy;
 
+import org.geotools.data.DataSourceException;
 import org.geotools.data.DataStore;
 import org.geotools.data.DataStoreFinder;
-import org.geotools.data.DataUtilities;
-import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureSource;
+import org.postgresql.util.PSQLException;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import au.org.housing.config.PostGisConfig;
+import au.org.housing.exception.Messages;
 import au.org.housing.service.DataStoreFactory;
-import au.org.housing.utilities.GeoJSONUtilities;
+import au.org.housing.service.PostGISService;
+
 
 public class PostGISDataStoreFactoryImpl implements DataStoreFactory {
 	private DataStore dataStore = null;
 	
+	
 	@PreDestroy
 	public void dipose(){
+		dataStore = null;
 		dataStore.dispose();
 	}
 
-	@Override
-	public SimpleFeatureSource getFeatureSource(String layerName) throws IOException {
-		return getDataStore(layerName).getFeatureSource(layerName);
+
+	public SimpleFeatureSource getFeatureSource(String layerName) throws IOException, PSQLException {
+		if (getDataStore(layerName) == null){
+			return null;
+		}
+		try{
+			return dataStore.getFeatureSource(layerName);
+		}catch (NullPointerException e) {
+			Messages.setMessage(Messages._NOT_FIND_REQUIRED_LAYER);
+			return null;
+		}		
 	}
 
-	@Override
-	public DataStore getDataStore(String layername) throws IOException {
-			return getPOSTGISDataStore();
+
+	public DataStore getDataStore(String layername) throws IOException, PSQLException {
+		return getPOSTGISDataStore() ;
 	}
-	
-	public DataStore getPOSTGISDataStore() throws IOException {
-		if (this.dataStore == null) {
-			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("dbtype", "postgis");
-			params.put("host", "localhost");
-			params.put("port", 5432);
-			params.put("schema", "public");
-//			 params.put("database", "housing_4283");
-			params.put("database", "housingmetric");
-			params.put("user", "postgres");
-			params.put("passwd", "1q2w3e4r");
-			dataStore = DataStoreFinder.getDataStore(params);
-		}
+
+	public DataStore getPOSTGISDataStore() throws IOException, PSQLException {
+//		try{
+//			if (this.dataStore == null) {//			
+////				Map<String, Object> params = new HashMap<String, Object>();
+////				params.put("dbtype", postGisConfig.getPostgis_type());
+////				params.put("host", postGisConfig.getPostgis_host());
+////				params.put("port", postGisConfig.getPostgis_port());
+////				params.put("schema", "public");
+////				params.put("database", "housing_metric");
+////				params.put("user", "postgres");
+////				params.put("passwd", "1q2w3e4r");
+////				dataStore = DataStoreFinder.getDataStore(params);
+//
+//				//			params.put("dbtype", postGisConfig.getPostgis_type());
+//				//			params.put("host", postGisConfig.getPostgis_host());
+//				//			params.put("port", postGisConfig.getPostgis_port());
+//				//			params.put("schema", postGisConfig.getPostgis_schema());
+//				//			params.put("database", postGisConfig.getPostgis_database());
+//				//			params.put("user", postGisConfig.getPostgis_user());
+//				//			params.put("passwd", postGisConfig.getPostgis_passwd());
+//				dataStore = DataStoreFinder.getDataStore(params);
+//			}
+//		}catch (DataSourceException e1) {
+//			Messages.setMessage(Messages._CONN_POSTGIS_FAILED);			
+//		}catch (Exception e2) {
+//			Messages.setMessage(Messages._CONN_POSTGIS_FAILED);			
+//		}
 		return this.dataStore;
 	}
 

@@ -7,16 +7,17 @@ import java.util.Collection;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
+import org.postgresql.util.PSQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import au.org.housing.config.DataStoreConfig;
+import au.org.housing.config.LayersConfig;
 import au.org.housing.exception.LayerValidationException;
-import au.org.housing.model.LayerMapping;
 import au.org.housing.model.ParameterDevelopPotential;
 import au.org.housing.service.BufferService;
-import au.org.housing.service.Config;
 import au.org.housing.service.FacilitiesBufferService;
 import au.org.housing.service.UnionService;
 import au.org.housing.service.ValidationService;
@@ -41,9 +42,9 @@ public class FacilitiesBufferServiceImpl implements FacilitiesBufferService {
 	private ValidationService validationService;
 	
 	@Autowired
-	private LayerMapping layerMapping;
+	private LayersConfig layerMapping;
 	
-	public Geometry generateFacilityBuffer() throws NoSuchAuthorityCodeException, IOException, FactoryException, URISyntaxException, LayerValidationException{
+	public Geometry generateFacilityBuffer() throws NoSuchAuthorityCodeException, IOException, FactoryException, URISyntaxException, LayerValidationException, PSQLException{
 		Geometry intersected = null;		
 		if (parameter.getEducation_BufferDistance() != 0){
 			intersected = analyse(intersected, layerMapping.getEducationFacilities(), parameter.getEducation_BufferDistance());
@@ -63,9 +64,9 @@ public class FacilitiesBufferServiceImpl implements FacilitiesBufferService {
 		return intersected;
 	}
 
-	private Geometry analyse(Geometry intersected, String layerName , Integer distance) throws IOException, NoSuchAuthorityCodeException, FactoryException, URISyntaxException, LayerValidationException{
+	private Geometry analyse(Geometry intersected, String layerName , Integer distance) throws IOException, NoSuchAuthorityCodeException, FactoryException, URISyntaxException, LayerValidationException, PSQLException{
 //		SimpleFeatureSource fc = Config.getDefaultFactory().getFeatureSource(layerName);
-		SimpleFeatureSource fc =  (SimpleFeatureSource) Config.getGeoJSONFileFactory().getFeatureSource(layerName);
+		SimpleFeatureSource fc =  (SimpleFeatureSource) DataStoreConfig.getDefaultFactory().getFeatureSource(layerName);
 		if ( validationService.isPolygon(fc, layerName) && validationService.isMetric(fc, layerName) ){
 			LOGGER.info("distance "+ distance);
 			Collection<Geometry> bufferCollection = bufferService.createFeaturesBuffer(fc.getFeatures(), distance, layerName);

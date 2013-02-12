@@ -1,8 +1,6 @@
 package au.org.housing.service;
 
-import au.org.housing.service.impl.GeoJSONFileFactoryImpl;
 import au.org.housing.service.impl.PostGISDataStoreFactoryImpl;
-import au.org.housing.service.impl.ShapeFileFactoryImpl;
 import au.org.housing.service.impl.WFSDataStoreFactoryImpl;
 
 public class DataStoreFactoryBuilder {
@@ -23,16 +21,6 @@ public class DataStoreFactoryBuilder {
 			if (_PostGISDataStoreFactoryImpl==null)	
 				_PostGISDataStoreFactoryImpl = new PostGISDataStoreFactoryImpl();
 			return _PostGISDataStoreFactoryImpl;
-		}
-		if ("GeoJSONFileFactory".equals(buildername)){
-			if (_GeoJSONFileFactoryImpl==null)	
-				_GeoJSONFileFactoryImpl = new GeoJSONFileFactoryImpl();
-			return _GeoJSONFileFactoryImpl;
-		}
-		if ("ShapeFileFactory".equals(buildername)){
-			if (_ShapeFileFactoryImpl==null)	
-				_ShapeFileFactoryImpl = new ShapeFileFactoryImpl();
-			return _ShapeFileFactoryImpl;
 		}
 		return null;
 	}

@@ -17,9 +17,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import au.org.housing.config.LayersConfig;
 import au.org.housing.controller.HousingController;
 import au.org.housing.exception.Messages;
-import au.org.housing.model.LayerMapping;
 import au.org.housing.service.ValidationService;
 
 import com.vividsolutions.jts.geom.Geometry;
@@ -36,7 +36,7 @@ public class ValidationServiceImpl implements ValidationService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HousingController.class);
 
 	@Autowired
-	private LayerMapping layerMapping;
+	private LayersConfig layerMapping;
 	
 	public boolean isMetric(SimpleFeatureSource fc, String layerName) { 
 		CoordinateReferenceSystem crs = fc.getSchema().getGeometryDescriptor().getCoordinateReferenceSystem();
@@ -45,7 +45,6 @@ public class ValidationServiceImpl implements ValidationService {
 			LOGGER.info(layerName + " layer does not contain required attributes!");	
 			Messages.setMessage(layerName + Messages._NOT_METRIC);
 			return false;
-//			ForceCoordinateSystemFeatureResults h;
 		}
 		return true;
 	}
@@ -57,20 +56,17 @@ public class ValidationServiceImpl implements ValidationService {
 		if (svCurrentYearAtt == null ||
 				civCurrentYearAtt == null ||
 				zoningAtt == null ){
-		LOGGER.debug(layerName + " layer does not contain required attributes!");	
+			LOGGER.error(layerName + " layer does not contain required attributes!");	
 			Messages.setMessage(layerName + " " + Messages._NOT_HAVE_REQUIRED_FIELDS);
 			return false;
-		}
-		
-		LOGGER.info(svCurrentYearAtt + " svCurrentYearAtt");	
-		
+		}		
 		return true;
 	}
 
 	public boolean planOverlayValidated(SimpleFeatureSource planOverlayFc, String layerName) { 
 		AttributeDescriptor planOverlay_zoneCodeAtt = planOverlayFc.getSchema().getDescriptor(layerMapping.getPlanOverlay_zoneCode());
 		if (planOverlay_zoneCodeAtt == null){
-			LOGGER.debug(layerName + " layer does not contain required attributes!");	
+			LOGGER.error(layerName + " layer does not contain required attributes!");	
 			Messages.setMessage(layerName + " " + Messages._NOT_HAVE_REQUIRED_FIELDS);
 			return false;
 		}
@@ -82,7 +78,7 @@ public class ValidationServiceImpl implements ValidationService {
 		AttributeDescriptor planCodes_group1Att = planCodeListFc.getSchema().getDescriptor(layerMapping.getPlanCodes_group1());
 		if (planCodes_zoneCodeAtt == null ||
 				planCodes_group1Att == null ){
-			LOGGER.debug(layerName + " layer does not contain required attributes!");	
+			LOGGER.error(layerName + " layer does not contain required attributes!");	
 			Messages.setMessage(layerName + " " + Messages._NOT_HAVE_REQUIRED_FIELDS);
 			return false;
 		}
@@ -94,7 +90,7 @@ public class ValidationServiceImpl implements ValidationService {
 		AttributeDescriptor zonecodes_group1Att = zonecodesFc.getSchema().getDescriptor(layerMapping.getZonecodes_group1());
 		if (zonecodes_zoneCodeAtt == null ||
 				zonecodes_group1Att == null ){
-			LOGGER.debug(layerName + " layer does not contain required attributes!");		
+			LOGGER.error(layerName + " layer does not contain required attributes!");		
 			Messages.setMessage(layerName + " " + Messages._NOT_HAVE_REQUIRED_FIELDS);
 			return false;
 		}
@@ -106,7 +102,7 @@ public class ValidationServiceImpl implements ValidationService {
 		if (geometry instanceof Polygon || geometry instanceof MultiPolygon){
 			return true;
 		}
-		LOGGER.debug(layerName + " layer is not Polygon");
+		LOGGER.error(layerName + " layer is not Polygon");
 		Messages.setMessage(layerName + " " + Messages._NOT_POLYGON);
 		return false;
 	}
@@ -116,7 +112,7 @@ public class ValidationServiceImpl implements ValidationService {
 		if (geometry instanceof LineString || geometry instanceof MultiLineString){
 			return true;
 		}	
-		LOGGER.debug(layerName + " layer is not Line");
+		LOGGER.error(layerName + " layer is not Line");
 		Messages.setMessage(layerName + " " + Messages._NOT_LINE);
 		return false;
 	}
@@ -126,7 +122,7 @@ public class ValidationServiceImpl implements ValidationService {
 		if (geometry instanceof Point || geometry instanceof MultiPoint){
 			return true;
 		}
-		LOGGER.debug(layerName + " layer is not Point");
+		LOGGER.error(layerName + " layer is not Point");
 		Messages.setMessage(layerName + " " + Messages._NOT_POINT);
 		return false;
 	}

@@ -15,13 +15,13 @@ import org.geotools.data.wfs.WFSDataStoreFactory;
 import org.geotools.data.wfs.v1_1_0.WFS_1_1_0_DataStore;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import au.org.housing.model.LayerMapping;
+import au.org.housing.config.LayersConfig;
 import au.org.housing.service.DataStoreFactory;
 
 public class WFSDataStoreFactoryImpl implements DataStoreFactory {
 
 	@Autowired
-	private LayerMapping layerMapping;
+	private LayersConfig layerMapping;
 	
 	private DataStore DSEDataStore = null;
 	private DataStore CSDILADataStore = null;

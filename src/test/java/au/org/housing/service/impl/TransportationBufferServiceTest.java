@@ -52,37 +52,37 @@ public class TransportationBufferServiceTest {
 	public TransportationBufferServiceTest() {
 	}
 
-	@Before
-	public void setUp() throws Exception {
-		transportationBufferServiceImpl = new TransportationBufferServiceImpl();
-		Whitebox.setInternalState( transportationBufferServiceImpl, "validationService", validationService );
-		Whitebox.setInternalState( transportationBufferServiceImpl, "bufferService", bufferService );
-		Whitebox.setInternalState( transportationBufferServiceImpl, "unionService", unionService );
-		Whitebox.setInternalState( transportationBufferServiceImpl, "parameter", parameter );
-	}
-
-	@Test
-	public void testGenerateTranportBuffer() throws NoSuchAuthorityCodeException, IOException, FactoryException, URISyntaxException {
-		Geometry union = null;	
-		
-		parameter.setTrain_St_BufferDistance(2000);
-		parameter.setTrain_Rt_BufferDistance(2000);
-		parameter.setTram_Rt_BufferDistance(0);	
-
-		union =	transportationBufferServiceImpl.generateTranportBuffer();
-		assertNotNull(union);
-		SimpleFeature feature = featureBuilder.buildFeature(union);
-		
-		URL url = this.getClass().getResource("/geoJSON");
-		File parentDirectory = new File(new URI(url.toString()));		
-		File jsonfile = new File(parentDirectory, "Housing_transportBuffer.json"); 
-
-		GeoJSONUtilities.writeFeature(feature, jsonfile);
-		
-		DefaultFeatureCollection featureCollection = (DefaultFeatureCollection) FeatureCollections.newCollection();
-		featureCollection.add(feature);
-//		File newFile = new File("C:/programming/Housing_facilityBuffer.shp");	      
-		File shpFile = new File(parentDirectory, "Housing_transportBuffer.shp");	     
-		exportService.featuresExportToShapeFile(featureBuilder.getType(), featureCollection, shpFile, true);		
-	}
+//	@Before
+//	public void setUp() throws Exception {
+//		transportationBufferServiceImpl = new TransportationBufferServiceImpl();
+//		Whitebox.setInternalState( transportationBufferServiceImpl, "validationService", validationService );
+//		Whitebox.setInternalState( transportationBufferServiceImpl, "bufferService", bufferService );
+//		Whitebox.setInternalState( transportationBufferServiceImpl, "unionService", unionService );
+//		Whitebox.setInternalState( transportationBufferServiceImpl, "parameter", parameter );
+//	}
+//
+//	@Test
+//	public void testGenerateTranportBuffer() throws NoSuchAuthorityCodeException, IOException, FactoryException, URISyntaxException {
+//		Geometry union = null;	
+//		
+//		parameter.setTrain_St_BufferDistance(2000);
+//		parameter.setTrain_Rt_BufferDistance(2000);
+//		parameter.setTram_Rt_BufferDistance(0);	
+//
+//		union =	transportationBufferServiceImpl.generateTranportBuffer();
+//		assertNotNull(union);
+//		SimpleFeature feature = featureBuilder.buildFeature(union);
+//		
+//		URL url = this.getClass().getResource("/geoJSON");
+//		File parentDirectory = new File(new URI(url.toString()));		
+//		File jsonfile = new File(parentDirectory, "Housing_transportBuffer.json"); 
+//
+//		GeoJSONUtilities.writeFeature(feature, jsonfile);
+//		
+//		DefaultFeatureCollection featureCollection = (DefaultFeatureCollection) FeatureCollections.newCollection();
+//		featureCollection.add(feature);
+////		File newFile = new File("C:/programming/Housing_facilityBuffer.shp");	      
+//		File shpFile = new File(parentDirectory, "Housing_transportBuffer.shp");	     
+//		exportService.featuresExportToShapeFile(featureBuilder.getType(), featureCollection, shpFile, true);		
+//	}
 }

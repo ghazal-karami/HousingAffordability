@@ -30,22 +30,38 @@ import org.springframework.stereotype.Component;
 @Component
 public class ParameterDevelopPotential {
 
-	private List<Integer> selectedLGAs;	
+	private List<String> selectedLGAs;	
 
 	Float dpiVal = Float.valueOf(0);
 
 	Float dpi = Float.valueOf(0);	
+	String dpiOperateorVal;
 
+	
 	Integer train_St_BufferDistance = 0 ;  	
+	
+	
 	Integer train_Rt_BufferDistance = 0;  
+	
+	
 	Integer tram_Rt_BufferDistance = 0;  
+	
 
 	Integer education_BufferDistance = 0;  
+	
+	
 	Integer recreation_BufferDistance = 0;  
+	
+	
 	Integer medical_BufferDistance = 0;  
+	
+	
 	Integer community_BufferDistance = 0;  
-	Integer utility_BufferDistance = 0;  
-
+	
+	
+	Integer utility_BufferDistance = 0; 
+	
+	
 	Boolean residential = false; 
 	Boolean business = false;
 	Boolean rural = false;
@@ -260,10 +276,10 @@ public class ParameterDevelopPotential {
 		this.utility_BufferDistance = utility_BufferDistance;
 	}
 
-	public List<Integer> getSelectedLGAs() {
+	public List<String> getSelectedLGAs() {
 		return selectedLGAs;
 	}
-	public void setSelectedLGAs(List<Integer> selectedLGAs) {
+	public void setSelectedLGAs(List<String> selectedLGAs) {
 		this.selectedLGAs = selectedLGAs;
 	}
 
@@ -273,4 +289,13 @@ public class ParameterDevelopPotential {
 	public void setDpiVal(Float dpiVal) {
 		this.dpiVal = dpiVal;
 	}
+	
+	public String getDpiOperateorVal() {
+		return dpiOperateorVal;
+	}
+	public void setDpiOperateorVal(String dpiOperateorVal) {
+		this.dpiOperateorVal = dpiOperateorVal;
+	}
+	
+	
 }

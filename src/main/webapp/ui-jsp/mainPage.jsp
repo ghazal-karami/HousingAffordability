@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,9 +17,13 @@
 	rel="stylesheet" type="text/css" />
 
 <script src="https://apps.aurin.org.au/assets/js/extjs-4.1.0/ext-all.js"></script>
-
+<!-- <script src="https://apps.aurin.org.au/assets/js/extjs-4.1.0/bootstrap.js"></script>
+<script type="https://apps.aurin.org.au/assets/js/extjs-4.1.0/ext-all-debug.js"></script> -->
+<script type="https://apps.aurin.org.au/assets/js/extjs-4.1.0/ext-all-dev.js"></script>
+<script type="http://api.geoext.org/1.1/examples/mappanel-window.js"></script>
 
 <script src="https://apps.aurin.org.au/assets/js/sprintf/sprintf-0.6.js"></script>
+
 <script
 	src="https://apps.aurin.org.au/assets/js/extjs-4.1.0/ux/CheckColumn.js"></script>
 <script
@@ -39,15 +45,12 @@
 <script src="/housing/lib/common/OpenLayers/Aura/Control/Legend.js"></script>
 <script src="/housing/lib/common/undertow/undertow.js"></script>
 <!-- OpenLayers core js -->
-<script src="http://www.openlayers.org/dev/OpenLayers.js">
-	
-</script>
+<script src="http://www.openlayers.org/dev/OpenLayers.js"></script>
 
 <!-- OpenStreetMap base layer js -->
 <script src="http://www.openstreetmap.org/openlayers/OpenStreetMap.js"></script>
 
 <!-- Google Maps -->
-
 
 <script src="/housing/lib/ui-js/OperatorsComboBox.js"></script>
 <script src="/housing/lib/ui-js/LGAComboBox1.js"></script>
@@ -57,7 +60,6 @@
 <script src="/housing/lib/ui-js/Development_Potential.js"></script>
 <script src="/housing/lib/ui-js/Development_Assessment.js"></script>
 <script src="/housing/lib/ui-js/mainPage.js"></script>
-
 
 </head>
 

@@ -8,16 +8,17 @@ import java.util.Collection;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
+import org.postgresql.util.PSQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import au.org.housing.model.LayerMapping;
+import au.org.housing.config.DataStoreConfig;
+import au.org.housing.config.LayersConfig;
 
 import au.org.housing.model.ParameterDevelopPotential;
 import au.org.housing.service.BufferService;
-import au.org.housing.service.Config;
 import au.org.housing.service.TransportationBufferService;
 import au.org.housing.service.UnionService;
 import au.org.housing.service.ValidationService;
@@ -44,7 +45,7 @@ public class TransportationBufferServiceImpl implements
 	private ValidationService validationService;
 
 	@Autowired
-	private LayerMapping layerMapping;
+	private LayersConfig layerMapping;
 
 	SimpleFeatureSource trainStationFc;
 	SimpleFeatureSource trainRouteFc;
@@ -54,14 +55,12 @@ public class TransportationBufferServiceImpl implements
 
 	public Geometry generateTranportBuffer()
 			throws NoSuchAuthorityCodeException, IOException, FactoryException,
-			URISyntaxException {
+			URISyntaxException, PSQLException {
 
 		trasportationbufferCollection = new ArrayList<Geometry>();
 
 		if (parameter.getTrain_St_BufferDistance() != 0) {
-			// trainStationFc =
-			// Config.getDefaultFactory().getFeatureSource(layerMapping.trainStation);
-			trainStationFc = Config.getGeoJSONFileFactory().getFeatureSource(
+			trainStationFc = DataStoreConfig.getDefaultFactory().getFeatureSource(
 					layerMapping.getTrainStation());
 			if (validationService.isPoint(trainStationFc,
 					layerMapping.getTrainStation())
@@ -77,7 +76,7 @@ public class TransportationBufferServiceImpl implements
 			}
 		}
 		if (parameter.getTrain_Rt_BufferDistance() != 0) {
-			trainRouteFc = Config.getGeoJSONFileFactory().getFeatureSource(
+			trainRouteFc = DataStoreConfig.getDefaultFactory().getFeatureSource(
 					layerMapping.getTrainRoute());
 			if (validationService.isLine(trainRouteFc,
 					layerMapping.getTrainRoute())
@@ -93,7 +92,7 @@ public class TransportationBufferServiceImpl implements
 			}
 		}
 		if (parameter.getTram_Rt_BufferDistance() != 0) {
-			tramRouteFc = Config.getGeoJSONFileFactory().getFeatureSource(
+			tramRouteFc = DataStoreConfig.getDefaultFactory().getFeatureSource(
 					layerMapping.getTramRoute());
 			if (validationService.isLine(tramRouteFc,
 					layerMapping.getTramRoute())

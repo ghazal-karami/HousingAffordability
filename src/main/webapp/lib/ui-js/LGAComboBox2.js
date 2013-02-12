@@ -17,8 +17,6 @@ var selectedLGAs2 = [];
 
 var lgaCombo2 = new Ext.form.ComboBox({
 			id : 'lgaCombo2',
-			name : 'sdfv',
-
 			forceSelection: true,
 			allowBlank : false,
 			labelWidth : 50,

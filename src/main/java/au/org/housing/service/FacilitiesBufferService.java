@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
+import org.postgresql.util.PSQLException;
 
 import au.org.housing.exception.LayerValidationException;
 
@@ -14,5 +15,5 @@ public interface FacilitiesBufferService {
 
 	public Geometry generateFacilityBuffer()
 			throws NoSuchAuthorityCodeException, IOException, FactoryException,
-			URISyntaxException, LayerValidationException;
+			URISyntaxException, LayerValidationException, PSQLException;
 }

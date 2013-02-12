@@ -19,9 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import au.org.housing.config.DataStoreConfig;
+import au.org.housing.config.LayersConfig;
 import au.org.housing.exception.Messages;
-import au.org.housing.model.LayerMapping;
-import au.org.housing.service.Config;
 import au.org.housing.service.ExportService;
 import au.org.housing.service.FeatureBuilder;
 
@@ -36,7 +36,7 @@ public class BufferServiceTest {
 	@Autowired FeatureBuilder featureBuilder;
 	
 	@Autowired
-	private LayerMapping layerMapping;
+	private LayersConfig layerMapping;
 
 	public BufferServiceTest() {
 	}
@@ -44,27 +44,27 @@ public class BufferServiceTest {
 	@Test
 	public void testCreateFeaturesBuffer() throws IOException, NoSuchAuthorityCodeException, FactoryException, URISyntaxException {
 
-//		String layerName = MapAttImpl.trainStation;
-//		String layerName = MapAttImpl.educationFacilities;
-		String layerName = layerMapping.getRecreationFacilities();
-		double distance = 2000;
-
-		SimpleFeatureSource featureSource =  Config.getDefaultFactory().getDataStore(layerName).getFeatureSource(layerName);
-		assertNotNull(featureSource);
-		SimpleFeatureCollection features = featureSource.getFeatures();
-		assertNotEquals(features.size(), 0);
-
-		BufferServiceImpl bufferServiceImpl = new BufferServiceImpl();
-		Collection<Geometry> bufferCollection = bufferServiceImpl.createFeaturesBuffer(features, distance, layerName);
-		
-		assertNotEquals(Messages.getMessage(), Messages._NOT_VALID);
-		
-		assertNotSame(bufferCollection.size(), new Integer(0));
-				
-		SimpleFeatureCollection featureCollection = featureBuilder.buildFeatureCollection(bufferCollection);
-		assertNotEquals(featureCollection.size(), 0);
-		
-		File newFile = new File("C:/programming/Housing_"+ layerName +".shp");	      
-		exportService.featuresExportToShapeFile(featureBuilder.getType(), featureCollection, newFile, true);		
+////		String layerName = MapAttImpl.trainStation;
+////		String layerName = MapAttImpl.educationFacilities;
+//		String layerName = layerMapping.getRecreationFacilities();
+//		double distance = 2000;
+//
+//		SimpleFeatureSource featureSource =  DataStoreConfig.getDefaultFactory().getDataStore(layerName).getFeatureSource(layerName);
+//		assertNotNull(featureSource);
+//		SimpleFeatureCollection features = featureSource.getFeatures();
+//		assertNotEquals(features.size(), 0);
+//
+//		BufferServiceImpl bufferServiceImpl = new BufferServiceImpl();
+//		Collection<Geometry> bufferCollection = bufferServiceImpl.createFeaturesBuffer(features, distance, layerName);
+//		
+//		assertNotEquals(Messages.getMessage(), Messages._NOT_VALID);
+//		
+//		assertNotSame(bufferCollection.size(), new Integer(0));
+//				
+//		SimpleFeatureCollection featureCollection = featureBuilder.buildFeatureCollection(bufferCollection);
+//		assertNotEquals(featureCollection.size(), 0);
+//		
+//		File newFile = new File("C:/programming/Housing_"+ layerName +".shp");	      
+//		exportService.featuresExportToShapeFile(featureSource.getSchema(), features, newFile, true);		
 	}	
 }

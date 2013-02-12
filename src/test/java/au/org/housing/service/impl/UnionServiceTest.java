@@ -22,9 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import au.org.housing.config.DataStoreConfig;
+import au.org.housing.config.LayersConfig;
 import au.org.housing.exception.Messages;
-import au.org.housing.model.LayerMapping;
-import au.org.housing.service.Config;
 import au.org.housing.service.ExportService;
 import au.org.housing.service.FeatureBuilder;
 
@@ -39,7 +39,7 @@ public class UnionServiceTest {
 	@Autowired FeatureBuilder featureBuilder;
 	
 	@Autowired
-	private LayerMapping layerMapping;
+	private LayersConfig layerMapping;
 
 
 	public UnionServiceTest() {
@@ -49,37 +49,37 @@ public class UnionServiceTest {
 	public void setUp() throws Exception {
 	}
 
-	@Test
-	public void testCreateUnionGeometryCollection() throws IOException, NoSuchAuthorityCodeException, FactoryException {
-
-		Collection<Geometry> bufferCollection = new ArrayList<Geometry>();
-		String layerName = layerMapping.getEducationFacilities();
-		SimpleFeatureSource featureSource =  Config.getDefaultFactory().getDataStore(layerName).getFeatureSource(layerName);
-		assertNotNull(featureSource);
-		SimpleFeatureCollection features = featureSource.getFeatures();
-		SimpleFeatureIterator it = features.features();
-		try {
-			while (it.hasNext()) {
-				SimpleFeature simpleFeature = it.next(); 
-				Geometry featureGeometry = (Geometry) simpleFeature.getDefaultGeometryProperty().getValue();
-				if (!featureGeometry.isValid()){
-					fail();
-				}
-				bufferCollection.add(featureGeometry);				
-			}
-		} finally {
-			it.close(); 
-		}		
-		assertNotNull(bufferCollection);
-		UnionServiceImpl unionServiceImpl = new UnionServiceImpl();
-		Geometry geometry = unionServiceImpl.createUnion(bufferCollection);
-		assertNotEquals(Messages.getMessage(), Messages._NOT_VALID);
-		DefaultFeatureCollection featureCollection = (DefaultFeatureCollection) FeatureCollections.newCollection();
-		featureCollection.add(featureBuilder.buildFeature(geometry));
-		assertNotEquals(featureCollection.size(), 0);
-		File newFile = new File("C:/programming/Housing_"+ layerName +"_Union.shp");	      
-		exportService.featuresExportToShapeFile(featureBuilder.getType(), featureCollection, newFile, true);		
-
-	}
+//	@Test
+//	public void testCreateUnionGeometryCollection() throws IOException, NoSuchAuthorityCodeException, FactoryException {
+//
+//		Collection<Geometry> bufferCollection = new ArrayList<Geometry>();
+//		String layerName = layerMapping.getEducationFacilities();
+//		SimpleFeatureSource featureSource =  DataStoreConfig.getDefaultFactory().getDataStore(layerName).getFeatureSource(layerName);
+//		assertNotNull(featureSource);
+//		SimpleFeatureCollection features = featureSource.getFeatures();
+//		SimpleFeatureIterator it = features.features();
+//		try {
+//			while (it.hasNext()) {
+//				SimpleFeature simpleFeature = it.next(); 
+//				Geometry featureGeometry = (Geometry) simpleFeature.getDefaultGeometryProperty().getValue();
+//				if (!featureGeometry.isValid()){
+//					fail();
+//				}
+//				bufferCollection.add(featureGeometry);				
+//			}
+//		} finally {
+//			it.close(); 
+//		}		
+//		assertNotNull(bufferCollection);
+//		UnionServiceImpl unionServiceImpl = new UnionServiceImpl();
+//		Geometry geometry = unionServiceImpl.createUnion(bufferCollection);
+//		assertNotEquals(Messages.getMessage(), Messages._NOT_VALID);
+//		DefaultFeatureCollection featureCollection = (DefaultFeatureCollection) FeatureCollections.newCollection();
+//		featureCollection.add(featureBuilder.buildFeature(geometry));
+//		assertNotEquals(featureCollection.size(), 0);
+//		File newFile = new File("C:/programming/Housing_"+ layerName +"_Union.shp");	      
+//		exportService.featuresExportToShapeFile(featureBuilder.getType(), featureCollection, newFile, true);		
+//
+//	}
 
 }

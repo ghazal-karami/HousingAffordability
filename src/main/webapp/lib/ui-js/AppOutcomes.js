@@ -13,6 +13,7 @@ var outcomesStore = Ext.create('Ext.data.Store', {
 			}
 		});
 
+
 var selectedOutcome = -1;
 var outcomesGrid = Ext.create('Ext.grid.GridPanel', {
 			store : outcomesStore,
@@ -31,7 +32,7 @@ var outcomesGrid = Ext.create('Ext.grid.GridPanel', {
 						dataIndex : 'desc',
 						flex : 1
 					}],
-
-			height : 190,
+			margin : '8 10 5 0',
+			height : 158,
 			anchor : '100%'
 		});
