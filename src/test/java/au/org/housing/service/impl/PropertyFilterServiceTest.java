@@ -36,7 +36,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-import au.org.housing.config.DataStoreConfig;
+
 import au.org.housing.config.LayersConfig;
 import au.org.housing.exception.Messages;
 import au.org.housing.model.ParameterDevelopPotential;
@@ -197,41 +197,41 @@ public class PropertyFilterServiceTest {
 		}
 	}	
 	
-	@Test
-	public void testPropertyCSDILA() throws Exception {
-		
-		ff = CommonFactoryFinder.getFilterFactory2(GeoTools.getDefaultHints());		
-		propertyFc = DataStoreConfig.getWFSFactory().getFeatureSource(layerMapping.getProperty());
-		List<Filter> fs = new ArrayList<Filter>();
-		Filter filter = ff.equals(ff.property("pfi"),ff.literal("3539423"));// no inundation 
-		fs.add(filter);
-		filter = ff.equals(ff.property("pfi"),ff.literal("4787005"));//  inundation 
-		fs.add(filter);
-		filter = ff.equals(ff.property("pfi"),ff.literal("1317010"));//  inundation 
-		fs.add(filter);
-		Filter propertyFilter = ff.or(fs);	
-		Query propertyQuery = new Query();
-		propertyQuery.setFilter(propertyFilter);
-		SimpleFeatureCollection properties= propertyFc.getFeatures(propertyQuery);
-		
-	System.out.println(properties.size());
-	URL url = this.getClass().getResource("/geoJSON");
-	File parentDirectory = new File(new URI(url.toString()));
-	
-//	File jsonfile = new File(parentDirectory, "Housing_"+ "Property_Value_NWMRLGAnew" +".json"); 
-//	GeoJSONUtilities.writeFeatures(properties, jsonfile);
+//	@Test
+//	public void testPropertyCSDILA() throws Exception {
+//		
+//		ff = CommonFactoryFinder.getFilterFactory2(GeoTools.getDefaultHints());		
+//		propertyFc = DataStoreConfig.getWFSFactory().getFeatureSource(layerMapping.getProperty());
+//		List<Filter> fs = new ArrayList<Filter>();
+//		Filter filter = ff.equals(ff.property("pfi"),ff.literal("3539423"));// no inundation 
+//		fs.add(filter);
+//		filter = ff.equals(ff.property("pfi"),ff.literal("4787005"));//  inundation 
+//		fs.add(filter);
+//		filter = ff.equals(ff.property("pfi"),ff.literal("1317010"));//  inundation 
+//		fs.add(filter);
+//		Filter propertyFilter = ff.or(fs);	
+//		Query propertyQuery = new Query();
+//		propertyQuery.setFilter(propertyFilter);
+//		SimpleFeatureCollection properties= propertyFc.getFeatures(propertyQuery);
+//		
+//	System.out.println(properties.size());
+//	URL url = this.getClass().getResource("/geoJSON");
+//	File parentDirectory = new File(new URI(url.toString()));
 //	
-//
-		File newFile = new File("C:/programming/Projects/Housing_"+ "Property_Value_NWMRLGAnew" +".shp");	      
-		exportService.featuresExportToShapeFile(propertyFc.getSchema(), properties, newFile, true);	
-		
-		planOverlayFc = DataStoreConfig.getDefaultFactory().getFeatureSource(layerMapping.getPlanOverlay());
-		planCodeListFc = DataStoreConfig.getDefaultFactory().getFeatureSource(layerMapping.getPlanCodes());
-		this.overlayCollectionTest();
-		
-//		File jsonfile2 = new File(parentDirectory, "Housing_"+ "planOverlaynew" +".json"); 
-//		GeoJSONUtilities.writeFeatures(overlays, jsonfile2);
-		File newFile2 = new File("C:/programming/Projects/"+ "planOverlaynew" +".shp");	      
-		exportService.featuresExportToShapeFile(planOverlayFc.getSchema(), overlays, newFile2, true);	
-	}
+////	File jsonfile = new File(parentDirectory, "Housing_"+ "Property_Value_NWMRLGAnew" +".json"); 
+////	GeoJSONUtilities.writeFeatures(properties, jsonfile);
+////	
+////
+//		File newFile = new File("C:/programming/Projects/Housing_"+ "Property_Value_NWMRLGAnew" +".shp");	      
+//		exportService.featuresExportToShapeFile(propertyFc.getSchema(), properties, newFile, true);	
+//		
+//		planOverlayFc = DataStoreConfig.getDefaultFactory().getFeatureSource(layerMapping.getPlanOverlay());
+//		planCodeListFc = DataStoreConfig.getDefaultFactory().getFeatureSource(layerMapping.getPlanCodes());
+//		this.overlayCollectionTest();
+//		
+////		File jsonfile2 = new File(parentDirectory, "Housing_"+ "planOverlaynew" +".json"); 
+////		GeoJSONUtilities.writeFeatures(overlays, jsonfile2);
+//		File newFile2 = new File("C:/programming/Projects/"+ "planOverlaynew" +".shp");	      
+//		exportService.featuresExportToShapeFile(planOverlayFc.getSchema(), overlays, newFile2, true);	
+//	}
 }

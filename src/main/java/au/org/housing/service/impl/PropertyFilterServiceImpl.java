@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import au.org.housing.config.DataStoreConfig;
+
 import au.org.housing.config.GeoServerConfig;
 import au.org.housing.config.LayersConfig;
 import au.org.housing.exception.Messages;
@@ -48,6 +48,7 @@ import au.org.housing.model.LayerRepository;
 import au.org.housing.model.ParameterDevelopPotential;
 import au.org.housing.service.ExportService;
 import au.org.housing.service.FeatureBuilder;
+import au.org.housing.service.PostGISService;
 import au.org.housing.service.PropertyFilterService;
 import au.org.housing.service.UnionService;
 import au.org.housing.service.ValidationService;
@@ -62,7 +63,10 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PropertyFilterServiceImpl.class);
 
 	@Autowired
-	private ParameterDevelopPotential parameter;	
+	private ParameterDevelopPotential parameter;
+	
+	@Autowired
+	private PostGISService postGISService;
 
 	@Autowired
 	private ValidationService validationService;
@@ -138,12 +142,12 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 	}
 	
 	private boolean layersValidation() throws IOException, PSQLException {
-		propertyFc = DataStoreConfig.getDefaultFactory().getFeatureSource(layerMapping.getProperty());
+		propertyFc = postGISService.getFeatureSource(layerMapping.getProperty());
 		LOGGER.info(propertyFc.getSchema().getCoordinateReferenceSystem().toString());
-		planCodeListFc = DataStoreConfig.getDefaultFactory().getFeatureSource(layerMapping.getPlanCodes());
-		planOverlayFc = DataStoreConfig.getDefaultFactory().getFeatureSource(layerMapping.getPlanOverlay());
+		planCodeListFc = postGISService.getFeatureSource(layerMapping.getPlanCodes());
+		planOverlayFc = postGISService.getFeatureSource(layerMapping.getPlanOverlay());
 		LOGGER.info(planOverlayFc.getSchema().getCoordinateReferenceSystem().toString());
-		zonecodesFc =  DataStoreConfig.getDefaultFactory().getFeatureSource(layerMapping.getZonecodesTbl());
+		zonecodesFc =  postGISService.getFeatureSource(layerMapping.getZonecodesTbl());
 		if (    !validationService.propertyValidated(propertyFc, layerMapping.getProperty())  || !validationService.isPolygon(propertyFc, layerMapping.getProperty()) || !validationService.isMetric(propertyFc, layerMapping.getProperty())||
 				!validationService.planOverlayValidated(planOverlayFc, layerMapping.getPlanOverlay()) || !validationService.isMetric(planOverlayFc, layerMapping.getPlanOverlay()) || !validationService.isPolygon(planOverlayFc, layerMapping.getPlanOverlay()) ||
 				!validationService.planCodeListValidated(planCodeListFc, layerMapping.getPlanCodes()) ||

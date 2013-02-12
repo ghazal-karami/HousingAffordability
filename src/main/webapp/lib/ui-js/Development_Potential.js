@@ -563,154 +563,171 @@ var LGA_Potential = Ext.create('Ext.form.Panel', {
 		});
 
 var analyseBtn_DevelopPotential = Ext.create('Ext.Button', {
-			text : 'Analyse',
-			margin : '0 5 8 5',
-			handler : function() {
+	text : 'Analyse',
+	margin : '0 5 8 5',
+	handler : function() {
 
-				var dpiVal = JSON.parse(dpi.getForm().findField('dpiId')
-						.getValue());
+		var dpiVal = JSON.parse(dpi.getForm().findField('dpiId').getValue());
+		var dpiOperateorVal = dpiCombo.getValue();
 
-				var trainStationVal = JSON.parse(transports.getForm()
-						.findField('trainStationId').getValue());
+		var trainStationVal = JSON.parse(transports.getForm()
+				.findField('trainStationId').getValue());
 
-				var trainRouteVal = JSON.parse(transports.getForm()
-						.findField('trainRouteId').getValue());
+		var trainRouteVal = JSON.parse(transports.getForm()
+				.findField('trainRouteId').getValue());
 
-				var tramRouteVal = JSON.parse(transports.getForm()
-						.findField('tramRouteId').getValue());
+		var tramRouteVal = JSON.parse(transports.getForm()
+				.findField('tramRouteId').getValue());
 
-				var educationVal = JSON.parse(facilities.getForm()
-						.findField('educationId').getValue());
+		var educationVal = JSON.parse(facilities.getForm()
+				.findField('educationId').getValue());
 
-				var recreationVal = JSON.parse(facilities.getForm()
-						.findField('recreationId').getValue());
+		var recreationVal = JSON.parse(facilities.getForm()
+				.findField('recreationId').getValue());
 
-				var medicalVal = JSON.parse(facilities.getForm()
-						.findField('medicalId').getValue());
+		var medicalVal = JSON.parse(facilities.getForm().findField('medicalId')
+				.getValue());
 
-				var communityVal = JSON.parse(facilities.getForm()
-						.findField('communityId').getValue());
+		var communityVal = JSON.parse(facilities.getForm()
+				.findField('communityId').getValue());
 
-				var utilityVal = JSON.parse(facilities.getForm()
-						.findField('utilityId').getValue());
+		var utilityVal = JSON.parse(facilities.getForm().findField('utilityId')
+				.getValue());
 
-				var residentialVal = JSON.parse(landuses.getForm()
-						.findField('residentialId').getValue());
-				var businessVal = JSON.parse(landuses.getForm()
-						.findField('businessId').getValue());
-				var ruralVal = JSON.parse(landuses.getForm()
-						.findField('ruralId').getValue());
-				var mixedUseVal = JSON.parse(landuses.getForm()
-						.findField('mixedUseId').getValue());
-				var specialPurposeVal = JSON.parse(landuses.getForm()
-						.findField('specialPurposeId').getValue());
-				var urbanGrowthBoundryVal = JSON.parse(landuses.getForm()
-						.findField('urbanGrowthBoundryId').getValue());
+		var residentialVal = JSON.parse(landuses.getForm()
+				.findField('residentialId').getValue());
+		var businessVal = JSON.parse(landuses.getForm().findField('businessId')
+				.getValue());
+		var ruralVal = JSON.parse(landuses.getForm().findField('ruralId')
+				.getValue());
+		var mixedUseVal = JSON.parse(landuses.getForm().findField('mixedUseId')
+				.getValue());
+		var specialPurposeVal = JSON.parse(landuses.getForm()
+				.findField('specialPurposeId').getValue());
+		var urbanGrowthBoundryVal = JSON.parse(landuses.getForm()
+				.findField('urbanGrowthBoundryId').getValue());
 
-				var slopeVal = JSON.parse(geographicVariables.getForm()
-						.findField('slopeId').getValue());
-				var floodwayVal = JSON.parse(geographicVariables.getForm()
-						.findField('floodwayId').getValue());
-				var inundationVal = JSON.parse(geographicVariables.getForm()
-						.findField('inundationId').getValue());
+		var slopeVal = JSON.parse(geographicVariables.getForm()
+				.findField('slopeId').getValue());
+		var floodwayVal = JSON.parse(geographicVariables.getForm()
+				.findField('floodwayId').getValue());
+		var inundationVal = JSON.parse(geographicVariables.getForm()
+				.findField('inundationId').getValue());
 
-				var neighbourhoodVal = JSON.parse(developAssesVariables
-						.getForm().findField('neighbourhoodId').getValue());
-				var designDevelopmentVal = JSON.parse(developAssesVariables
-						.getForm().findField('designDevelopmentId').getValue());
-				var developPlansVal = JSON.parse(developAssesVariables
-						.getForm().findField('developPlansId').getValue());
-				var parkingVal = JSON.parse(developAssesVariables.getForm()
-						.findField('parkingId').getValue());
+		var neighbourhoodVal = JSON.parse(developAssesVariables.getForm()
+				.findField('neighbourhoodId').getValue());
+		var designDevelopmentVal = JSON.parse(developAssesVariables.getForm()
+				.findField('designDevelopmentId').getValue());
+		var developPlansVal = JSON.parse(developAssesVariables.getForm()
+				.findField('developPlansId').getValue());
+		var parkingVal = JSON.parse(developAssesVariables.getForm()
+				.findField('parkingId').getValue());
 
-				var bushfireVal = JSON.parse(environmentalVariables.getForm()
-						.findField('bushfireId').getValue());
-				var erosionVal = JSON.parse(environmentalVariables.getForm()
-						.findField('erosionId').getValue());
-				var vegetationProtectVal = JSON.parse(environmentalVariables
-						.getForm().findField('vegetationProtectId').getValue());
-				var salinityVal = JSON.parse(environmentalVariables.getForm()
-						.findField('salinityId').getValue());
-				var contamintationVal = JSON.parse(environmentalVariables
-						.getForm().findField('contamintationId').getValue());
-				var envSignificanceVal = JSON.parse(environmentalVariables
-						.getForm().findField('envSignificanceId').getValue());
-				var envAuditVal = JSON.parse(environmentalVariables.getForm()
-						.findField('envAuditId').getValue());
+		var bushfireVal = JSON.parse(environmentalVariables.getForm()
+				.findField('bushfireId').getValue());
+		var erosionVal = JSON.parse(environmentalVariables.getForm()
+				.findField('erosionId').getValue());
+		var vegetationProtectVal = JSON.parse(environmentalVariables.getForm()
+				.findField('vegetationProtectId').getValue());
+		var salinityVal = JSON.parse(environmentalVariables.getForm()
+				.findField('salinityId').getValue());
+		var contamintationVal = JSON.parse(environmentalVariables.getForm()
+				.findField('contamintationId').getValue());
+		var envSignificanceVal = JSON.parse(environmentalVariables.getForm()
+				.findField('envSignificanceId').getValue());
+		var envAuditVal = JSON.parse(environmentalVariables.getForm()
+				.findField('envAuditId').getValue());
 
-				var heritageVal = JSON.parse(heritage.getForm()
-						.findField('heritageId').getValue());
+		var heritageVal = JSON.parse(heritage.getForm().findField('heritageId')
+				.getValue());
 
-				var commonwealthLandVal = JSON.parse(ownershipVariables
-						.getForm().findField('commonwealthLandId').getValue());
-				var publicAcquisitionVal = JSON.parse(ownershipVariables
-						.getForm().findField('publicAcquisitionId').getValue());
+		var commonwealthLandVal = JSON.parse(ownershipVariables.getForm()
+				.findField('commonwealthLandId').getValue());
+		var publicAcquisitionVal = JSON.parse(ownershipVariables.getForm()
+				.findField('publicAcquisitionId').getValue());
 
-				Ext.Ajax.request({
-							url : '/housing/housing-controller/developmentPotential',
-							method : 'post',
-							waitMsg : 'Saving changes...',
-							jsonData : {
-								selectedLGAs1 : selectedLGAs1,
+		Ext.Ajax.request({
+					url : '/housing/housing-controller/developmentPotential',
+					method : 'post',
+					waitMsg : 'Saving changes...',
+					jsonData : {
+						selectedLGAs1 : selectedLGAs1,
 
-								dpiOperateorVal : dpiOperateorVal,
-								dpiVal : dpiVal,
+						dpiOperateorVal : dpiOperateorVal,
+						dpiVal : dpiVal,
 
-								trainStationVal : trainStationVal,
+						trainStationVal : trainStationVal,
 
-								trainRouteVal : trainRouteVal,
+						trainRouteVal : trainRouteVal,
 
-								tramRouteVal : tramRouteVal,
+						tramRouteVal : tramRouteVal,
 
-								educationVal : educationVal,
+						educationVal : educationVal,
 
-								recreationVal : recreationVal,
+						recreationVal : recreationVal,
 
-								medicalVal : medicalVal,
+						medicalVal : medicalVal,
 
-								communityVal : communityVal,
+						communityVal : communityVal,
 
-								utilityVal : utilityVal,
+						utilityVal : utilityVal,
 
-								residentialVal : residentialVal,
-								businessVal : businessVal,
-								ruralVal : ruralVal,
-								mixedUseVal : mixedUseVal,
-								specialPurposeVal : specialPurposeVal,
-								urbanGrowthBoundryVal : urbanGrowthBoundryVal,
+						residentialVal : residentialVal,
+						businessVal : businessVal,
+						ruralVal : ruralVal,
+						mixedUseVal : mixedUseVal,
+						specialPurposeVal : specialPurposeVal,
+						urbanGrowthBoundryVal : urbanGrowthBoundryVal,
 
-								slopeVal : slopeVal,
-								floodwayVal : floodwayVal,
-								inundationVal : inundationVal,
+						slopeVal : slopeVal,
+						floodwayVal : floodwayVal,
+						inundationVal : inundationVal,
 
-								neighbourhoodVal : neighbourhoodVal,
-								designDevelopmentVal : designDevelopmentVal,
-								developPlansVal : developPlansVal,
-								parkingVal : parkingVal,
+						neighbourhoodVal : neighbourhoodVal,
+						designDevelopmentVal : designDevelopmentVal,
+						developPlansVal : developPlansVal,
+						parkingVal : parkingVal,
 
-								bushfireVal : bushfireVal,
-								erosionVal : erosionVal,
-								vegetationProtectVal : vegetationProtectVal,
-								salinityVal : salinityVal,
-								contamintationVal : contamintationVal,
-								envSignificanceVal : envSignificanceVal,
-								envAuditVal : envAuditVal,
+						bushfireVal : bushfireVal,
+						erosionVal : erosionVal,
+						vegetationProtectVal : vegetationProtectVal,
+						salinityVal : salinityVal,
+						contamintationVal : contamintationVal,
+						envSignificanceVal : envSignificanceVal,
+						envAuditVal : envAuditVal,
 
-								heritageVal : heritageVal,
+						heritageVal : heritageVal,
 
-								commonwealthLandVal : commonwealthLandVal,
-								publicAcquisitionVal : publicAcquisitionVal
+						commonwealthLandVal : commonwealthLandVal,
+						publicAcquisitionVal : publicAcquisitionVal
 
-							},
-							failure : function(response, options) {
-								Ext.MessageBox.alert(response.responseText);
-							},
-							success : function(response) {
-								window.open('ui-jsp/map_potential.jsp');
-							}
-						});
-			}
-		});
+					},
+					success : function(response) {
+						var jresp = Ext.JSON.decode(response.responseText);
+						console.log(jresp.message);
+						if (jresp.message == "Analysis Successfully Done") {
+							Ext.Msg.show({
+										msg : jresp.message,
+										width : 400,
+										icon : Ext.MessageBox.WARNING
+									});
+							window.open('ui-jsp/map_potential.jsp');
+						} else {
+							Ext.Msg.show({
+										msg : jresp.message,
+										width : 400,
+										icon : Ext.MessageBox.WARNING
+									});
+						}
+					},
+					failure : function(response, options) {
+						var jresp = Ext.JSON.decode(response.responseText);
+						Ext.MessageBox.alert(jresp.message);
+					}
+
+				});
+	}
+});
 
 var clearBtn_Potential = Ext.create('Ext.Button', {
 			text : 'Clear',
@@ -727,7 +744,7 @@ var footerPanel_Potential = Ext.create('Ext.form.Panel', {
 
 // *************** whole Form1 ***************
 var developementPotential = Ext.create('Ext.form.Panel', {
-			frame : true,			
+			frame : true,
 			title : 'Developement Potential Analysis',
 			items : [LGA_Potential, wholeForm_Potential, footerPanel_Potential],
 			height : 548,

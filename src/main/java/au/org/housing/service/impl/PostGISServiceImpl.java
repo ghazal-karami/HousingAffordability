@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PreDestroy;
+
 import org.geotools.data.DataSourceException;
 import org.geotools.data.DataStore;
 import org.geotools.data.DataStoreFinder;
@@ -28,6 +30,11 @@ public class PostGISServiceImpl implements PostGISService {
 	@Autowired
 	private PostGisConfig postGisConfig;
 
+	@PreDestroy
+	public void dipose(){
+		dataStore = null;
+		dataStore.dispose();
+	}
 	
 	public SimpleFeatureSource getFeatureSource(String layerName) throws IOException, PSQLException {
 		if (getDataStore(layerName) == null){

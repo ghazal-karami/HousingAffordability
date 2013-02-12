@@ -15,10 +15,8 @@ Ext.onReady(function() {
 				title : 'Data Platform To Support Housing Analysis and Research',
 				frame : false,
 				shadow : false,
-				border : true,			
-				
+				border : true,	
 				items : [tabPanel]
-
 			});
 	/*win.on('show', function() {
 				win.center();

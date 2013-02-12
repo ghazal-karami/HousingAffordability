@@ -35,7 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import au.org.housing.config.DataStoreConfig;
+
 import au.org.housing.config.GeoServerConfig;
 import au.org.housing.config.LayersConfig;
 import au.org.housing.exception.Messages;

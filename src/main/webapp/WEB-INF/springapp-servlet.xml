@@ -15,7 +15,7 @@
 	<context:annotation-config/>
 	
 	<!-- <context:property-placeholder location="classpath:postgis_connection.properties" />	 -->
-	<context:property-placeholder location="classpath:geoserver_connection.properties" />	
+	<context:property-placeholder location="classpath:connections.properties" />	
 	
 	<context:component-scan base-package="au.org.housing.config" />
 	<context:component-scan base-package="au.org.housing.start" />

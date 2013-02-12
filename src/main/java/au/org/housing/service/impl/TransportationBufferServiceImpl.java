@@ -14,11 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import au.org.housing.config.DataStoreConfig;
+
 import au.org.housing.config.LayersConfig;
 
 import au.org.housing.model.ParameterDevelopPotential;
 import au.org.housing.service.BufferService;
+import au.org.housing.service.PostGISService;
 import au.org.housing.service.TransportationBufferService;
 import au.org.housing.service.UnionService;
 import au.org.housing.service.ValidationService;
@@ -34,6 +35,9 @@ public class TransportationBufferServiceImpl implements
 
 	@Autowired
 	private ParameterDevelopPotential parameter;
+	
+	@Autowired
+	private PostGISService postGISService;
 
 	@Autowired
 	private BufferService bufferService;
@@ -60,7 +64,7 @@ public class TransportationBufferServiceImpl implements
 		trasportationbufferCollection = new ArrayList<Geometry>();
 
 		if (parameter.getTrain_St_BufferDistance() != 0) {
-			trainStationFc = DataStoreConfig.getDefaultFactory().getFeatureSource(
+			trainStationFc = postGISService.getFeatureSource(
 					layerMapping.getTrainStation());
 			if (validationService.isPoint(trainStationFc,
 					layerMapping.getTrainStation())
@@ -76,7 +80,7 @@ public class TransportationBufferServiceImpl implements
 			}
 		}
 		if (parameter.getTrain_Rt_BufferDistance() != 0) {
-			trainRouteFc = DataStoreConfig.getDefaultFactory().getFeatureSource(
+			trainRouteFc = postGISService.getFeatureSource(
 					layerMapping.getTrainRoute());
 			if (validationService.isLine(trainRouteFc,
 					layerMapping.getTrainRoute())
@@ -92,7 +96,7 @@ public class TransportationBufferServiceImpl implements
 			}
 		}
 		if (parameter.getTram_Rt_BufferDistance() != 0) {
-			tramRouteFc = DataStoreConfig.getDefaultFactory().getFeatureSource(
+			tramRouteFc = postGISService.getFeatureSource(
 					layerMapping.getTramRoute());
 			if (validationService.isLine(tramRouteFc,
 					layerMapping.getTramRoute())

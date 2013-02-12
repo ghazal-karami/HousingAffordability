@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import au.org.housing.config.DataStoreConfig;
+
 import au.org.housing.config.LayersConfig;
 import au.org.housing.model.AppCategoryOutcome;
 import au.org.housing.model.AttributeRepository;

@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import au.org.housing.config.DataStoreConfig;
+
 import au.org.housing.exception.Messages;
 import au.org.housing.model.LayerRepository;
 import au.org.housing.service.DevelpmentAssessment;
@@ -39,7 +39,7 @@ import au.org.housing.service.InitDevelopAssessment;
 import au.org.housing.service.InitDevelopPotential;
 import au.org.housing.service.PropertyFilterService;
 import au.org.housing.service.TransportationBufferService;
-import au.org.housing.service.impl.PostGISDataStoreFactoryImpl;
+
 
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.io.ParseException;
@@ -100,12 +100,8 @@ public class HousingController {
 		}
 
 		propertyFilterService.propertyAnalyse();
-
 		Map<String, Object> potentialResponse = new HashMap<String, Object>();
 		potentialResponse.put("message", Messages.getMessage());
-		
-		PostGISDataStoreFactoryImpl factory = (PostGISDataStoreFactoryImpl) DataStoreConfig.getDefaultFactory();
-		factory.dipose();
 		return potentialResponse;    	
 	}	
 	
@@ -115,8 +111,7 @@ public class HousingController {
 		initDevelopAssessment.initParams(assessmentParams);				
 		Map<String, Object> assessmentResponse = new HashMap<String, Object>();
 		developAssessment.analyse();			
-		assessmentResponse.put("message", Messages.getMessage());
-		
+		assessmentResponse.put("message", Messages.getMessage());		
 		System.out.println(assessmentResponse.get("message"));
 		return assessmentResponse;
 	}	

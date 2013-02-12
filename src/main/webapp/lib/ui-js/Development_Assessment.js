@@ -526,11 +526,14 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 				var jresp = Ext.JSON.decode(response.responseText);
 				console.log('assessmentResponse' + jresp.message);
 				if (jresp.message == "Analysis Successfully Done") {
-					Ext.MessageBox.alert(response.responseText);
+					Ext.Msg.show({
+								msg : jresp.message,
+								width : 400,
+								icon : Ext.MessageBox.WARNING
+							});
 					window.open('ui-jsp/map_assessment.jsp');
 				} else {
 					Ext.Msg.show({
-								title : 'Check Your Selected Parameters!',
 								msg : jresp.message,
 								width : 400,
 								icon : Ext.MessageBox.WARNING

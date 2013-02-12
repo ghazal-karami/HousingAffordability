@@ -13,12 +13,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import au.org.housing.config.DataStoreConfig;
+
 import au.org.housing.config.LayersConfig;
 import au.org.housing.exception.LayerValidationException;
 import au.org.housing.model.ParameterDevelopPotential;
 import au.org.housing.service.BufferService;
 import au.org.housing.service.FacilitiesBufferService;
+import au.org.housing.service.PostGISService;
 import au.org.housing.service.UnionService;
 import au.org.housing.service.ValidationService;
 
@@ -31,6 +32,9 @@ public class FacilitiesBufferServiceImpl implements FacilitiesBufferService {
 	
 	@Autowired
 	private ParameterDevelopPotential parameter;
+	
+	@Autowired
+	private PostGISService postGISService;
 
 	@Autowired
 	private BufferService bufferService;
@@ -65,8 +69,7 @@ public class FacilitiesBufferServiceImpl implements FacilitiesBufferService {
 	}
 
 	private Geometry analyse(Geometry intersected, String layerName , Integer distance) throws IOException, NoSuchAuthorityCodeException, FactoryException, URISyntaxException, LayerValidationException, PSQLException{
-//		SimpleFeatureSource fc = Config.getDefaultFactory().getFeatureSource(layerName);
-		SimpleFeatureSource fc =  (SimpleFeatureSource) DataStoreConfig.getDefaultFactory().getFeatureSource(layerName);
+		SimpleFeatureSource fc =  (SimpleFeatureSource) postGISService.getFeatureSource(layerName);
 		if ( validationService.isPolygon(fc, layerName) && validationService.isMetric(fc, layerName) ){
 			LOGGER.info("distance "+ distance);
 			Collection<Geometry> bufferCollection = bufferService.createFeaturesBuffer(fc.getFeatures(), distance, layerName);
