@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import javax.servlet.http.HttpSession;
 
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
@@ -44,6 +47,7 @@ import au.org.housing.service.DevelpmentAssessment;
 import au.org.housing.service.ExportService;
 import au.org.housing.service.FeatureBuilder;
 import au.org.housing.service.PostGISService;
+import au.org.housing.utilities.TemporaryFileManager;
 import au.org.housing.utilities.Zip;
 
 
@@ -63,24 +67,24 @@ public class DevelpmentAssessmentImpl implements DevelpmentAssessment {
 	@Autowired
 	private GeoServerConfig geoServerConfig;
 
+	@Autowired 
+	private FeatureBuilder featureBuilder;
+
 	@Autowired
 	private LayersConfig layerMapping;
 
 	@Autowired
 	private ExportService exportService;
 
+	private ReferencedEnvelope envelope;
+	private String layerName;
+
 	SimpleFeatureSource propertyFc;
-
-	GetMapResponse response;
-	BufferedImage image;
-
 	SimpleFeatureTypeBuilder stb;
 	SimpleFeatureBuilder sfb;
 	SimpleFeatureType newFeatureType;
-	@Autowired 
-	private FeatureBuilder featureBuilder;
 
-	public boolean analyse() throws IOException, FileNotFoundException,
+	public boolean analyse(HttpSession session) throws IOException, FileNotFoundException,
 	ServiceException, NoSuchAuthorityCodeException, FactoryException, PSQLException {
 
 		FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(GeoTools
@@ -98,7 +102,7 @@ public class DevelpmentAssessmentImpl implements DevelpmentAssessment {
 		if (propertyFc==null){
 			return false;
 		}
-		
+
 		if (parameter.getDurationAssessment() != 0) {
 			String operator = parameter.getDurationAssessmentOperateor();
 			Filter filter = null;
@@ -253,7 +257,7 @@ public class DevelpmentAssessmentImpl implements DevelpmentAssessment {
 			lgaFilter = ff.or(lgaFilters);
 			System.out.println("lgaFilter=" + lgaFilter);
 		}
-		
+
 		String geomName = propertyFc.getSchema().getGeometryDescriptor().getLocalName();
 		Filter pparsFilter = ff.and(pparsFilters);
 		SimpleFeatureCollection pparsCollection = pparsFc.getFeatures(pparsFilter);
@@ -271,6 +275,7 @@ public class DevelpmentAssessmentImpl implements DevelpmentAssessment {
 		}
 		filter = null;
 		Filter propertyFilter = ff.or(propertyFilters);
+		System.out.println("propertyFilter= "+ propertyFilter);
 		SimpleFeatureCollection propertyCollection = propertyFc.getFeatures(propertyFilter);
 		System.out.println("propertyCollection.size= "+ propertyCollection.size());
 
@@ -279,60 +284,90 @@ public class DevelpmentAssessmentImpl implements DevelpmentAssessment {
 			Messages.setMessage(Messages._NO_FEATURE);
 			return false;
 		}
-		// Export to ShapeFile
-		File newFile = new File("C:/Programming/"+geoServerConfig.getGsAssessmentLayer()+"/"+geoServerConfig.getGsAssessmentLayer()+".shp");
+
+		File newDirectory =  TemporaryFileManager.getNew(session, geoServerConfig.getGsAssessmentLayer() , "",true);
+		File newFile = new File(newDirectory.getAbsolutePath()+"/"+geoServerConfig.getGsAssessmentLayer()+"_"+session.getId()+ ".shp");
 		System.out.println(newFile.toURI());
+		
 		SimpleFeatureType sft = propertyFc.getSchema();
 		stb = featureBuilder.createFeatureTypeBuilder(sft, "_LAYER");	
 		newFeatureType = stb.buildFeatureType();		 
 		exportService.featuresExportToShapeFile(newFeatureType, propertyCollection,newFile, true);
-		ReferencedEnvelope envelope = propertyCollection.getBounds();
+		envelope = propertyCollection.getBounds();
+		System.out.println("envelope.getMaxX==  "+envelope.getMaxX());
+		System.out.println("envelope.getMaxY==  "+envelope.getMaxY());
+		System.out.println("envelope.getMinX==  "+envelope.getMinX());
+		System.out.println("envelope.getMinY==  "+envelope.getMinY());
 
-		if (!publishToGeoserver()){
+		if (!publishToGeoserver(newFile, session)){
 			return false;	
 		}
 		return true;
 	}
 
 
-	private boolean publishToGeoserver() throws FileNotFoundException, IllegalArgumentException, MalformedURLException{
-//		try{
-			GeoServerRESTReader reader = 
-					new GeoServerRESTReader(geoServerConfig.getRESTURL(), geoServerConfig.getRESTUSER(),geoServerConfig.getRESTPW());
-			GeoServerRESTPublisher publisher = new GeoServerRESTPublisher(geoServerConfig.getRESTURL(), geoServerConfig.getRESTUSER(),geoServerConfig.getRESTPW());
-			if (!reader.existGeoserver()){
-				Messages.setMessage(Messages._GEOSERVER_NOT_EXIST);
-				return false;
-			}
+	private boolean publishToGeoserver(File newFile, HttpSession session) throws FileNotFoundException, IllegalArgumentException, MalformedURLException{
+		layerName = geoServerConfig.getGsAssessmentLayer()+"_"+session.getId();
+		GeoServerRESTReader reader = 
+				new GeoServerRESTReader(geoServerConfig.getRESTURL(), geoServerConfig.getRESTUSER(),geoServerConfig.getRESTPW());
+		GeoServerRESTPublisher publisher = new GeoServerRESTPublisher(geoServerConfig.getRESTURL(), geoServerConfig.getRESTUSER(),geoServerConfig.getRESTPW());
+		
+		TemporaryFileManager.setReader(reader);
+		TemporaryFileManager.setPublisher(publisher);
+		TemporaryFileManager.setGeoServerConfig(geoServerConfig);
 
-			//remove layer and datastore
-			if (reader.getLayer(geoServerConfig.getGsAssessmentLayer())!=null){			
-				boolean ftRemoved = publisher.unpublishFeatureType(geoServerConfig.getGsWorkspace(), geoServerConfig.getGsAssessmentDatastore(),geoServerConfig.getGsAssessmentLayer());
-				publisher.reload();
-				publisher.removeLayer(geoServerConfig.getGsWorkspace(), geoServerConfig.getGsAssessmentLayer());
-				publisher.reload();
-				boolean dsRemoved = publisher.removeDatastore(geoServerConfig.getGsWorkspace(), geoServerConfig.getGsAssessmentDatastore(), true);
-				publisher.reload();			
-			}
+		if (!reader.existGeoserver()){
+			Messages.setMessage(Messages._GEOSERVER_NOT_EXIST);
+			return false;
+		}
+				
+		if (reader.getLayer(geoServerConfig.getGsAssessmentLayer()+"_"+session.getId())!=null){			
+			boolean ftRemoved = publisher.unpublishFeatureType(geoServerConfig.getGsWorkspace(), geoServerConfig.getGsAssessmentDatastore()+"_"+session.getId(),geoServerConfig.getGsAssessmentLayer()+"_"+session.getId());
+			publisher.removeLayer(geoServerConfig.getGsWorkspace(), geoServerConfig.getGsAssessmentLayer()+"_"+session.getId());
+			boolean dsRemoved = publisher.removeDatastore(geoServerConfig.getGsWorkspace(), geoServerConfig.getGsAssessmentDatastore()+"_"+session.getId(), true);
+		}
+		
+		String zipfileName = newFile.getAbsolutePath().substring(0, newFile.getAbsolutePath().lastIndexOf("."))+".zip";
+		Zip zip = new Zip(zipfileName,newFile.getParentFile().getAbsolutePath());			
+		zip.createZip();
+//		TemporaryFileManager.registerTempFile(session, zipfileName);
+	
+		File zipFile = new File(zipfileName);
+		boolean published = publisher.publishShp(geoServerConfig.getGsWorkspace(),
+				geoServerConfig.getGsAssessmentDatastore()+"_"+session.getId(),
+				geoServerConfig.getGsAssessmentLayer()+"_"+session.getId(), zipFile, "EPSG:28355",geoServerConfig.getGsAssessmentStyle());
+		if (!published){
+			Messages.setMessage(Messages._PUBLISH_FAILED);
+			return false;
+		}
+		GSLayerEncoder le = new GSLayerEncoder();
+		le.setDefaultStyle(geoServerConfig.getGsAssessmentStyle());
+		publisher.configureLayer(geoServerConfig.getGsWorkspace(), geoServerConfig.getGsAssessmentLayer()+"_"+session.getId(), le);
+		System.out.println("Publishsed Success");
 
-			// Create Zip File 	
-			Zip zip = new Zip("C:\\Programming\\"+ geoServerConfig.getGsAssessmentLayer() +".zip", "C:\\Programming\\"+ geoServerConfig.getGsAssessmentLayer());
-			zip.createZip();
-
-			//	 boolean created = publisher.createWorkspace(geoServerConfig.getGsWorkspace());
-			File zipFile = new File("C:/Programming/"+ geoServerConfig.getGsAssessmentLayer() +".zip");
-			boolean published = publisher.publishShp(geoServerConfig.getGsWorkspace(),geoServerConfig.getGsAssessmentDatastore(),geoServerConfig.getGsAssessmentLayer(), zipFile, "EPSG:28355",geoServerConfig.getGsAssessmentStyle());
-
-			GSLayerEncoder le = new GSLayerEncoder();
-			le.setDefaultStyle(geoServerConfig.getGsAssessmentStyle());
-			publisher.configureLayer(geoServerConfig.getGsWorkspace(), geoServerConfig.getGsAssessmentLayer(), le);
-
-			System.out.println("Publishsed Success");
-//		}catch(Exception e){
-//			Messages.setMessage(Messages._ERROR);
-//			return false;
-//		}
 		return true;
+	}
+
+	public ReferencedEnvelope getEnvelope() {
+		return envelope;
+	}
+
+	public void setEnvelope(ReferencedEnvelope envelope) {
+		this.envelope = envelope;
+	}
+
+	public GeoServerConfig getGeoServerConfig() {
+		return geoServerConfig;
+	}
+	public void setGeoServerConfig(GeoServerConfig geoServerConfig) {
+		this.geoServerConfig = geoServerConfig;
+	}
+
+	public String getLayerName() {
+		return layerName;
+	}
+	public void setLayerName(String layerName) {
+		this.layerName = layerName;
 	}
 
 }

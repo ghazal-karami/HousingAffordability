@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.geotools.data.Query;
 import org.geotools.data.collection.ListFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureCollection;
@@ -26,6 +28,7 @@ import org.geotools.feature.FeatureCollections;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.filter.text.cql2.CQLException;
+import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.GeometryDescriptor;
@@ -52,6 +55,7 @@ import au.org.housing.service.PostGISService;
 import au.org.housing.service.PropertyFilterService;
 import au.org.housing.service.UnionService;
 import au.org.housing.service.ValidationService;
+import au.org.housing.utilities.TemporaryFileManager;
 import au.org.housing.utilities.Zip;
 
 import com.vividsolutions.jts.geom.Geometry;
@@ -67,6 +71,12 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 	
 	@Autowired
 	private PostGISService postGISService;
+	
+	@Autowired
+	private GeoServerConfig geoServerConfig;
+	
+	private ReferencedEnvelope envelope;
+	private String layerName;
 
 	@Autowired
 	private ValidationService validationService;
@@ -112,12 +122,10 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 	@Autowired
 	private LayersConfig layerMapping;
 	
-	@Autowired
-	private GeoServerConfig geoServerConfig;
 
 	//************************* Check if the layer is Metric  ***************************
 
-	public void propertyAnalyse() throws SQLException, Exception{
+	public void propertyAnalyse(HttpSession session) throws SQLException, Exception{
 		if (!layersValidation() ){
 			LOGGER.error(Messages.getMessage());
 		}
@@ -137,8 +145,8 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		this.ownershipFilter();		
 		this.propertyFilter();
 		this.overlayCollection();
-		this.generateQuery();	
-		this.publishToGeoserver();
+		this.generateQuery(session);	
+		
 	}
 	
 	private boolean layersValidation() throws IOException, PSQLException {
@@ -173,11 +181,23 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		if (parameter.getDpi() != 0) {
 			Divide divide = ff.divide(ff.property(layerMapping.getProperty_svCurrentYear()),
 					ff.property(layerMapping.getProperty_civCurrentYear()));
-			Filter filterGreater =  ff.greater( divide, ff.literal(parameter.getDpi()) );
-			Filter filterEquals =  ff.equals( divide, ff.literal(parameter.getDpi()) );					
-			Filter filterGreaterOrEqual = ff.or( filterGreater, filterEquals );
-			Filter filterLess =  ff.less( divide, ff.literal(parameter.getDpi()+0.1) );		
-			Filter filterDPI = ff.and( filterGreaterOrEqual, filterLess );
+			String operator = parameter.getDpiOperateorVal();
+			Filter filterDPI = null;
+			switch (operator.charAt(0)) {
+			case '>':
+				filterDPI =  ff.greater( divide, ff.literal(parameter.getDpi()) );
+				break;
+			case '=':
+				Filter filterGreater =  ff.greater( divide, ff.literal(parameter.getDpi()) );
+				Filter filterEquals =  ff.equals( divide, ff.literal(parameter.getDpi()) );					
+				Filter filterGreaterOrEqual = ff.or( filterGreater, filterEquals );
+				Filter filterLess =  ff.less( divide, ff.literal(parameter.getDpi()+0.1) );
+				filterDPI = ff.and( filterGreaterOrEqual, filterLess );
+				break;
+			case '<':
+				filterDPI =  ff.less( divide, ff.literal(parameter.getDpi()+0.1) );
+				break;
+			}
 			propertyFilters.add(filterDPI);			
 		}
 	}
@@ -499,7 +519,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		}		
 	}
 
-	private void generateQuery() throws SQLException, Exception{
+	private void generateQuery(HttpSession session) throws SQLException, Exception{
 		propertyQuery = new Query();
 		LOGGER.info("-----  propertyFilter.toSt ring()"+propertyFilter.toString()); 
 //		if (propertyFilter != null) {
@@ -522,14 +542,23 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		newFeatureType = stb.buildFeatureType();
 		sfb = new SimpleFeatureBuilder(newFeatureType);
 		properties= propertyFc.getFeatures(propertyFilter);
+		envelope = properties.getBounds();
+		System.out.println("envelope.getMaxX==  "+envelope.getMaxX());
+		System.out.println("envelope.getMaxY==  "+envelope.getMaxY());
+		System.out.println("envelope.getMinX==  "+envelope.getMinX());
+		System.out.println("envelope.getMinY==  "+envelope.getMinY());
+		
 		if (properties != null && !properties.isEmpty()) {
 			System.out.println("size= "+properties.size());			
-			this.overlayFilter();
+			this.overlayFilter(session);
 		}		
 	}
 
-	private void overlayFilter() throws NoSuchAuthorityCodeException, IOException, FactoryException, SQLException, Exception{
-		File newFile = new File("C:/Programming/"+geoServerConfig.getGsPotentialLayer()+"/"+geoServerConfig.getGsPotentialLayer()+".shp");
+	private void overlayFilter(HttpSession session) throws NoSuchAuthorityCodeException, IOException, FactoryException, SQLException, Exception{
+		File newDirectory =  TemporaryFileManager.getNew(session, geoServerConfig.getGsPotentialLayer() , "",true);
+		File newFile = new File(newDirectory.getAbsolutePath()+"/"+geoServerConfig.getGsPotentialLayer()+"_"+session.getId()+ ".shp");
+		System.out.println(newFile.toURI());
+				
 		List<SimpleFeature> newList = new ArrayList<SimpleFeature>();
 		SimpleFeatureIterator propertyIt = null;
 		propertyIt = properties.features();
@@ -694,47 +723,53 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 					newFeatureType, newList);
 			exportService.featuresExportToShapeFile(sfb.getFeatureType(), featureCollectionNew,
 					newFile, dropCreateSchema);
-		}		
+		}	
+		this.publishToGeoserver(newFile, session);
 	}
 	//*************************   ***************************
-
-	private void publishToGeoserver() throws FileNotFoundException, IllegalArgumentException, MalformedURLException{
-
-		//Connect to Georserver
-//		String RESTURL = "http://localhost:8086/geoserver";
-//		String RESTUSER = "admin";
-//		String RESTPW = "admin";
+	private boolean publishToGeoserver(File newFile, HttpSession session) throws FileNotFoundException, IllegalArgumentException, MalformedURLException{
+		layerName = geoServerConfig.getGsPotentialLayer()+"_"+session.getId();
 		GeoServerRESTReader reader = 
 				new GeoServerRESTReader(geoServerConfig.getRESTURL(), geoServerConfig.getRESTUSER(),geoServerConfig.getRESTPW());
 		GeoServerRESTPublisher publisher = new GeoServerRESTPublisher(geoServerConfig.getRESTURL(), geoServerConfig.getRESTUSER(),geoServerConfig.getRESTPW());
+		
+		TemporaryFileManager.setReader(reader);
+		TemporaryFileManager.setPublisher(publisher);
+		TemporaryFileManager.setGeoServerConfig(geoServerConfig);
+		
+		
 		if (!reader.existGeoserver()){
-			LOGGER.error("Geoserver does not exist");		
+			Messages.setMessage(Messages._GEOSERVER_NOT_EXIST);
+			return false;
 		}
 
-		//remove layer and datastore
-		if (reader.getLayer(geoServerConfig.getGsPotentialLayer())!=null){			
-			boolean ftRemoved = publisher.unpublishFeatureType(geoServerConfig.getGsWorkspace(), geoServerConfig.getGsPotentialDatastore(),geoServerConfig.getGsPotentialLayer());
-			publisher.reload();
-			publisher.removeLayer(geoServerConfig.getGsWorkspace(), geoServerConfig.getGsPotentialLayer());
-			publisher.reload();
-			boolean dsRemoved = publisher.removeDatastore(geoServerConfig.getGsWorkspace(), geoServerConfig.getGsPotentialDatastore(), true);
-			publisher.reload();			
+		if (reader.getLayer(geoServerConfig.getGsPotentialLayer()+"_"+session.getId())!=null){			
+			boolean ftRemoved = publisher.unpublishFeatureType(geoServerConfig.getGsWorkspace(), geoServerConfig.getGsPotentialDatastore()+"_"+session.getId(),geoServerConfig.getGsPotentialLayer()+"_"+session.getId());
+			publisher.removeLayer(geoServerConfig.getGsWorkspace(), geoServerConfig.getGsPotentialLayer()+"_"+session.getId());
+			boolean dsRemoved = publisher.removeDatastore(geoServerConfig.getGsWorkspace(), geoServerConfig.getGsPotentialDatastore()+"_"+session.getId(), true);
 		}
 
-		// Create Zip File 	
-		Zip zip = new Zip("C:\\Programming\\"+ geoServerConfig.getGsPotentialLayer() +".zip", "C:\\Programming\\"+ geoServerConfig.getGsPotentialLayer());
+		String zipfileName = newFile.getAbsolutePath().substring(0, newFile.getAbsolutePath().lastIndexOf("."))+".zip";
+		Zip zip = new Zip(zipfileName,newFile.getParentFile().getAbsolutePath());			
 		zip.createZip();
-
-		//	 boolean created = publisher.createWorkspace(geoServerConfig.getGsWorkspace());
-		File zipFile = new File("C:/Programming/"+ geoServerConfig.getGsPotentialLayer() +".zip");
-		boolean published = publisher.publishShp(geoServerConfig.getGsWorkspace(),geoServerConfig.getGsPotentialDatastore(),geoServerConfig.getGsPotentialLayer(), zipFile, "EPSG:28355",geoServerConfig.getGsPotentialStyle());
-
+		
+		File zipFile = new File(zipfileName);
+		boolean published = publisher.publishShp(geoServerConfig.getGsWorkspace(),
+				geoServerConfig.getGsPotentialDatastore()+"_"+session.getId(),
+				geoServerConfig.getGsPotentialLayer()+"_"+session.getId(), zipFile, "EPSG:28355",geoServerConfig.getGsPotentialStyle());
+		if (!published){
+			Messages.setMessage(Messages._PUBLISH_FAILED);
+			return false;
+		}
 		GSLayerEncoder le = new GSLayerEncoder();
 		le.setDefaultStyle(geoServerConfig.getGsPotentialStyle());
-		publisher.configureLayer(geoServerConfig.getGsWorkspace(), geoServerConfig.getGsPotentialLayer(), le);
+		publisher.configureLayer(geoServerConfig.getGsWorkspace(), geoServerConfig.getGsPotentialLayer()+"_"+session.getId(), le);
+		System.out.println("Publishsed Success");
 
-		System.out.println("Publishsed success");
+		return true;
 	}
+	
+
 
 	//*************************   ***************************
 
@@ -799,6 +834,30 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 	public void setBufferAllParams(Geometry bufferAllParams) {
 		this.bufferAllParams = bufferAllParams;
 	}
+	
+	public ReferencedEnvelope getEnvelope() {
+		return envelope;
+	}
+
+	public void setEnvelope(ReferencedEnvelope envelope) {
+		this.envelope = envelope;
+	}
+
+	public GeoServerConfig getGeoServerConfig() {
+		return geoServerConfig;
+	}
+	public void setGeoServerConfig(GeoServerConfig geoServerConfig) {
+		this.geoServerConfig = geoServerConfig;
+	}
+
+	public String getLayerName() {
+		return layerName;
+	}
+	public void setLayerName(String layerName) {
+		this.layerName = layerName;
+	}
+
+	
 }
 
 

@@ -1,35 +1,21 @@
 package au.org.housing.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.geotools.filter.text.cql2.CQLException;
-import org.opengis.geometry.MismatchedDimensionException;
-import org.opengis.referencing.FactoryException;
-import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-//import org.springframework.security.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.servlet.ModelAndView;
-
 
 import au.org.housing.exception.Messages;
 import au.org.housing.model.LayerRepository;
@@ -37,12 +23,11 @@ import au.org.housing.service.DevelpmentAssessment;
 import au.org.housing.service.FacilitiesBufferService;
 import au.org.housing.service.InitDevelopAssessment;
 import au.org.housing.service.InitDevelopPotential;
+import au.org.housing.service.PostGISService;
 import au.org.housing.service.PropertyFilterService;
 import au.org.housing.service.TransportationBufferService;
 
-
 import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.io.ParseException;
 
 @Controller 
 @RequestMapping("/housing-controller")
@@ -52,6 +37,9 @@ public class HousingController {
 	@Autowired
 	private TransportationBufferService transportationBufferService ;
 
+	@Autowired
+	private PostGISService posGISService;
+	
 	@Autowired
 	private FacilitiesBufferService facilitiesBufferService ;	
 
@@ -72,50 +60,63 @@ public class HousingController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/developmentPotential", headers = "Content-Type=application/json")
 	@ResponseStatus(HttpStatus.OK)	
-	public @ResponseBody Map<String, Object> handleRequest(@RequestBody Map<String, Object> housingParams) throws Exception { 
-		Messages.setMessage(Messages._SUCCESS);
-		
+	public @ResponseBody Map<String, Object> handleRequest(@RequestBody Map<String, Object> housingParams, HttpServletRequest request,HttpServletResponse response) throws Exception { 
+		Messages.setMessage(Messages._SUCCESS);		
 		initService.initParams(housingParams);
-		
-		//********************************* Buffer Transport  *********************************/
 		Geometry transportGeometry  = transportationBufferService.generateTranportBuffer();
-		LOGGER.info("^^^ transportGeometry"+ transportGeometry);
-
-		//********************************* Buffer Facilities *********************************
-
 		Geometry facilitiesGeometry = facilitiesBufferService.generateFacilityBuffer();
-		LOGGER.info("^^^ facilitiesGeometry"+ facilitiesGeometry);
-
-		//********************************* Buffer All Parameters *********************************
-
-		if ( transportGeometry!=null && facilitiesGeometry!=null  ){
-			System.out.println("transportGeometry!=null && facilitiesGeometry!=null ");
+		if ( transportGeometry!=null && facilitiesGeometry!=null  ){			
 			propertyFilterService.setBufferAllParams(transportGeometry.intersection(facilitiesGeometry));
-		}else if ( transportGeometry!=null && facilitiesGeometry==null ){
-			System.out.println("transportGeometry!=null && facilitiesGeometry==null");
+		}else if ( transportGeometry!=null && facilitiesGeometry==null ){			
 			propertyFilterService.setBufferAllParams(transportGeometry);
 		}else if ( transportGeometry==null && facilitiesGeometry!=null ){
-			System.out.println("transportGeometry==null && facilitiesGeometry!=null");
 			propertyFilterService.setBufferAllParams(facilitiesGeometry);
 		}
-
-		propertyFilterService.propertyAnalyse();
+		propertyFilterService.propertyAnalyse(request.getSession());
 		Map<String, Object> potentialResponse = new HashMap<String, Object>();
 		potentialResponse.put("message", Messages.getMessage());
+		request.getSession().setMaxInactiveInterval(1*60);
 		return potentialResponse;    	
 	}	
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/developmentAssessment", consumes="application/json")	
-	public @ResponseBody Map<String, Object> developmentAssessment(@RequestBody Map<String, Object> assessmentParams, HttpServletResponse response) throws Exception { 
+	public @ResponseBody Map<String, Object> developmentAssessment(@RequestBody Map<String, Object> assessmentParams, HttpServletRequest request,HttpServletResponse response) throws Exception { 
 		Messages.setMessage(Messages._SUCCESS);
 		initDevelopAssessment.initParams(assessmentParams);				
 		Map<String, Object> assessmentResponse = new HashMap<String, Object>();
-		developAssessment.analyse();			
+		developAssessment.analyse(request.getSession());		 
 		assessmentResponse.put("message", Messages.getMessage());		
 		System.out.println(assessmentResponse.get("message"));
+		request.getSession().setMaxInactiveInterval(1*60);
+//		posGISService.dipose();
 		return assessmentResponse;
 	}	
 	
+	@RequestMapping(method = RequestMethod.GET, value = "/map_assessment")
+	public @ResponseBody Map<String, Object> mapAssessment() throws Exception { 
+		Map<String, Object> assessmentParams = new HashMap<String, Object>();
+		assessmentParams.put("workspace", developAssessment.getGeoServerConfig().getGsWorkspace());
+		assessmentParams.put("layerName", developAssessment.getLayerName());
+		assessmentParams.put("maxX", developAssessment.getEnvelope().getMaxX());
+		assessmentParams.put("minX", developAssessment.getEnvelope().getMinX());
+		assessmentParams.put("maxY", developAssessment.getEnvelope().getMaxY());
+		assessmentParams.put("minY", developAssessment.getEnvelope().getMinY());
+		
+		return assessmentParams;
+	}	
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/map_potential")
+	public @ResponseBody Map<String, Object> mapPotential() throws Exception { 
+		Map<String, Object> potentialParams = new HashMap<String, Object>();
+		potentialParams.put("workspace", propertyFilterService.getGeoServerConfig().getGsWorkspace());
+		potentialParams.put("layerName", propertyFilterService.getLayerName());
+		potentialParams.put("maxX", propertyFilterService.getEnvelope().getMaxX());
+		potentialParams.put("minX", propertyFilterService.getEnvelope().getMinX());
+		potentialParams.put("maxY", propertyFilterService.getEnvelope().getMaxY());
+		potentialParams.put("minY", propertyFilterService.getEnvelope().getMinY());
+		return potentialParams;
+	}	
+		
 	
 	/*@RequestMapping(method = RequestMethod.GET, value = "/ui-jsp/map_potential.jsp")	
 	public @ResponseBody byte[] displayMap() throws Exception { 
@@ -126,15 +127,5 @@ public class HousingController {
 	    return IOUtils.toByteArray(in);
 	}	*/
 	
-		
-	/*@RequestMapping("/ui-jsp/map_potential.jsp")	
-	public String handleRequest(Model model) throws ParseException, IOException, FactoryException, InstantiationException, IllegalAccessException, MismatchedDimensionException, TransformException, CQLException {
-//		ModelAndView model = new ModelAndView();
-//		model.addObject("msg", "hello world ffffffffffffffffffff");
-		
-		model.addAttribute("msg", "sfjhdsfsfjbsjm");
- 
-		return "map_potential";
-	}*/
 	
 }

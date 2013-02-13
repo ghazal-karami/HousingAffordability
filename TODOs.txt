@@ -6,13 +6,13 @@
 5- 
 6- 
 7- 
-8- correct the problem of tabpanel and LGA in both forms 
-9- LGA filters in both forms
-10- in form1 should add operators for each slider
-11- show message : number of properties
+8- 
+9- 
+10- 
+11-
 12- show the meaning of each color
-13- check for geoserevr starting 
+13- 
 14- dispose db after logout
 15- comment my name on each file
-16- show messgaes on extjs forms such as propblem connecting to db for combo or store load
+16- 
  

@@ -526,16 +526,20 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 				var jresp = Ext.JSON.decode(response.responseText);
 				console.log('assessmentResponse' + jresp.message);
 				if (jresp.message == "Analysis Successfully Done") {
-					Ext.Msg.show({
+					Ext.Msg.alert('Analysis Status', jresp.message, Ext.emptyFn);
+					/*Ext.Msg.show({
+								title : 'Analysis Status',
 								msg : jresp.message,
-								width : 400,
-								icon : Ext.MessageBox.WARNING
-							});
+								width : 400	,
+								buttons: Ext.Msg.OK
+							});*/
 					window.open('ui-jsp/map_assessment.jsp');
 				} else {
 					Ext.Msg.show({
+						title : 'Analysis Status',
 								msg : jresp.message,
 								width : 400,
+								buttons: Ext.Msg.OK,
 								icon : Ext.MessageBox.WARNING
 							});
 				}
@@ -567,7 +571,7 @@ var footerPanel_DevelopAssessment = Ext.create('Ext.form.Panel', {
 // *************** whole Form1 ***************
 var developementAssessment = Ext.create('Ext.form.Panel', {
 			frame : true,
-			title : 'Developement Potential Analysis',
+			title : 'Developement Assessment Analysis',
 			items : [LGA_Assessment, wholeForm_Assessment,
 					footerPanel_DevelopAssessment],
 			height : 540,

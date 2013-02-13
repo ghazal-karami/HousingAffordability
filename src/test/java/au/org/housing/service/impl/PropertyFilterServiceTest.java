@@ -179,7 +179,7 @@ public class PropertyFilterServiceTest {
 		assertNotEquals(overlays.size(), 0);
 	}
 
-	@Test
+	/*@Test
 	public void testCreateFilters() throws Exception {
 		propertyFilterServiceImpl = new PropertyFilterServiceImpl();
 		Whitebox.setInternalState( propertyFilterServiceImpl, "validationService", validationService );
@@ -195,7 +195,7 @@ public class PropertyFilterServiceTest {
 		if (!Messages.getMessage().equals(Messages._SUCCESS)){
 			fail(Messages.getMessage());
 		}
-	}	
+	}	*/
 	
 //	@Test
 //	public void testPropertyCSDILA() throws Exception {

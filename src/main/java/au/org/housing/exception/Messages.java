@@ -2,18 +2,23 @@ package au.org.housing.exception;
 
 public class Messages {
 	
-	public final static String _NOT_METRIC = "layer is not Metric!";
-	public final static String _NOT_POLYGON = "layer is not Polygon!";
-	public final static String _NOT_POINT = "layer is not Point!";
-	public final static String _NOT_LINE = "layer is not Line!";
-	public final static String _NOT_HAVE_REQUIRED_FIELDS = "layer does not contain required attributes!";
-	public final static String _NOT_FIND_REQUIRED_LAYER = "layer is not found in datastrore!";
-	public final static String _NOT_VALID = "Geometry is not valid!";
+	public final static String _CONN_POSTGIS_FAILED = "Connetion To PostGIS Database Failed";
+	public final static String _NOT_METRIC = "Layer Is Not Metric!";
+	public final static String _NOT_POLYGON = "Layer Is Not Polygon!";
+	public final static String _NOT_POINT = "Layer Is Not Point!";
+	public final static String _NOT_LINE = "Layer Is Line!";
+	public final static String _NOT_HAVE_REQUIRED_FIELDS = "Layer Does Not Contain Required Attributes!";
+	public final static String _NOT_FIND_REQUIRED_Layer = "Layer Is Not found In DataStore!";
+	public final static String _NOT_VALID = "Geometry Is Not Valid!";
+	
+
+	public final static String _NO_FEATURE = "No Feature to Display On The map!";
 	public final static String _SUCCESS = "Analysis Successfully Done";
-	public final static String _NO_FEATURE = "No feature to display on the map!";
-	public final static String _GEOSERVER_NOT_EXIST = "Geoserver does not exist!";
 	public final static String _ERROR = "Error";
-	public final static String _CONN_POSTGIS_FAILED = "Connetion to postgis database failed";
+	
+
+	public final static String _GEOSERVER_NOT_EXIST = "Geoserver Does Not Exist!";
+	public final static String _PUBLISH_FAILED = "Unable To Publish The New Output Layer To Geoserver";
 	
 	private static String message = Messages._SUCCESS;
 

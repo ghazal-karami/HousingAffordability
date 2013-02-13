@@ -27,11 +27,20 @@ public class PostGISServiceImpl implements PostGISService {
 
 	private DataStore dataStore = null;
 	
+	public DataStore getDataStore() {
+		return dataStore;
+	}
+
+	public void setDataStore(DataStore dataStore) {
+		this.dataStore = dataStore;
+	}
+
 	@Autowired
 	private PostGisConfig postGisConfig;
 
 	@PreDestroy
 	public void dipose(){
+		System.out.println("Spring Container is destroy! Customer clean up");
 		dataStore = null;
 		dataStore.dispose();
 	}
@@ -53,7 +62,6 @@ public class PostGISServiceImpl implements PostGISService {
 	}	
 	
 	private DataStore getPOSTGISDataStore() throws IOException {
-//		try{
 			if (this.dataStore == null) {//			
 				Map<String, Object> params = new HashMap<String, Object>();
 				params.put("dbtype", postGisConfig.getPostgis_type());
@@ -64,13 +72,8 @@ public class PostGISServiceImpl implements PostGISService {
 				params.put("user", postGisConfig.getPostgis_user());
 				params.put("passwd", postGisConfig.getPostgis_passwd());
 				dataStore = DataStoreFinder.getDataStore(params);
+				
 			}
-//		}catch (DataSourceException e1) {
-//			Messages.setMessage(Messages._CONN_POSTGIS_FAILED);			
-//			throw new DataSourceException(Messages._CONN_POSTGIS_FAILED) ;
-//		}catch (Exception e2) {
-//			Messages.setMessage(Messages._CONN_POSTGIS_FAILED);			
-//		}
 		return this.dataStore;
 	}
 
