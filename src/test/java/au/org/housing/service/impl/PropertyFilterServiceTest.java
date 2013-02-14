@@ -37,7 +37,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.vividsolutions.jts.geom.Geometry;
 
 
-import au.org.housing.config.LayersConfig;
+import au.org.housing.config.InputLayersConfig;
 import au.org.housing.exception.Messages;
 import au.org.housing.model.ParameterDevelopPotential;
 import au.org.housing.service.ExportService;
@@ -67,7 +67,7 @@ public class PropertyFilterServiceTest {
 	private FeatureBuilder featureBuilder;
 	
 	@Autowired
-	private LayersConfig layerMapping;
+	private InputLayersConfig layerMapping;
 
 	@Autowired
 	private TransportationBufferService transportationBufferService;

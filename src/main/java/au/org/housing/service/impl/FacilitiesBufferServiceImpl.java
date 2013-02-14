@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import au.org.housing.config.LayersConfig;
+import au.org.housing.config.InputLayersConfig;
 import au.org.housing.exception.LayerValidationException;
 import au.org.housing.model.ParameterDevelopPotential;
 import au.org.housing.service.BufferService;
@@ -46,7 +46,7 @@ public class FacilitiesBufferServiceImpl implements FacilitiesBufferService {
 	private ValidationService validationService;
 	
 	@Autowired
-	private LayersConfig layerMapping;
+	private InputLayersConfig layerMapping;
 	
 	public Geometry generateFacilityBuffer() throws NoSuchAuthorityCodeException, IOException, FactoryException, URISyntaxException, LayerValidationException, PSQLException{
 		Geometry intersected = null;		

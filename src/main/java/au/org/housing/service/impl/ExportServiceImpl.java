@@ -37,7 +37,7 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 @Service
 public class ExportServiceImpl implements ExportService {
 
-	public void featuresExportToShapeFile(SimpleFeatureType type,
+	public boolean featuresExportToShapeFile(SimpleFeatureType type,
 			SimpleFeatureCollection simpleFeatureCollection, File newFile,
 			boolean createSchema) throws IOException,
 			NoSuchAuthorityCodeException, FactoryException {
@@ -60,34 +60,32 @@ public class ExportServiceImpl implements ExportService {
 			newDataStore.createSchema(type);
 		}
 		newDataStore.forceSchemaCRS(CRS.decode("EPSG:28355"));
-//		 Transaction transaction = new DefaultTransaction("create");
+		 Transaction transaction = new DefaultTransaction("create");
 		String typeName = newDataStore.getTypeNames()[0];
 		SimpleFeatureSource featureSource = newDataStore
 				.getFeatureSource(typeName);
-
+		boolean exportStatus = true;
 		if (featureSource instanceof SimpleFeatureStore) {
 			SimpleFeatureStore featureStore = (SimpleFeatureStore) featureSource;
-//			 featureStore.setTransaction(transaction);
+			 featureStore.setTransaction(transaction);
 			try {
 				featureStore.addFeatures(simpleFeatureCollection);
-//				 transaction.commit();
+				 transaction.commit();
 				System.out.println(" commit");
 
 			} catch (Exception problem) {
 				problem.printStackTrace();
 				System.out.println(" rollback");
-//				 transaction.rollback();
-
+				 transaction.rollback();
+				 exportStatus = false;
 			} finally {
 				System.out.println(" close");
-//				 transaction.close();
+				 transaction.close();
 			}
 		} else {
 			System.out.println(typeName + " does not support read/write access");
 		}
-		
-		
-		
+		return exportStatus;
 	}
 
 	public void featuresExportToPostGis(SimpleFeatureType type,

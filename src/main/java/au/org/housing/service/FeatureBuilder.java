@@ -21,4 +21,5 @@ public interface FeatureBuilder {
 	public SimpleFeatureBuilder createFeatureBuilder();
 	
 	public SimpleFeatureTypeBuilder createFeatureTypeBuilder(SimpleFeatureType sft, String typeName);
+		
 }

@@ -3,7 +3,7 @@ Ext.onReady(function() {
 	Ext.Ajax.timeout = 14000000;
 	var tabPanel = Ext.create('Ext.tab.Panel', {
 				width : 1100,
-				activeTab : 1,
+				activeTab : 0,
 				autoHeight : false,
 				renderTo : document.body,
 				items : [developementPotential, developementAssessment]

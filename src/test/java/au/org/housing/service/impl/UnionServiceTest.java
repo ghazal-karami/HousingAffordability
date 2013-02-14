@@ -23,7 +23,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
-import au.org.housing.config.LayersConfig;
+import au.org.housing.config.InputLayersConfig;
 import au.org.housing.exception.Messages;
 import au.org.housing.service.ExportService;
 import au.org.housing.service.FeatureBuilder;
@@ -39,7 +39,7 @@ public class UnionServiceTest {
 	@Autowired FeatureBuilder featureBuilder;
 	
 	@Autowired
-	private LayersConfig layerMapping;
+	private InputLayersConfig layerMapping;
 
 
 	public UnionServiceTest() {

@@ -69,7 +69,6 @@ public class TemporaryFileManager {
 	//Ghazal Karami
 	public static boolean deleteDir(HttpSession session) throws IOException{
 		List<String> infos = _tempfilesInfo.get(session.getId());
-		System.out.println(infos.get(0));
 		if (infos != null) {
 			for (int i = 0; i < infos.size(); i++) {
 				File dir = new File(infos.get(i));

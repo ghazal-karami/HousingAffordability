@@ -11,7 +11,7 @@ import com.vividsolutions.jts.geom.Geometry;
 
 public interface PropertyFilterService {		
 
-	public void propertyAnalyse(HttpSession session )throws Exception;
+	public void analyse(HttpSession session )throws Exception;
 
 	public Geometry getBufferAllParams() ;
 

@@ -10,14 +10,14 @@ import org.geotools.data.simple.SimpleFeatureSource;
 import org.opengis.feature.simple.SimpleFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import au.org.housing.config.LayersConfig;
+import au.org.housing.config.InputLayersConfig;
 
 import junit.framework.TestCase;
 
 public class WFSDataStoreFactoryTest extends TestCase {
 
 	@Autowired
-	private LayersConfig layerMapping;
+	private InputLayersConfig layerMapping;
 	
 	public WFSDataStoreFactoryTest(String name) {
 		super(name);

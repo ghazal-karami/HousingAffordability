@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import au.org.housing.config.LayersConfig;
+import au.org.housing.config.InputLayersConfig;
 import au.org.housing.controller.HousingController;
 import au.org.housing.exception.Messages;
 import au.org.housing.service.ValidationService;
@@ -36,7 +36,7 @@ public class ValidationServiceImpl implements ValidationService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HousingController.class);
 
 	@Autowired
-	private LayersConfig layerMapping;
+	private InputLayersConfig layerMapping;
 	
 	public boolean isMetric(SimpleFeatureSource fc, String layerName) { 
 		CoordinateReferenceSystem crs = fc.getSchema().getGeometryDescriptor().getCoordinateReferenceSystem();

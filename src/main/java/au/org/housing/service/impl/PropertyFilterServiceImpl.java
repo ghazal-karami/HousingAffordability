@@ -45,7 +45,8 @@ import org.springframework.stereotype.Service;
 
 
 import au.org.housing.config.GeoServerConfig;
-import au.org.housing.config.LayersConfig;
+import au.org.housing.config.InputLayersConfig;
+import au.org.housing.config.OutPutLayerConfig;
 import au.org.housing.exception.Messages;
 import au.org.housing.model.LayerRepository;
 import au.org.housing.model.ParameterDevelopPotential;
@@ -120,18 +121,21 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 	@Autowired LayerRepository layerRepo;
 
 	@Autowired
-	private LayersConfig layerMapping;
+	private InputLayersConfig inputLayersConfig;
+	
+	@Autowired
+	private OutPutLayerConfig outPutLayerConfig;
 	
 
 	//************************* Check if the layer is Metric  ***************************
 
-	public void propertyAnalyse(HttpSession session) throws SQLException, Exception{
+	public void analyse(HttpSession session) throws SQLException, Exception{
 		if (!layersValidation() ){
 			LOGGER.error(Messages.getMessage());
 		}
 		propertyOverlaysNum = -1;		
-		SimpleFeatureType sft = propertyFc.getSchema();
-		stb = featureBuilder.createFeatureTypeBuilder(sft, "OutPutData");	
+//		SimpleFeatureType sft = propertyFc.getSchema();
+//		stb = featureBuilder.createFeatureTypeBuilder(sft, "OutPutData");	
 		dropCreateSchema = true;
 		propertyFilters = new ArrayList<Filter>();
 		propertyFilter = null;	
@@ -150,16 +154,16 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 	}
 	
 	private boolean layersValidation() throws IOException, PSQLException {
-		propertyFc = postGISService.getFeatureSource(layerMapping.getProperty());
+		propertyFc = postGISService.getFeatureSource(inputLayersConfig.getProperty());
 		LOGGER.info(propertyFc.getSchema().getCoordinateReferenceSystem().toString());
-		planCodeListFc = postGISService.getFeatureSource(layerMapping.getPlanCodes());
-		planOverlayFc = postGISService.getFeatureSource(layerMapping.getPlanOverlay());
+		planCodeListFc = postGISService.getFeatureSource(inputLayersConfig.getPlanCodes());
+		planOverlayFc = postGISService.getFeatureSource(inputLayersConfig.getPlanOverlay());
 		LOGGER.info(planOverlayFc.getSchema().getCoordinateReferenceSystem().toString());
-		zonecodesFc =  postGISService.getFeatureSource(layerMapping.getZonecodesTbl());
-		if (    !validationService.propertyValidated(propertyFc, layerMapping.getProperty())  || !validationService.isPolygon(propertyFc, layerMapping.getProperty()) || !validationService.isMetric(propertyFc, layerMapping.getProperty())||
-				!validationService.planOverlayValidated(planOverlayFc, layerMapping.getPlanOverlay()) || !validationService.isMetric(planOverlayFc, layerMapping.getPlanOverlay()) || !validationService.isPolygon(planOverlayFc, layerMapping.getPlanOverlay()) ||
-				!validationService.planCodeListValidated(planCodeListFc, layerMapping.getPlanCodes()) ||
-				!validationService.zonecodesValidated(zonecodesFc, layerMapping.getZonecodesTbl()) ){
+		zonecodesFc =  postGISService.getFeatureSource(inputLayersConfig.getZonecodesTbl());
+		if (    !validationService.propertyValidated(propertyFc, inputLayersConfig.getProperty())  || !validationService.isPolygon(propertyFc, inputLayersConfig.getProperty()) || !validationService.isMetric(propertyFc, inputLayersConfig.getProperty())||
+				!validationService.planOverlayValidated(planOverlayFc, inputLayersConfig.getPlanOverlay()) || !validationService.isMetric(planOverlayFc, inputLayersConfig.getPlanOverlay()) || !validationService.isPolygon(planOverlayFc, inputLayersConfig.getPlanOverlay()) ||
+				!validationService.planCodeListValidated(planCodeListFc, inputLayersConfig.getPlanCodes()) ||
+				!validationService.zonecodesValidated(zonecodesFc, inputLayersConfig.getZonecodesTbl()) ){
 			return false;
 		}
 		return true;
@@ -179,8 +183,8 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 
 	private void dpiFilter() throws CQLException{
 		if (parameter.getDpi() != 0) {
-			Divide divide = ff.divide(ff.property(layerMapping.getProperty_svCurrentYear()),
-					ff.property(layerMapping.getProperty_civCurrentYear()));
+			Divide divide = ff.divide(ff.property(inputLayersConfig.getProperty_svCurrentYear()),
+					ff.property(inputLayersConfig.getProperty_civCurrentYear()));
 			String operator = parameter.getDpiOperateorVal();
 			Filter filterDPI = null;
 			switch (operator.charAt(0)) {
@@ -206,27 +210,27 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		landUseFilters = new ArrayList<Filter>();
 		Filter filter = null;
 		if (parameter.getResidential()) {
-			filter = ff.equals(ff.property(layerMapping.getZonecodes_group1()), ff.literal("RESIDENTIAL"));
+			filter = ff.equals(ff.property(inputLayersConfig.getZonecodes_group1()), ff.literal("RESIDENTIAL"));
 			landUseFilters(filter);
 		}
 		if (parameter.getBusiness()) {
-			filter = ff.equals(ff.property(layerMapping.getZonecodes_group1()), ff.literal("BUSINESS"));
+			filter = ff.equals(ff.property(inputLayersConfig.getZonecodes_group1()), ff.literal("BUSINESS"));
 			landUseFilters(filter);
 		}
 		if (parameter.getRural()) {
-			filter = ff.equals(ff.property(layerMapping.getZonecodes_group1()), ff.literal("RURAL"));
+			filter = ff.equals(ff.property(inputLayersConfig.getZonecodes_group1()), ff.literal("RURAL"));
 			landUseFilters(filter);
 		}
 		if (parameter.getMixedUse()) {
-			filter = ff.equals(ff.property(layerMapping.getZonecodes_group1()), ff.literal("MIXED USE"));
+			filter = ff.equals(ff.property(inputLayersConfig.getZonecodes_group1()), ff.literal("MIXED USE"));
 			landUseFilters(filter);
 		}
 		if (parameter.getSpecialPurpose()) {
-			filter = ff.equals(ff.property(layerMapping.getZonecodes_group1()),ff.literal("SPECIAL PURPOSE"));
+			filter = ff.equals(ff.property(inputLayersConfig.getZonecodes_group1()),ff.literal("SPECIAL PURPOSE"));
 			landUseFilters(filter);
 		}
 		if (parameter.getUrbanGrowthBoundry()) {
-			filter = ff.equals(ff.property(layerMapping.getZonecodes_group1()),ff.literal("URBAN GROWTH BOUNDARY"));
+			filter = ff.equals(ff.property(inputLayersConfig.getZonecodes_group1()),ff.literal("URBAN GROWTH BOUNDARY"));
 			landUseFilters(filter);
 		}		
 		if (!landUseFilters.isEmpty()) {
@@ -259,7 +263,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		SimpleFeatureCollection publicAcquisitions = null;
 		if (parameter.getPublicAcquision()) {
 			System.out.println("------- PUBLIC ACQUISION true");	 
-			filter = ff.equals(ff.property(layerMapping.getPlanCodes_group1()),ff.literal("PUBLIC ACQUISION OVERLAY"));
+			filter = ff.equals(ff.property(inputLayersConfig.getPlanCodes_group1()),ff.literal("PUBLIC ACQUISION OVERLAY"));
 			publicAcquisitions = overlayCollection(filter);			
 			System.out.println("publicAcquisitions size==="+publicAcquisitions.size());				
 			publicAcquisitionsUnion = (Geometry) unionService.createUnion(publicAcquisitions);			
@@ -273,7 +277,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		SimpleFeatureCollection commonWealths = null;
 		if ( parameter.getCommonwealth() ) {
 			System.out.println("------- Commonwealth true");	 
-			filter = ff.equals(ff.property(layerMapping.getPlanCodes_group1()),ff.literal("COMMONWEALTH LAND"));
+			filter = ff.equals(ff.property(inputLayersConfig.getPlanCodes_group1()),ff.literal("COMMONWEALTH LAND"));
 			commonWealths = overlayCollection(filter);			
 			System.out.println("commonWealths size==="+commonWealths.size());
 			commonWealthsUnion = (Geometry) unionService.createUnion(commonWealths);
@@ -293,7 +297,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		//************ FLOODWAY OVERLAY ************	
 		Geometry floodwaysUnion = null;
 		if (parameter.getFloodway()) {			 
-			filter = ff.equals(ff.property(layerMapping.getPlanCodes_group1()),ff.literal("FLOODWAY OVERLAY"));
+			filter = ff.equals(ff.property(inputLayersConfig.getPlanCodes_group1()),ff.literal("FLOODWAY OVERLAY"));
 			SimpleFeatureCollection floodways = overlayCollection(filter);
 			if ( floodways != null ){
 				floodwaysUnion = (Geometry) unionService.createUnion(floodways);
@@ -308,7 +312,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		//************ LAND SUBJECT TO INUNDATION OVERLAY ************
 		//		Geometry inundationsUnion = null; //????
 		if (parameter.getInundation()) {		 
-			filter = ff.equals(ff.property(layerMapping.getPlanCodes_group1()),ff.literal("LAND SUBJECT TO INUNDATION OVERLAY"));
+			filter = ff.equals(ff.property(inputLayersConfig.getPlanCodes_group1()),ff.literal("LAND SUBJECT TO INUNDATION OVERLAY"));
 			SimpleFeatureCollection inundations = overlayCollection(filter);
 			if ( inundations != null ){
 				inundationsUnion = unionService.createUnion(inundations) ; 
@@ -323,7 +327,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		//************ NEIGHBOURHOOD CHARACTER OVERLAY ************
 		Geometry neighborhoodsUnion = null;		
 		if (parameter.getNeighborhood()) {		 
-			filter = ff.equals(ff.property(layerMapping.getPlanCodes_group1()),ff.literal("NEIGHBOURHOOD CHARACTER OVERLAY"));
+			filter = ff.equals(ff.property(inputLayersConfig.getPlanCodes_group1()),ff.literal("NEIGHBOURHOOD CHARACTER OVERLAY"));
 			SimpleFeatureCollection neighborhoods = overlayCollection(filter);
 			if ( neighborhoods != null ){
 				neighborhoodsUnion = (Geometry) unionService.createUnion(neighborhoods);
@@ -340,7 +344,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		//************ DESIGN AND DEVELOPMENT OVERLAY ************
 		Geometry designDevelopmentsUnion = null;		
 		if (parameter.getDesignDevelopment()) {			 
-			filter = ff.equals(ff.property(layerMapping.getPlanCodes_group1()),ff.literal("DESIGN AND DEVELOPMENT OVERLAY"));
+			filter = ff.equals(ff.property(inputLayersConfig.getPlanCodes_group1()),ff.literal("DESIGN AND DEVELOPMENT OVERLAY"));
 			SimpleFeatureCollection designDevelopments = overlayCollection(filter);
 			if ( designDevelopments != null ){
 				designDevelopmentsUnion = (Geometry) unionService.createUnion(designDevelopments);
@@ -355,7 +359,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		//************ DESIGN AND DEVELOPMENT OVERLAY ************
 		Geometry developPlansUnion = null;		
 		if (parameter.getDevelopPlan()) {		 
-			filter = ff.equals(ff.property(layerMapping.getPlanCodes_group1()),ff.literal("DEVELOPMENT PLAN OVERLAY"));
+			filter = ff.equals(ff.property(inputLayersConfig.getPlanCodes_group1()),ff.literal("DEVELOPMENT PLAN OVERLAY"));
 			SimpleFeatureCollection developPlans = overlayCollection(filter);
 			if ( developPlans != null ){
 				developPlansUnion = (Geometry) unionService.createUnion(developPlans);
@@ -370,7 +374,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		// ************ PARKING OVERLAY ************
 		Geometry parkingsUnion = null;		
 		if (parameter.getParking() ) {		 
-			filter = ff.equals(ff.property(layerMapping.getPlanCodes_group1()),ff.literal("PARKING OVERLAY"));
+			filter = ff.equals(ff.property(inputLayersConfig.getPlanCodes_group1()),ff.literal("PARKING OVERLAY"));
 			SimpleFeatureCollection parkings = overlayCollection(filter);
 			if ( parkings != null ){
 				parkingsUnion = (Geometry) unionService.createUnion(parkings);
@@ -385,7 +389,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		// ************ BUSHFIRE MANAGEMENT OVERLAY ************
 		Geometry bushfiresUnion = null;	
 		if (parameter.getBushfire() ) {	 
-			filter = ff.equals(ff.property(layerMapping.getPlanCodes_group1()),ff.literal("BUSHFIRE MANAGEMENT OVERLAY"));
+			filter = ff.equals(ff.property(inputLayersConfig.getPlanCodes_group1()),ff.literal("BUSHFIRE MANAGEMENT OVERLAY"));
 			SimpleFeatureCollection bushfires = overlayCollection(filter);
 			if ( bushfires != null ){
 				bushfiresUnion = (Geometry) unionService.createUnion(bushfires);
@@ -400,7 +404,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		// ************ EROSION MANAGEMENT OVERLAY ************
 		Geometry erosionsUnion = null;	
 		if (parameter.getErosion()) {	 
-			filter = ff.equals(ff.property(layerMapping.getPlanCodes_group1()),ff.literal("EROSION MANAGEMENT OVERLAY"));
+			filter = ff.equals(ff.property(inputLayersConfig.getPlanCodes_group1()),ff.literal("EROSION MANAGEMENT OVERLAY"));
 			SimpleFeatureCollection erosions = overlayCollection(filter);
 			if ( erosions != null ){
 				erosionsUnion = (Geometry) unionService.createUnion(erosions);
@@ -415,7 +419,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		// ************ VEGETATION PROTECTION OVERLAY ************
 		Geometry vegprotectionsUnion = null;	
 		if (parameter.getVegprotection()) {
-			filter = ff.equals(ff.property(layerMapping.getPlanCodes_group1()),ff.literal("VEGETATION PROTECTION OVERLAY"));
+			filter = ff.equals(ff.property(inputLayersConfig.getPlanCodes_group1()),ff.literal("VEGETATION PROTECTION OVERLAY"));
 			SimpleFeatureCollection vegprotections = overlayCollection(filter);
 			if ( vegprotections != null ){
 				vegprotectionsUnion = (Geometry) unionService.createUnion(vegprotections);
@@ -430,7 +434,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		// ************ SALINITY MANAGEMENT OVERLAY ************
 		Geometry salinitysUnion = null;
 		if (parameter.getSalinity()) {	 
-			filter = ff.equals(ff.property(layerMapping.getPlanCodes_group1()),ff.literal("SALINITY MANAGEMENT OVERLAY"));
+			filter = ff.equals(ff.property(inputLayersConfig.getPlanCodes_group1()),ff.literal("SALINITY MANAGEMENT OVERLAY"));
 			SimpleFeatureCollection salinitys = overlayCollection(filter);
 			if ( salinitys != null ){
 				salinitysUnion = (Geometry) unionService.createUnion(salinitys);
@@ -445,7 +449,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		// ************ CONTAMINATION MANAGEMENT OVERLAY ************
 		Geometry contaminationsUnion = null;
 		if (parameter.getContamination()) {
-			filter = ff.equals(ff.property(layerMapping.getPlanCodes_group1()),ff.literal("POTENTIALLY CONTAMINATED LAND OVERLAY"));
+			filter = ff.equals(ff.property(inputLayersConfig.getPlanCodes_group1()),ff.literal("POTENTIALLY CONTAMINATED LAND OVERLAY"));
 			SimpleFeatureCollection contaminations = overlayCollection(filter);
 			if ( contaminations != null ){
 				contaminationsUnion = (Geometry) unionService.createUnion(contaminations);
@@ -460,7 +464,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		// ************ ENVIRONMENTAL SIGNIFICANCE OVERLAY ************
 		Geometry envSignificancesUnion = null;
 		if (parameter.getEnvSignificance()) {
-			filter = ff.equals(ff.property(layerMapping.getPlanCodes_group1()),ff.literal("ENVIRONMENTAL SIGNIFICANCE OVERLAY"));
+			filter = ff.equals(ff.property(inputLayersConfig.getPlanCodes_group1()),ff.literal("ENVIRONMENTAL SIGNIFICANCE OVERLAY"));
 			SimpleFeatureCollection envSignificances = overlayCollection(filter);
 			if ( envSignificances != null ){
 				envSignificancesUnion = (Geometry) unionService.createUnion(envSignificances);
@@ -475,7 +479,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		// ************ ENVIRONMENTAL AUDIT OVERLAY ************
 		Geometry envAuditsUnion = null;
 		if (parameter.getEnvAudit()) {
-			filter = ff.equals(ff.property(layerMapping.getPlanCodes_group1()),ff.literal("ENVIRONMENTAL AUDIT OVERLAY"));//???
+			filter = ff.equals(ff.property(inputLayersConfig.getPlanCodes_group1()),ff.literal("ENVIRONMENTAL AUDIT OVERLAY"));//???
 			SimpleFeatureCollection envAudits = overlayCollection(filter);
 			if ( envAudits != null ){
 				envAuditsUnion = (Geometry) unionService.createUnion(envAudits);
@@ -490,7 +494,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		// ************ HERITAGE OVERLAY ************		
 		Geometry heritageUnion = null;
 		if (parameter.getHeritage()) {
-			filter = ff.equals(ff.property(layerMapping.getPlanCodes_group1()),ff.literal("HERITAGE OVERLAY"));// ???
+			filter = ff.equals(ff.property(inputLayersConfig.getPlanCodes_group1()),ff.literal("HERITAGE OVERLAY"));// ???
 			SimpleFeatureCollection heritages = overlayCollection(filter);
 			if (heritages != null){
 				heritageUnion = (Geometry) unionService.createUnion(heritages);
@@ -515,13 +519,19 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 				propertyFilters.add(ownershipFilter);				
 			}
 			propertyFilter = ff.and(propertyFilters);
-			System.out.println(propertyFilter);
 		}		
 	}
 
 	private void generateQuery(HttpSession session) throws SQLException, Exception{
 		propertyQuery = new Query();
-		LOGGER.info("-----  propertyFilter.toSt ring()"+propertyFilter.toString()); 
+		String geom_name = propertyFc.getSchema().getGeometryDescriptor().getLocalName();
+		String[] attributes = {geom_name, outPutLayerConfig.getObjectid(), outPutLayerConfig.getPfi(), outPutLayerConfig.getLgaName()
+				, outPutLayerConfig.getStreet_name(), outPutLayerConfig.getStreet_type(), outPutLayerConfig.getSuburb()
+				, outPutLayerConfig.getPostcode(), outPutLayerConfig.getLand_area(), outPutLayerConfig.getAreameasure() };
+		propertyQuery.setPropertyNames(attributes);
+		propertyQuery.setFilter(propertyFilter);		
+		
+		
 //		if (propertyFilter != null) {
 //			propertyQuery.setFilter(propertyFilter);
 //		} else {
@@ -538,20 +548,20 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 //			propertyQuery.setFilter(propertyFilter);
 //			System.out.println("if (propertyFilter ===== null) {");
 //		}
-		stb.add("OverlaysNum", Integer.class); 
-		newFeatureType = stb.buildFeatureType();
-		sfb = new SimpleFeatureBuilder(newFeatureType);
-		properties= propertyFc.getFeatures(propertyFilter);
-		envelope = properties.getBounds();
-		System.out.println("envelope.getMaxX==  "+envelope.getMaxX());
-		System.out.println("envelope.getMaxY==  "+envelope.getMaxY());
-		System.out.println("envelope.getMinX==  "+envelope.getMinX());
-		System.out.println("envelope.getMinY==  "+envelope.getMinY());
 		
+		properties= propertyFc.getFeatures(propertyQuery);
+		envelope = properties.getBounds();
 		if (properties != null && !properties.isEmpty()) {
 			System.out.println("size= "+properties.size());			
+			stb = featureBuilder.createFeatureTypeBuilder(properties.getSchema(), "OutPut");	
+			stb.add("OverlaysNum", Integer.class); 
+			newFeatureType = stb.buildFeatureType();		 
+			
+//			newFeatureType = stb.buildFeatureType();
+			sfb = new SimpleFeatureBuilder(newFeatureType);
 			this.overlayFilter(session);
-		}		
+		}
+		
 	}
 
 	private void overlayFilter(HttpSession session) throws NoSuchAuthorityCodeException, IOException, FactoryException, SQLException, Exception{
@@ -775,15 +785,15 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 
 	private void landUseFilters(Filter filter) throws IOException {
 		Query zoneCodeQuery = new Query();
-		zoneCodeQuery.setPropertyNames(new String[] { layerMapping.getZonecodes_zoneCode(), layerMapping.getZonecodes_group1()});
+		zoneCodeQuery.setPropertyNames(new String[] { inputLayersConfig.getZonecodes_zoneCode(), inputLayersConfig.getZonecodes_group1()});
 		zoneCodeQuery.setFilter(filter);
 		SimpleFeatureCollection zoneCodes = zonecodesFc.getFeatures(zoneCodeQuery);
 		SimpleFeatureIterator it = zoneCodes.features();
 		List<Filter> match = new ArrayList<Filter>();
 		while (it.hasNext()) {
 			SimpleFeature zoneCode = it.next();
-			Object value = zoneCode.getAttribute(layerMapping.getZonecodes_zoneCode());
-			filter = ff.equals(ff.property(layerMapping.getProperty_zoning()), ff.literal(value));
+			Object value = zoneCode.getAttribute(inputLayersConfig.getZonecodes_zoneCode());
+			filter = ff.equals(ff.property(inputLayersConfig.getProperty_zoning()), ff.literal(value));
 			match.add(filter);
 		}
 		System.out.println(match.size());
@@ -795,7 +805,7 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 
 	private SimpleFeatureCollection overlayCollection(Filter filter) throws IOException {
 		Query codeListQuery = new Query();
-		codeListQuery.setPropertyNames(new String[] { layerMapping.getPlanCodes_zoneCode(), layerMapping.getPlanCodes_group1() });
+		codeListQuery.setPropertyNames(new String[] { inputLayersConfig.getPlanCodes_zoneCode(), inputLayersConfig.getPlanCodes_group1() });
 		codeListQuery.setFilter(filter);
 		SimpleFeatureCollection codeList = planCodeListFc.getFeatures(codeListQuery);
 
@@ -805,8 +815,8 @@ public class PropertyFilterServiceImpl implements PropertyFilterService {
 		List<Filter> match = new ArrayList<Filter>();
 		while (it.hasNext()) {
 			SimpleFeature zoneCode = it.next();
-			Object value = zoneCode.getAttribute(layerMapping.getPlanOverlay_zoneCode());
-			filter = ff.equals(ff.property(layerMapping.getPlanOverlay_zoneCode()), ff.literal(value));
+			Object value = zoneCode.getAttribute(inputLayersConfig.getPlanOverlay_zoneCode());
+			filter = ff.equals(ff.property(inputLayersConfig.getPlanOverlay_zoneCode()), ff.literal(value));
 			match.add(filter);
 		}
 		it.close();

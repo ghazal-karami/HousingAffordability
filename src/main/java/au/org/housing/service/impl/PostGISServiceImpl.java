@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.annotation.PreDestroy;
 
-import org.geotools.data.DataSourceException;
 import org.geotools.data.DataStore;
 import org.geotools.data.DataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureSource;
@@ -17,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import au.org.housing.config.PostGisConfig;
-import au.org.housing.exception.Messages;
 import au.org.housing.service.PostGISService;
 
 @Service
@@ -50,11 +48,6 @@ public class PostGISServiceImpl implements PostGISService {
 			return null;
 		}
 		return dataStore.getFeatureSource(layerName);
-//		try{
-//		}catch (NullPointerException e) {
-//			Messages.setMessage(Messages._NOT_FIND_REQUIRED_LAYER);
-//			return null;
-//		}		
 	}
 
 	private DataStore getDataStore(String layername) throws IOException, PSQLException {

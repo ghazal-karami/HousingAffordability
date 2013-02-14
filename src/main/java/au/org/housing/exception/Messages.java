@@ -11,7 +11,8 @@ public class Messages {
 	public final static String _NOT_FIND_REQUIRED_Layer = "Layer Is Not found In DataStore!";
 	public final static String _NOT_VALID = "Geometry Is Not Valid!";
 	
-
+	public final static String _EXPORT_TO_SHP_UNSUCCESSFULL= "Export To Shape File Was Unsuccessfull!";
+	
 	public final static String _NO_FEATURE = "No Feature to Display On The map!";
 	public final static String _SUCCESS = "Analysis Successfully Done";
 	public final static String _ERROR = "Error";

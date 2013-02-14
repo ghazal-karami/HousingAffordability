@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import au.org.housing.config.LayersConfig;
+import au.org.housing.config.InputLayersConfig;
 
 import au.org.housing.model.ParameterDevelopPotential;
 import au.org.housing.service.BufferService;
@@ -49,7 +49,7 @@ public class TransportationBufferServiceImpl implements
 	private ValidationService validationService;
 
 	@Autowired
-	private LayersConfig layerMapping;
+	private InputLayersConfig layerMapping;
 
 	SimpleFeatureSource trainStationFc;
 	SimpleFeatureSource trainRouteFc;

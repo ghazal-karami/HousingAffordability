@@ -19,13 +19,13 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-import au.org.housing.config.LayersConfig;
+import au.org.housing.config.InputLayersConfig;
 import au.org.housing.utilities.GeoJSONUtilities;
 
 public class GeoJSONUtilitiesTest {
 
 	@Autowired
-	private LayersConfig layerMapping;
+	private InputLayersConfig layerMapping;
 	
 	public GeoJSONUtilitiesTest() {
 	}

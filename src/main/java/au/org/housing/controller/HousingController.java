@@ -72,10 +72,10 @@ public class HousingController {
 		}else if ( transportGeometry==null && facilitiesGeometry!=null ){
 			propertyFilterService.setBufferAllParams(facilitiesGeometry);
 		}
-		propertyFilterService.propertyAnalyse(request.getSession());
+		propertyFilterService.analyse(request.getSession());
 		Map<String, Object> potentialResponse = new HashMap<String, Object>();
 		potentialResponse.put("message", Messages.getMessage());
-		request.getSession().setMaxInactiveInterval(1*60);
+		request.getSession().setMaxInactiveInterval(6*60);
 		return potentialResponse;    	
 	}	
 	
@@ -87,7 +87,7 @@ public class HousingController {
 		developAssessment.analyse(request.getSession());		 
 		assessmentResponse.put("message", Messages.getMessage());		
 		System.out.println(assessmentResponse.get("message"));
-		request.getSession().setMaxInactiveInterval(1*60);
+		request.getSession().setMaxInactiveInterval(5*60);
 //		posGISService.dipose();
 		return assessmentResponse;
 	}	
@@ -116,16 +116,5 @@ public class HousingController {
 		potentialParams.put("minY", propertyFilterService.getEnvelope().getMinY());
 		return potentialParams;
 	}	
-		
-	
-	/*@RequestMapping(method = RequestMethod.GET, value = "/ui-jsp/map_potential.jsp")	
-	public @ResponseBody byte[] displayMap() throws Exception { 
-		BufferedImage image = null;
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		ImageIO.write(image, "png", os);
-		InputStream in = new ByteArrayInputStream(os.toByteArray());
-	    return IOUtils.toByteArray(in);
-	}	*/
-	
-	
+
 }

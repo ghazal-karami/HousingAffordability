@@ -13,7 +13,7 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 
 public interface ExportService {
 
-	void featuresExportToShapeFile(SimpleFeatureType type,
+	boolean featuresExportToShapeFile(SimpleFeatureType type,
 			SimpleFeatureCollection simpleFeatureCollection, File newFile, boolean createSchema)
 			throws IOException, NoSuchAuthorityCodeException, FactoryException;
 

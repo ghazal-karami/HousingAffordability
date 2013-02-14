@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
-import au.org.housing.config.LayersConfig;
+import au.org.housing.config.InputLayersConfig;
 import au.org.housing.model.AppCategoryOutcome;
 import au.org.housing.model.AttributeRepository;
 import au.org.housing.model.LGA;
@@ -53,7 +53,7 @@ public class StartController {
 	AttributeRepository attRepo;
 
 	@Autowired
-	private LayersConfig layersConfig;
+	private InputLayersConfig layersConfig;
 	
 	@Autowired
 	private PostGISService postGISService;
