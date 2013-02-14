@@ -1,4 +1,0 @@
-1- the final database I am using is housing_metric which is metric, 
-    property is imported with ogr2ogr command and other layers by shapefile loader
-    
-2- 
