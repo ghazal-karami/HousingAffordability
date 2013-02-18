@@ -2,21 +2,42 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:couchdb="http://www.ektorp.org/schema/couchdb"
+	xmlns:couchdb="http://www.ektorp.org/schema/couchdb" xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
          http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
          http://www.springframework.org/schema/context
          http://www.springframework.org/schema/context/spring-context-3.1.xsd
-      http://www.springframework.org/schema/mvc
-      http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
-      http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util-3.1.xsd
-      http://www.ektorp.org/schema/couchdb http://www.ektorp.org/schema/couchdb/couchdb.xsd">
+         http://www.springframework.org/schema/mvc
+      	 http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+     	 http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util-3.1.xsd
+     	 http://www.ektorp.org/schema/couchdb http://www.ektorp.org/schema/couchdb/couchdb.xsd
+     	 http://www.springframework.org/schema/security
+		 http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-	<context:annotation-config/>
-	
-	<!-- <context:property-placeholder location="classpath:postgis_connection.properties" />	 -->
-	<context:property-placeholder location="classpath:connections.properties" />	
-	
+	<security:http auto-config="true">
+		<security:intercept-url pattern="/ui-jsp/**" access="ROLE_USER" />
+		<security:form-login login-page="/loginForm" default-target-url="/loginSuccess"
+			authentication-failure-url="/loginfailed"/>
+		<security:logout logout-success-url="/logout"  />
+	</security:http>
+
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:user-service>
+				<security:user name="mkyong" password="123456"
+					authorities="ROLE_USER" />
+			</security:user-service>
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+
+
+	<context:annotation-config />
+
+	<!-- <context:property-placeholder location="classpath:postgis_connection.properties" 
+		/> -->
+	<context:property-placeholder location="classpath:connections.properties" />
+
 	<context:component-scan base-package="au.org.housing.config" />
 	<context:component-scan base-package="au.org.housing.start" />
 	<context:component-scan base-package="au.org.housing.controller" />
@@ -35,7 +56,7 @@
 			<property name="supportedMediaTypes"> <list> <value>image/jpeg</value> <value>image/png</value> 
 			<value>application/openlayers</value> </list> </property> </bean> </mvc:message-converters> -->
 	</mvc:annotation-driven>
-	
+
 	<util:properties id="couchdbProperties" location="classpath:/couchdb.properties" />
 	<couchdb:database id="housing_database" name="housing_database"
 		url="http://localhost:5984" />
@@ -56,7 +77,10 @@
 			</bean>
 		</constructor-arg>
 	</bean>
-	
-	
+
+
+
+
+
 
 </beans>

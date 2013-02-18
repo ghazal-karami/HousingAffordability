@@ -21,10 +21,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 
 import au.org.housing.config.InputLayersConfig;
@@ -54,12 +56,12 @@ public class StartController {
 
 	@Autowired
 	private InputLayersConfig layersConfig;
-	
+
 	@Autowired
 	private PostGISService postGISService;
 
 	
-	@RequestMapping("/hello.html")	
+	@RequestMapping("/ui-jsp/hello")	
 	public String handleRequest() throws ParseException, IOException, FactoryException, InstantiationException, IllegalAccessException, MismatchedDimensionException, TransformException, CQLException {
 		return "mainPage"; 
 	}
@@ -108,15 +110,15 @@ public class StartController {
 	public @ResponseBody Map<String,? extends Object> loadAppOutcomes() throws Exception { 
 		List<AppCategoryOutcome> appCategories = new ArrayList<AppCategoryOutcome>();		 
 		try{
-		SimpleFeatureSource fc =  postGISService.getFeatureSource(layersConfig.getAppOutcome());
-		SimpleFeatureCollection collection = fc.getFeatures( );
-		SimpleFeatureIterator simpleFeatureIterator = collection.features();
-		while(simpleFeatureIterator.hasNext()){
-			SimpleFeature simpleFeature = simpleFeatureIterator.next();
-			Short code = (Short) simpleFeature.getAttribute(layersConfig.getAppOutcome_code());
-			String desc = (String) simpleFeature.getAttribute(layersConfig.getAppOutcome_desc());
-			appCategories.add(new AppCategoryOutcome(code,desc));
-		}		
+			SimpleFeatureSource fc =  postGISService.getFeatureSource(layersConfig.getAppOutcome());
+			SimpleFeatureCollection collection = fc.getFeatures( );
+			SimpleFeatureIterator simpleFeatureIterator = collection.features();
+			while(simpleFeatureIterator.hasNext()){
+				SimpleFeature simpleFeature = simpleFeatureIterator.next();
+				Short code = (Short) simpleFeature.getAttribute(layersConfig.getAppOutcome_code());
+				String desc = (String) simpleFeature.getAttribute(layersConfig.getAppOutcome_desc());
+				appCategories.add(new AppCategoryOutcome(code,desc));
+			}		
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}
