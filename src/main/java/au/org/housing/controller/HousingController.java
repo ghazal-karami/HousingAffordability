@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import au.org.housing.exception.Messages;
-import au.org.housing.model.LayerRepository;
 import au.org.housing.service.DevelpmentAssessment;
 import au.org.housing.service.FacilitiesBufferService;
 import au.org.housing.service.InitDevelopAssessment;
@@ -53,11 +52,8 @@ public class HousingController {
 	public InitDevelopAssessment initDevelopAssessment;
 
 	@Autowired
-	public DevelpmentAssessment developAssessment;
+	public DevelpmentAssessment developAssessment;	
 	
-	@Autowired LayerRepository layerRepo;
-	
-
 	@RequestMapping(method = RequestMethod.POST, value = "/developmentPotential", headers = "Content-Type=application/json")
 	@ResponseStatus(HttpStatus.OK)	
 	public @ResponseBody Map<String, Object> handleRequest(@RequestBody Map<String, Object> housingParams, HttpServletRequest request,HttpServletResponse response) throws Exception { 
@@ -75,7 +71,7 @@ public class HousingController {
 		propertyFilterService.analyse(request.getSession());
 		Map<String, Object> potentialResponse = new HashMap<String, Object>();
 		potentialResponse.put("message", Messages.getMessage());
-		request.getSession().setMaxInactiveInterval(6*60);
+		request.getSession().setMaxInactiveInterval(60*60);
 		return potentialResponse;    	
 	}	
 	
@@ -87,8 +83,7 @@ public class HousingController {
 		developAssessment.analyse(request.getSession());		 
 		assessmentResponse.put("message", Messages.getMessage());		
 		System.out.println(assessmentResponse.get("message"));
-		request.getSession().setMaxInactiveInterval(5*60);
-//		posGISService.dipose();
+		request.getSession().setMaxInactiveInterval(60*60);
 		return assessmentResponse;
 	}	
 	

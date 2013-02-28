@@ -14,7 +14,7 @@ import org.geotools.data.DefaultTransaction;
 import org.geotools.data.FeatureStore;
 import org.geotools.data.Transaction;
 import org.geotools.data.collection.ListFeatureCollection;
-import org.geotools.data.postgis.PostgisDataStore;
+import org.geotools.data.postgis.PostgisNGDataStoreFactory;
 import org.geotools.data.shapefile.ShapefileDataStore;
 import org.geotools.data.shapefile.ShapefileDataStoreFactory;
 import org.geotools.data.simple.SimpleFeatureCollection;
@@ -92,7 +92,7 @@ public class ExportServiceImpl implements ExportService {
 			SimpleFeatureCollection simpleFeatureCollection,
 			boolean dropCreateSchema, DataStore dataStore) throws IOException,
 			NoSuchAuthorityCodeException, FactoryException, SQLException {
-		try {
+		/*try {
 			PostgisDataStore pgStore = (PostgisDataStore) dataStore;
 			if (dropCreateSchema) {
 				// Connection connection =
@@ -108,7 +108,7 @@ public class ExportServiceImpl implements ExportService {
 			featStore.addFeatures(simpleFeatureCollection);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	

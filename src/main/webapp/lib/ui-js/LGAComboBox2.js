@@ -17,8 +17,8 @@ var selectedLGAs2 = [];
 
 var lgaCombo2 = new Ext.form.ComboBox({
 			id : 'lgaCombo2',
-			forceSelection: true,
 			allowBlank : true,
+			forceSelection : false,
 			labelWidth : 50,
 			store : lgaStore2,
 			displayField : 'lgaName',
@@ -30,7 +30,7 @@ var lgaCombo2 = new Ext.form.ComboBox({
 			triggerAction : 'all',
 			emptyText : 'Select LGAs...',
 			selectOnFocus : true,
-			margin : '6 0 10 10',			
+			margin : '6 0 10 10',
 			listeners : {
 				select : function(obj, records) {
 					selectedLGAs2 = [];
@@ -38,11 +38,16 @@ var lgaCombo2 = new Ext.form.ComboBox({
 								selectedLGAs2.push(rec.get('lgaCode'));
 							});
 					console.log(selectedLGAs2);
+				},
+				blur : function() {
+					console.log("blur");
+					if (this.getRawValue() == "") {
+						selectedLGAs2 = [];
+						this.clearValue();
+					}
 				}
 			}
 		});
-
-
 
 var LGA2 = Ext.create('Ext.form.Panel', {
 			items : [lgaCombo2, selectedLGAs2],

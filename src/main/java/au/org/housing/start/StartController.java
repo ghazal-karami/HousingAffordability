@@ -1,5 +1,8 @@
 package au.org.housing.start;
 
+import it.geosolutions.geoserver.rest.GeoServerRESTPublisher;
+import it.geosolutions.geoserver.rest.GeoServerRESTReader;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,9 +32,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 
+import au.org.housing.config.GeoServerConfig;
 import au.org.housing.config.InputLayersConfig;
+import au.org.housing.exception.Messages;
 import au.org.housing.model.AppCategoryOutcome;
-import au.org.housing.model.AttributeRepository;
 import au.org.housing.model.LGA;
 import au.org.housing.service.PostGISService;
 import au.org.housing.service.impl.PropertyFilterServiceImpl;
@@ -52,79 +56,117 @@ public class StartController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PropertyFilterServiceImpl.class);
 
 	@Autowired
-	AttributeRepository attRepo;
-
-	@Autowired
 	private InputLayersConfig layersConfig;
 
 	@Autowired
 	private PostGISService postGISService;
-
 	
-	@RequestMapping("/ui-jsp/hello")	
+	HashMap<String, List<AppCategoryOutcome>> categoryMap = null;
+	HashMap<String, List<AppCategoryOutcome>> outcomeMap = null;
+	HashMap<String, List<LGA>> lgaMap = null;
+
+	@RequestMapping("hello")	
 	public String handleRequest() throws ParseException, IOException, FactoryException, InstantiationException, IllegalAccessException, MismatchedDimensionException, TransformException, CQLException {
 		return "mainPage"; 
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = "connectionSetup", consumes="application/json")	
+
+	public @ResponseBody Map<String, Object> connectionSetup() throws Exception { 
+		Map<String, Object> setupResponse = new HashMap<String, Object>();
+		
+		postGISService.getPOSTGISDataStore();
+		/*GeoServerConfig.getGeoServerConnection();*/
+		
+		
+		setupResponse.put("message", Messages.getMessage());
+		return setupResponse;
+	}	
+
 	@RequestMapping(value="getLGAs.json", method = RequestMethod.GET)
 	public @ResponseBody Map<String,? extends Object> loadLGAs() throws Exception { 
-		List<LGA> lGAs = new ArrayList<LGA>();		 
-		lGAs.add(new LGA("303","BANYULE"));
-		lGAs.add(new LGA("308","BRIMBANK"));
-		lGAs.add(new LGA("316","DAREBIN"));
-		lGAs.add(new LGA("331","HOBSONS BAY"));
-		lGAs.add(new LGA("333","HUME"));
-		lGAs.add(new LGA("341","MARIBYRNONG"));
-		lGAs.add(new LGA("344","MELTON"));
-		lGAs.add(new LGA("349","MOONEE VALLEY"));
-		lGAs.add(new LGA("351","MORELAND"));
-		lGAs.add(new LGA("356","NILLUMBIK"));
-		lGAs.add(new LGA("373","WHITTLESEA"));
-		lGAs.add(new LGA("375","WYNDHAM"));
-		lGAs.add(new LGA("376","YARRA"));
-		HashMap<String, List<LGA>> modelMap = new HashMap<String,List<LGA>>();		
-		modelMap.put("lgas", lGAs);        
-		return modelMap;    	
+		if (postGISService.getDataStore() != null){
+			if (lgaMap == null){
+				List<LGA> lGAs = new ArrayList<LGA>();		 
+				lgaMap = new HashMap<String,List<LGA>>();		
+				lGAs.add(new LGA("333","HUME"));
+				lGAs.add(new LGA("349","MOONEE VALLEY"));
+				lGAs.add(new LGA("375","WYNDHAM"));
+				lGAs.add(new LGA("331","HOBSONS BAY"));
+				lGAs.add(new LGA("341","MARIBYRNONG"));
+				lGAs.add(new LGA("303","BANYULE"));
+				lGAs.add(new LGA("376","YARRA"));
+				lGAs.add(new LGA("356","NILLUMBIK"));
+				lGAs.add(new LGA("351","MORELAND"));
+				lGAs.add(new LGA("308","BRIMBANK"));
+				lGAs.add(new LGA("316","DAREBIN"));
+				lGAs.add(new LGA("344","MELTON"));
+				lGAs.add(new LGA("373","WHITTLESEA"));
+				lGAs.add(new LGA("343","MELBOURNE"));
+				lgaMap.put("lgas", lGAs);
+			}
+		}
+		return lgaMap;    	
 	}	
 
 	@RequestMapping(value="getAppCategories.json", method = RequestMethod.GET)
 	public @ResponseBody Map<String,? extends Object> loadAppCategories() throws Exception { 
-		List<AppCategoryOutcome> appCategories = new ArrayList<AppCategoryOutcome>();		 
-
-		SimpleFeatureSource fc =  postGISService.getFeatureSource(layersConfig.getAppCategory());
-		SimpleFeatureCollection collection = fc.getFeatures( );
-		SimpleFeatureIterator simpleFeatureIterator = collection.features();
-		while(simpleFeatureIterator.hasNext()){
-			SimpleFeature simpleFeature = simpleFeatureIterator.next();
-			Short code = (Short) simpleFeature.getAttribute(layersConfig.getAppCategory_code());
-			String desc = (String) simpleFeature.getAttribute(layersConfig.getAppCategory_desc());
-			appCategories.add(new AppCategoryOutcome(code,desc));
-		}				
-		HashMap<String, List<AppCategoryOutcome>> modelMap = new HashMap<String,List<AppCategoryOutcome>>();		
-		modelMap.put("categories", appCategories);        
-		return modelMap;    	
+		if (postGISService.getDataStore() == null){
+			return null; 
+		}
+		if (categoryMap == null){
+			List<AppCategoryOutcome> appCategories = new ArrayList<AppCategoryOutcome>();	
+			categoryMap = new HashMap<String,List<AppCategoryOutcome>>();
+			SimpleFeatureIterator simpleFeatureIterator = null;
+			try{
+				SimpleFeatureSource fc =  postGISService.getFeatureSource(layersConfig.getAppCategory());
+				SimpleFeatureCollection collection = fc.getFeatures( );
+				simpleFeatureIterator = collection.features();
+				while(simpleFeatureIterator.hasNext()){
+					SimpleFeature simpleFeature = simpleFeatureIterator.next();
+					Short code = (Short) simpleFeature.getAttribute(layersConfig.getAppCategory_code());
+					String desc = (String) simpleFeature.getAttribute(layersConfig.getAppCategory_desc());
+					appCategories.add(new AppCategoryOutcome(code,desc));
+				}		
+			}catch(Exception e){
+				e.printStackTrace();
+				LOGGER.error(e.getMessage());
+			}finally{
+				simpleFeatureIterator.close();
+			}
+			categoryMap.put("categories", appCategories);        
+		}
+		return categoryMap;   
 	}
-
 
 	@RequestMapping(value="getAppOutcomes.json", method = RequestMethod.GET)
 	public @ResponseBody Map<String,? extends Object> loadAppOutcomes() throws Exception { 
-		List<AppCategoryOutcome> appCategories = new ArrayList<AppCategoryOutcome>();		 
-		try{
-			SimpleFeatureSource fc =  postGISService.getFeatureSource(layersConfig.getAppOutcome());
-			SimpleFeatureCollection collection = fc.getFeatures( );
-			SimpleFeatureIterator simpleFeatureIterator = collection.features();
-			while(simpleFeatureIterator.hasNext()){
-				SimpleFeature simpleFeature = simpleFeatureIterator.next();
-				Short code = (Short) simpleFeature.getAttribute(layersConfig.getAppOutcome_code());
-				String desc = (String) simpleFeature.getAttribute(layersConfig.getAppOutcome_desc());
-				appCategories.add(new AppCategoryOutcome(code,desc));
-			}		
-		}catch(Exception e){
-			System.out.println(e.getMessage());
+		if (postGISService.getDataStore() == null){
+			return null; 
 		}
-		HashMap<String, List<AppCategoryOutcome>> modelMap = new HashMap<String,List<AppCategoryOutcome>>();		
-		modelMap.put("outcomes", appCategories);        
-		return modelMap;    	
+		if (outcomeMap == null){
+			List<AppCategoryOutcome> appOutcomes = new ArrayList<AppCategoryOutcome>();
+			outcomeMap = new HashMap<String,List<AppCategoryOutcome>>();		
+			SimpleFeatureIterator simpleFeatureIterator = null;
+			try{
+				SimpleFeatureSource fc =  postGISService.getFeatureSource(layersConfig.getAppOutcome());
+				SimpleFeatureCollection collection = fc.getFeatures( );
+				simpleFeatureIterator = collection.features();
+				while(simpleFeatureIterator.hasNext()){
+					SimpleFeature simpleFeature = simpleFeatureIterator.next();
+					Short code = (Short) simpleFeature.getAttribute(layersConfig.getAppOutcome_code());
+					String desc = (String) simpleFeature.getAttribute(layersConfig.getAppOutcome_desc());
+					appOutcomes.add(new AppCategoryOutcome(code,desc));
+				}		
+			}catch(Exception e){
+				e.printStackTrace();
+				LOGGER.error(e.getMessage());
+			}finally{
+				simpleFeatureIterator.close();
+			}			
+			outcomeMap.put("outcomes", appOutcomes);   
+		}
+		return outcomeMap;    	
 	}
 
 }

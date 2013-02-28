@@ -83,6 +83,28 @@ public class DevelpmentAssessmentImpl implements DevelpmentAssessment {
 	File newFile;
 	private String layerName;
 	
+	private Filter createFilterBasedOnOperator(String operator, String property, Integer literal){
+		Filter filter = null;
+		if (operator.equals(">")){
+			filter = ff.greater(ff.property(property),ff.literal(literal));
+		}else if (operator.equals(">=")){
+			filter = ff.greaterOrEqual(ff.property(property),ff.literal(literal));
+		}
+		else if (operator.equals("=")){
+			filter = ff.equals(ff.property(property),ff.literal(literal));
+		}
+		else if (operator.equals("<")){
+			filter = ff.less(ff.property(property),ff.literal(literal));
+		}
+		else if (operator.equals("<=")){
+			filter = ff.lessOrEqual(ff.property(property),ff.literal(literal));
+		}
+		else if (operator.equals("!=")){
+			filter = ff.notEqual(ff.property(property),ff.literal(literal));
+		}
+		return filter;
+	}
+
 	public boolean analyse(HttpSession session) throws IOException, FileNotFoundException,
 	ServiceException, NoSuchAuthorityCodeException, FactoryException, PSQLException {
 
@@ -109,60 +131,27 @@ public class DevelpmentAssessmentImpl implements DevelpmentAssessment {
 			return false;
 		}
 		if (parameter.getDurationAssessment() != 0) {
-			String operator = parameter.getDurationAssessmentOperateor();
-			Filter filter = null;
-			switch (operator.charAt(0)) {
-			case '>':
-				filter = ff.greater(ff.property(inputLayersConfig.getPparsDuration()),
-						ff.literal(parameter.getDurationAssessment()));
-				break;
-			case '=':
-				filter = ff.equals(ff.property(inputLayersConfig.getPparsDuration()),
-						ff.literal(parameter.getDurationAssessment()));
-				break;
-			case '<':
-				filter = ff.less(ff.property(inputLayersConfig.getPparsDuration()),
-						ff.literal(parameter.getDurationAssessment()));
-				break;
-			}
+			Filter filter = createFilterBasedOnOperator(parameter.getDurationAssessmentOperateor(), inputLayersConfig.getPparsDuration(), parameter.getDurationAssessment()); 
 			pparsFilters.add(filter);
 		}
 
 		if (parameter.getNumOfObjection() != 0) {
-			String operator = parameter.getNumOfObjectionOperateor();
-			Filter filter = null;
-			switch (operator.charAt(0)) {
-			case '>':
-				filter = ff.greater(ff.property(inputLayersConfig.getPparsObjections()),
-						ff.literal(parameter.getNumOfObjection()));
-				break;
-			case '=':
-				filter = ff.equals(ff.property(inputLayersConfig.getPparsDuration()),
-						ff.literal(parameter.getNumOfObjection()));
-				break;
-			case '<':
-				filter = ff.less(ff.property(inputLayersConfig.getPparsDuration()),
-						ff.literal(parameter.getNumOfObjection()));
-				break;
-			}
+			Filter filter = createFilterBasedOnOperator(parameter.getNumOfObjectionOperateor(), inputLayersConfig.getPparsObjections(), parameter.getNumOfObjection());
 			pparsFilters.add(filter);
 		}
 
 		if (parameter.getFurtherInfo() == 2) {
-			Filter filter = ff.equals(ff.property(inputLayersConfig.getPparsFurtherinfo()),
-					ff.literal(parameter.getFurtherInfo()));
+			Filter filter = createFilterBasedOnOperator("=", inputLayersConfig.getPparsFurtherinfo(), parameter.getFurtherInfo());
 			pparsFilters.add(filter);
 		}
 
 		if (parameter.getPublicNotice() == 2) {
-			Filter filter = ff.equals(ff.property(inputLayersConfig.getPparsPublicNotice()),
-					ff.literal(parameter.getPublicNotice()));
+			Filter filter = createFilterBasedOnOperator("=", inputLayersConfig.getPparsPublicNotice(), parameter.getPublicNotice());
 			pparsFilters.add(filter);
 		}
 
 		if (parameter.getReferralIssues() == 2) {
-			Filter filter = ff.equals(ff.property(inputLayersConfig.getPparsReferralIssue()),
-					ff.literal(parameter.getReferralIssues()));
+			Filter filter = createFilterBasedOnOperator("=", inputLayersConfig.getPparsReferralIssue(), parameter.getReferralIssues());
 			pparsFilters.add(filter);
 		}
 
@@ -182,74 +171,37 @@ public class DevelpmentAssessmentImpl implements DevelpmentAssessment {
 		}
 
 		if (parameter.getNumOfDwelling() != 0) {
-			String operator = parameter.getNumOfDwellingOperateor();
-			Filter filter = null;
-			switch (operator.charAt(0)) {
-			case '>':
-				filter = ff.greater(ff.property(inputLayersConfig.getPparsNumOfDwelling()),
-						ff.literal(parameter.getNumOfDwelling()));
-				break;
-			case '=':
-				filter = ff.equals(ff.property(inputLayersConfig.getPparsNumOfDwelling()),
-						ff.literal(parameter.getNumOfDwelling()));
-				break;
-			case '<':
-				filter = ff.less(ff.property(inputLayersConfig.getPparsNumOfDwelling()),
-						ff.literal(parameter.getNumOfDwelling()));
-				break;
-			}
+			Filter filter = createFilterBasedOnOperator(parameter.getNumOfDwellingOperateor(), inputLayersConfig.getPparsNumOfDwelling(), parameter.getNumOfDwelling());
 			pparsFilters.add(filter);
 		}
 
 		if (parameter.getCurrentUse() == 7) {
-			Filter filter = ff.equals(ff.property(inputLayersConfig.getPparsCurrentUse()),
-					ff.literal(parameter.getCurrentUse()));
+			Filter filter = createFilterBasedOnOperator("=", inputLayersConfig.getPparsCurrentUse(), parameter.getCurrentUse());
 			pparsFilters.add(filter);
 		} else if (parameter.getReferralIssues() == -7) {
-			Filter filter = ff.notEqual(ff.property(inputLayersConfig.getPparsCurrentUse()),
-					ff.literal(parameter.getCurrentUse()));
+			Filter filter = createFilterBasedOnOperator("!=", inputLayersConfig.getPparsCurrentUse(), parameter.getCurrentUse());
 			pparsFilters.add(filter);
 		}
 
 		if (parameter.getProposedUse() == 7) {
-			Filter filter = ff.equals(ff.property(inputLayersConfig.getPparsProposedUse()),
-					ff.literal(parameter.getProposedUse()));
+			Filter filter = createFilterBasedOnOperator("=", inputLayersConfig.getPparsProposedUse(), parameter.getProposedUse());
 			pparsFilters.add(filter);
 		} else if (parameter.getProposedUse() == -7) {
-			Filter filter = ff.notEqual(ff.property(inputLayersConfig.getPparsProposedUse()),
-					ff.literal(parameter.getProposedUse()));
-			pparsFilters.add(filter);
+			Filter filter = createFilterBasedOnOperator("!=", inputLayersConfig.getPparsProposedUse(), parameter.getProposedUse());pparsFilters.add(filter);
 		}
 
 		if (parameter.getEstimatedCostOfWork() != 0) {
-			String operator = parameter.getEstimatedCostOfWorkOperateor();
-			Filter filter = null;
-			switch (operator.charAt(0)) {
-			case '>':
-				filter = ff.greater(ff.property(inputLayersConfig.getPparsEstimatedCostOfWork()),
-						ff.literal(parameter.getEstimatedCostOfWork()));
-				break;
-			case '=':
-				filter = ff.equals(ff.property(inputLayersConfig.getPparsEstimatedCostOfWork()),
-						ff.literal(parameter.getEstimatedCostOfWork()));
-				break;
-			case '<':
-				filter = ff.less(ff.property(inputLayersConfig.getPparsEstimatedCostOfWork()),
-						ff.literal(parameter.getEstimatedCostOfWork()));
-				break;
-			}
+			Filter filter = createFilterBasedOnOperator(parameter.getEstimatedCostOfWorkOperateor(), inputLayersConfig.getPparsEstimatedCostOfWork(), parameter.getEstimatedCostOfWork());
 			pparsFilters.add(filter);
 		}
 
 		if (parameter.getPreMeeting() == 2) {
-			Filter filter = ff.equals(ff.property(inputLayersConfig.getPparsPreMeeting()),
-					ff.literal(parameter.getPreMeeting()));
+			Filter filter = createFilterBasedOnOperator("=", inputLayersConfig.getPparsPreMeeting(), parameter.getPreMeeting());
 			pparsFilters.add(filter);
 		}
 
 		if (parameter.getSelectedOutcome() != -1) {
-			Filter filter = ff.less(ff.property(inputLayersConfig.getPparsOutcome()),
-					ff.literal(parameter.getSelectedOutcome()));
+			Filter filter = createFilterBasedOnOperator("<", inputLayersConfig.getPparsOutcome(), parameter.getSelectedOutcome());
 			pparsFilters.add(filter);
 		}
 	
@@ -266,7 +218,7 @@ public class DevelpmentAssessmentImpl implements DevelpmentAssessment {
 		}
 		List<Filter> lgaFilters = new ArrayList<Filter>();
 		lgaFilter = null;
-		if (!parameter.getSelectedLGAs2().isEmpty()){
+		if (parameter.getSelectedLGAs2()!= null && !parameter.getSelectedLGAs2().isEmpty()){
 			for (String lgaCode : parameter.getSelectedLGAs2()) {
 				Filter filter = ff.equals(ff.property(inputLayersConfig.getPropertyLgaCode()),ff.literal(lgaCode));
 				lgaFilters.add(filter);
@@ -286,8 +238,7 @@ public class DevelpmentAssessmentImpl implements DevelpmentAssessment {
 			}
 			propertyFilters.add(filter);
 		}
-		filter = null;
-		
+		filter = null;		
 		Filter propertyFilter = ff.or(propertyFilters);
 		Query propertyQuery = new Query();
 		String geom_name = propertyFc.getSchema().getGeometryDescriptor().getLocalName();
@@ -354,7 +305,7 @@ public class DevelpmentAssessmentImpl implements DevelpmentAssessment {
 		GSLayerEncoder le = new GSLayerEncoder();
 		le.setDefaultStyle(geoServerConfig.getGsAssessmentStyle());
 		publisher.configureLayer(geoServerConfig.getGsWorkspace(), geoServerConfig.getGsAssessmentLayer()+"_"+session.getId(), le);
-		System.out.println("Publishsed Success");
+		LOGGER.info("Publishsed Success");
 		return true;
 	}
 
@@ -379,46 +330,5 @@ public class DevelpmentAssessmentImpl implements DevelpmentAssessment {
 	public void setLayerName(String layerName) {
 		this.layerName = layerName;
 	}
-
 }
 
-
-
-
-
-
-
-
-
-
-//boolean ftRemoved = publisher.unpublishFeatureType("myws3",
-// "PostGIS_DSN", "ppars");
-// publisher.removeLayer("myws3", "ppars");
-// boolean dsRemoved = publisher.removeDatastore("PostGIS_DSN",
-// "ppars");
-// publisher.reload();
-// GSPostGISDatastoreEncoder datastoreEncoder = new
-// GSPostGISDatastoreEncoder();
-// datastoreEncoder.setName("PostGIS_DSN");
-// datastoreEncoder.setHost("localhost");
-// datastoreEncoder.setPort(5432);
-// datastoreEncoder.setDatabase("housingmetric");
-// datastoreEncoder.setSchema("public");
-// datastoreEncoder.setUser("postgres");
-// datastoreEncoder.setPassword("1q2w3e4r");
-// datastoreEncoder.setExposePrimaryKeys(true);
-// datastoreEncoder.setValidateConnections(false);
-// datastoreEncoder.setPrimaryKeyMetadataTable("test");
-//
-// publisher.createPostGISDatastore("myws3", datastoreEncoder);
-//
-// boolean published = publisher.publishDBLayer("myws3", "PostGIS_DSN",
-// "ppars", "EPSG:28355", "default_polygon");
-
-/*
- * } catch (Exception e) {
- * LOGGER.debug("-------FileNotFoundException = "+ e.getMessage()); }
- * catch(IllegalArgumentException e){
- * LOGGER.debug("---------IllegalArgumentException = "+ e.getMessage());
- * }
- */

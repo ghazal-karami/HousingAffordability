@@ -6,7 +6,7 @@ var durationAssessment = Ext.create('Ext.form.Panel', {
 						xtype : "textfield",
 						id : 'durationAssessmentId_value',
 						readOnly : false,
-						width : 30,
+						width : 35,
 						value : 0,
 						margin : '5 1 5 1',
 						listeners : {
@@ -16,6 +16,11 @@ var durationAssessment = Ext.create('Ext.form.Panel', {
 							}
 						}
 					}, {
+						xtype : 'label',
+						text : 'day(s)',
+						margin : '9 4 0 0'
+
+					}, {
 						xtype : 'sliderfield',
 						id : 'durationAssessmentId',
 						width : 290,
@@ -23,7 +28,7 @@ var durationAssessment = Ext.create('Ext.form.Panel', {
 						increment : 10.0,
 						value : 0,
 						minValue : 0,
-						maxValue : 100.0,
+						maxValue : 2000.0,
 						margin : '8 0 5 2',
 						listeners : {
 							change : function(select, thumb, newval, oldval) {
@@ -42,9 +47,9 @@ var numOfObjection = Ext.create('Ext.form.Panel', {
 						xtype : "textfield",
 						id : 'numOfObjectionId_value',
 						readOnly : true,
-						width : 30,
+						width : 35,
 						value : 0,
-						margin : '5 1 5 1'
+						margin : '5 13 5 1'
 					}, {
 						xtype : 'sliderfield',
 						id : 'numOfObjectionId',
@@ -53,7 +58,7 @@ var numOfObjection = Ext.create('Ext.form.Panel', {
 						value : 0,
 						minValue : 0,
 						maxValue : 100.0,
-						margin : '8 0 5 2',
+						margin : '8 0 5 28',
 						listeners : {
 							change : function(select, thumb, newval, oldval) {
 								Ext.getCmp("numOfObjectionId_value")
@@ -110,18 +115,18 @@ var numOfDwelling = Ext.create('Ext.form.Panel', {
 			margin : '0 1 0 0',
 			height : 35,
 			anchor : '100%',
-			margin : '4 10 10 0',
+			margin : '4 0 10 0',
 			items : [numOfDwellingCombo, {
 						xtype : "textfield",
 						id : 'numOfDwellingId_value',
 						readOnly : true,
-						width : 30,
+						width : 35,
 						value : 0,
 						margin : '5 1 5 1'
 					}, {
 						xtype : 'sliderfield',
 						id : 'numOfDwellingId',
-						width : 260,
+						width : 290,
 						increment : 10,
 						value : 0,
 						minValue : 0,
@@ -224,9 +229,7 @@ var changeOfUse = Ext.create('Ext.form.Panel', {
 			frame : true,
 			title : 'Change Of Use Analysis',
 			width : '50%',
-
 			items : [prev_prop_use]
-
 		});
 
 var estimatedCostOfWork = Ext.create('Ext.form.Panel', {
@@ -236,26 +239,26 @@ var estimatedCostOfWork = Ext.create('Ext.form.Panel', {
 			margin : '3 3 3 3',
 			fieldDefaults : {
 				labelAlign : 'left',
-				labelWidth : 140,
-				margin : '5 1 5 2'
+				labelWidth : 145,
+				margin : '5 1 5 1'
 			},
 			items : [estimatedCostOfWorkCombo, {
 						xtype : "textfield",
 						id : 'estimatedCostOfWorkId_value',
 						readOnly : true,
-						width : 30,
+						width : 70,
 						value : 0
 					}, {
 						xtype : 'sliderfield',
 						id : 'estimatedCostOfWorkId',
-						width : 270,
+						width : 280,
 						value : 0,
 						minValue : 0,
-						maxValue : 100,
+						increment : 10000,
+						maxValue : 100000000,
 						listeners : {
 							change : function(select, thumb, newval, oldval) {
-								Ext.getCmp("estimatedCostOfWorkId_value")
-										.setValue(thumb);
+								Ext.getCmp("estimatedCostOfWorkId_value").setValue(thumb);
 							}
 						}
 					}]
@@ -265,20 +268,17 @@ var applicationDetails = Ext.create('Ext.form.Panel', {
 			frame : false,
 			title : 'Application Details',
 			width : '50%',
-			bodyPadding : 1,
-			fieldDefaults : {
-				margin : '0 5 3 8'
-			},
 			items : [estimatedCostOfWork, {
 						xtype : 'checkboxfield',
 						id : 'preMeetingId',
 						boxLabel : 'Pre Meeting',
-						checked : false
+						checked : false,
+						margin : '0 3 3 8'
 					}]
 		});
 
 var VCAT = Ext.create('Ext.form.Panel', {
-			margin : '0 10 0 0',
+			margin : '0 0 0 0',
 			layout : 'column',
 			border : 1,
 			anchor : '100%',
@@ -303,28 +303,66 @@ var VCAT = Ext.create('Ext.form.Panel', {
 					}]
 		});
 
-var durationVCAT = Ext.create('Ext.form.Panel', {
+/*var durationVCAT = Ext.create('Ext.form.Panel', {
 			layout : 'column',
-			border : 1,
-			margin : '0 10 5 0',
-			anchor : '100%',
+			border : 1,,
 			fieldDefaults : {
 				labelAlign : 'left',
-				labelWidth : 120,
-				anchor : '100%'
+				
 			},
-			items : [{
+			items : [VCATCombo, {xtype : "textfield",
+						id : 'durationWithVCATId_value',
+						readOnly : true,
+						width : 35,
+						value : 0
+					},{
 						xtype : 'sliderfield',
-						fieldLabel : 'Duration With VCAT',
 						id : 'durationWithVCATId',
-						width : 470,
+						width : 200,
 						increment : 10,
 						value : 0,
 						minValue : 0,
-						maxValue : 100.0,
-						margin : '8 20 8 10'
+						maxValue : 365
+					}]
+		});*/
+		
+		var durationVCAT = Ext.create('Ext.form.Panel', {
+			layout : 'column',
+			margin : '0 1 0 0',
+			height : 35,
+			anchor : '100%',
+			margin : '4 0 10 0',
+			items : [VCATCombo, {
+						xtype : "textfield",
+						id : 'durationWithVCATId_value',
+						readOnly : true,
+						width : 35,
+						value : 0,
+						margin : '5 1 5 1'
+					}, {
+						xtype : 'label',
+						text : 'day(s)',
+						margin : '9 4 0 0'
+
+					},  {
+						xtype : 'sliderfield',
+						id : 'durationWithVCATId',
+						width : 300,
+						increment : 5,
+						value : 0,
+						minValue : 0,
+						maxValue : 365,
+						margin : '8 2 2 1',
+						listeners : {
+							change : function(select, thumb, newval, oldval) {
+								Ext.getCmp("durationWithVCATId_value")
+										.setValue(thumb);
+							}
+						}
 					}]
 		});
+		
+		
 
 var applicationOutcomes = Ext.create('Ext.form.Panel', {
 	frame : true,
@@ -333,8 +371,7 @@ var applicationOutcomes = Ext.create('Ext.form.Panel', {
 	bodyPadding : 1,
 	fieldDefaults : {
 		labelAlign : 'left',
-		labelWidth : 100,
-		anchor : '100%'
+		labelWidth : 100
 	},
 	items : [outcomesGrid, VCAT, durationVCAT]
 		/* items : [VCAT, durationVCAT] */
@@ -344,14 +381,14 @@ var applicationOutcomes = Ext.create('Ext.form.Panel', {
 var leftForm_Assessment = Ext.create('Ext.form.Panel', {
 			frame : true,
 			items : [processingDetails, categoriesOfApplication],
-			width : '50%'
+			width : '51%'
 		});
 
 // *************** Right hand form ***************
 var rightForm_Assessment = Ext.create('Ext.form.Panel', {
 			frame : true,
 			items : [changeOfUse, applicationDetails, applicationOutcomes],
-			width : '50%'
+			width : '49%'
 		});
 
 // *************** Whole Form ***************
@@ -425,7 +462,9 @@ var win3 = new Ext.Window({
 var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 	text : 'Analyse',
 	margin : '0 5 8 5',
+
 	handler : function() {
+
 		// if (developementAssessment.getForm().isValid()) {
 		var categoryRecords = categoriesGrid.getStore().queryBy(
 				function(record) {
@@ -484,7 +523,13 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 			var row = userGrid.getSelectionModel().getSelection()[0];
 			console.log(row.get('desc'))
 		}
+		
+		console.log(selectedLGAs2);
+
+		var waitingMsg1 = Ext.MessageBox.wait('Processing...',
+				'Performing Analysis');
 		Ext.Ajax.request({
+
 			url : '/housing/housing-controller/developmentAssessment',
 			method : 'post',
 			waitMsg : 'Saving changes...',
@@ -523,28 +568,37 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 				durationWithVCATVal : durationWithVCATVal
 			},
 			success : function(response) {
+				waitingMsg1.hide();
 				var jresp = Ext.JSON.decode(response.responseText);
 				console.log('assessmentResponse' + jresp.message);
 				if (jresp.message == "Analysis Successfully Done") {
-					Ext.Msg.alert('Analysis Status', jresp.message, Ext.emptyFn);
-					/*Ext.Msg.show({
-								title : 'Analysis Status',
-								msg : jresp.message,
-								width : 400	,
-								buttons: Ext.Msg.OK
-							});*/
-					window.open('ui-jsp/map_assessment.jsp');
+					Ext.Msg.alert('Analysis Status', jresp.message,Ext.emptyFn);
+					/*
+					 * Ext.Msg.show({ title : 'Analysis Status', msg :
+					 * jresp.message, width : 400 , buttons: Ext.Msg.OK });
+					 */
+					/*
+					 * new Ext.Window({ title : 'My PDF', height : 400, width :
+					 * 600, bodyCfg : { tag : 'iframe', src :
+					 * 'ui-jsp/map_assessment.jsp', style : 'border: 0 none' }
+					 * }).show();
+					 */
+					/* window.open('ui-jsp/map_assessment.jsp'); */
+					window.open('ui-jsp/map_assessment.jsp',"_blank");
+//					window.open(url, "_blank", "resizable=yes, scrollbars=yes, titlebar=yes, width=800, height=900, top=10, left=10");
+					/*window.open("ui-jsp/map_assessment.jsp","_blank","toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=400, height=400");*/
 				} else {
 					Ext.Msg.show({
-						title : 'Analysis Status',
+								title : 'Analysis Status',
 								msg : jresp.message,
 								width : 400,
-								buttons: Ext.Msg.OK,
+								buttons : Ext.Msg.OK,
 								icon : Ext.MessageBox.WARNING
 							});
 				}
 			},
 			failure : function(response, options) {
+				waitingMsg1.hide();
 				var jresp = Ext.JSON.decode(response.responseText);
 				Ext.MessageBox.alert(jresp.message);
 			}
@@ -557,7 +611,49 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 
 var clearBtn_DevelopAssessment = Ext.create('Ext.Button', {
 			text : 'Clear',
-			margin : '0 5 8 5'
+			margin : '0 5 8 5',
+			handler : function() {
+				durationAssessmentCombo.setValue('=');
+				Ext.getCmp("durationAssessmentId_value").setValue(0);
+				Ext.getCmp("durationAssessmentId").setValue(0);
+
+				numOfObjectionCombo.setValue('=');
+				Ext.getCmp("numOfObjectionId").setValue(0);
+				Ext.getCmp("numOfObjectionId_value").setValue(0);
+
+				Ext.getCmp("furtherInfoId").setValue(false);
+				Ext.getCmp("publicNoticeId").setValue(false);
+				Ext.getCmp("referralIssuesId").setValue(false);
+
+				numOfDwellingCombo.setValue('=');
+				Ext.getCmp("numOfDwellingId").setValue(0);
+				Ext.getCmp("numOfDwellingId_value").setValue(0);
+
+				Ext.getCmp("fromResidentialId").setValue(false);
+				Ext.getCmp("fromOtherUsesId").setValue(false);
+				Ext.getCmp("toResidentialId").setValue(false);
+				Ext.getCmp("toOtherUsesId").setValue(false);
+
+				estimatedCostOfWorkCombo.setValue('=');
+				Ext.getCmp("estimatedCostOfWorkId").setValue(0);
+				Ext.getCmp("estimatedCostOfWorkId_value").setValue(0);
+				Ext.getCmp("preMeetingId").setValue(false);
+
+				Ext.getCmp("VCATtoPreviewId").setValue(false);
+				Ext.getCmp("statutoryTimeFrameId").setValue(false);
+				Ext.getCmp("durationWithVCATId").setValue(false);
+
+				lgaCombo2.clearValue();
+				lgaCombo2.applyEmptyText();
+				lgaCombo2.getPicker().getSelectionModel().doMultiSelect([],
+						false);
+						
+						/*var grid = Ext.getCmp("ggg");
+						
+						grid.getSelectionModel().clearSelections()*/
+					/*Ext.getCmp("chk").setValue(false);	*/
+						
+			}
 		});
 
 // *************** Footer Panel ***************
@@ -565,7 +661,7 @@ var footerPanel_DevelopAssessment = Ext.create('Ext.form.Panel', {
 			layout : 'column',
 			frame : true,
 			border : 0,
-			items : [analyseBtn_DevelopAssessment, clearBtn_DevelopAssessment]
+			items : [analyseBtn_DevelopAssessment/*, clearBtn_DevelopAssessment*/]
 		});
 
 // *************** whole Form1 ***************
@@ -574,6 +670,7 @@ var developementAssessment = Ext.create('Ext.form.Panel', {
 			title : 'Developement Assessment Analysis',
 			items : [LGA_Assessment, wholeForm_Assessment,
 					footerPanel_DevelopAssessment],
-			height : 540,
+			/* height : 580, */
+			autoHeight : true,
 			width : 1000
 		});

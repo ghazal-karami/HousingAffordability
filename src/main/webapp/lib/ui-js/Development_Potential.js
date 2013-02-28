@@ -5,9 +5,9 @@ var dpi = Ext.create('Ext.form.Panel', {
 						xtype : "textfield",
 						id : 'dpiId_value',
 						readOnly : false,
-						width : 30,
+						width : 35,
 						value : 0,
-						margin : '5 5 5 1'
+						margin : '5 10 2 1'
 					}, {
 						xtype : 'sliderfield',
 						id : 'dpiId',
@@ -34,15 +34,20 @@ var trainStation = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'trainStationId_value',
 						text : 'Train Station Distance:',
-						margin : '9 10 0 7',
-						width : 120
+						margin : '9 4 0 4',
+						width : 126
 					}, {
 						xtype : "textfield",
 						id : 'trainStationId_value',
 						readOnly : false,
-						width : 30,
+						width : 35,
 						value : 0,
-						margin : '7 10 0 0'
+						margin : '7 2 0 0'
+					}, {
+						xtype : 'label',
+						text : 'm',
+						margin : '9 4 0 0'
+
 					}, {
 						xtype : 'sliderfield',
 						id : 'trainStationId',
@@ -69,15 +74,20 @@ var trainRoute = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'trainRouteId_value',
 						text : 'Train Route Distance:',
-						margin : '9 10 0 7',
-						width : 120
+						margin : '9 4 0 4',
+						width : 126
 					}, {
 						xtype : "textfield",
 						id : 'trainRouteId_value',
 						readOnly : false,
-						width : 30,
+						width : 35,
 						value : 0,
-						margin : '7 10 0 0'
+						margin : '7 2 0 0'
+					}, {
+						xtype : 'label',
+						text : 'm',
+						margin : '9 4 0 0'
+
 					}, {
 						xtype : 'sliderfield',
 						id : 'trainRouteId',
@@ -104,14 +114,20 @@ var tramRoute = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'tramRouteId_value',
 						text : 'Tram Route Distance:',
-						margin : '9 10 7 7',
-						width : 120
+						margin : '9 4 4 4',
+						width : 126
 					}, {
 						xtype : "textfield",
 						id : 'tramRouteId_value',
 						readOnly : false,
-						width : 30,
-						margin : '7 10 7 0'
+						width : 35,
+						value : 0,
+						margin : '7 2 4 0'
+					}, {
+						xtype : 'label',
+						text : 'm',
+						margin : '9 4 0 0'
+
 					}, {
 						xtype : 'sliderfield',
 						id : 'tramRouteId',
@@ -120,7 +136,7 @@ var tramRoute = Ext.create('Ext.form.Panel', {
 						value : 0,
 						minValue : 0,
 						maxValue : 2000,
-						margin : '9 10 7 0',
+						margin : '9 10 4 0',
 						listeners : {
 							change : function(select, thumb, newval, oldval) {
 								Ext.getCmp("tramRouteId_value").setValue(thumb);
@@ -134,7 +150,7 @@ var transports = Ext.create('Ext.form.Panel', {
 			title : 'Distance To Public Transport',
 			width : '50%',
 			height : 130,
-			bodyPadding : 2,
+			bodyPadding : 1,
 			items : [trainStation, trainRoute, tramRoute]
 		});
 
@@ -146,15 +162,20 @@ var education = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'educationId_value',
 						text : 'Education Distance:',
-						margin : '9 10 7 7',
-						width : 120
+						margin : '9 4 7 4',
+						width : 126
 					}, {
 						xtype : "textfield",
 						id : 'educationId_value',
 						readOnly : false,
-						width : 30,
+						width : 35,
 						value : 0,
-						margin : '7 10 0 0'
+						margin : '7 2 0 0'
+					}, {
+						xtype : 'label',
+						text : 'm',
+						margin : '9 4 0 0'
+
 					}, {
 						xtype : 'sliderfield',
 						id : 'educationId',
@@ -180,15 +201,20 @@ var recreation = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'recreationId_value',
 						text : 'Recreation Distance:',
-						margin : '9 10 7 7',
-						width : 120
+						margin : '4 4 7 4',
+						width : 126
 					}, {
 						xtype : "textfield",
 						id : 'recreationId_value',
 						readOnly : false,
-						width : 30,
+						width : 35,
 						value : 0,
-						margin : '7 10 0 0'
+						margin : '4 2 0 0'
+					}, {
+						xtype : 'label',
+						text : 'm',
+						margin : '9 4 0 0'
+
 					}, {
 						xtype : 'sliderfield',
 						id : 'recreationId',
@@ -197,7 +223,7 @@ var recreation = Ext.create('Ext.form.Panel', {
 						value : 0,
 						minValue : 0,
 						maxValue : 2000,
-						margin : '9 10 0 0',
+						margin : '4 10 0 0',
 						listeners : {
 							change : function(select, thumb, newval, oldval) {
 								Ext.getCmp("recreationId_value")
@@ -215,15 +241,20 @@ var medical = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'medicalId_value',
 						text : 'Medical Distance:',
-						margin : '9 10 7 7',
-						width : 120
+						margin : '9 4 7 4',
+						width : 126
 					}, {
 						xtype : "textfield",
 						id : 'medicalId_value',
 						readOnly : false,
-						width : 30,
+						width : 35,
 						value : 0,
-						margin : '7 10 0 0'
+						margin : '7 2 0 0'
+					}, {
+						xtype : 'label',
+						text : 'm',
+						margin : '9 4 0 0'
+
 					}, {
 						xtype : 'sliderfield',
 						id : 'medicalId',
@@ -248,15 +279,20 @@ var community = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'communityId_value',
 						text : 'Community Distance:',
-						margin : '9 10 7 7',
-						width : 120
+						margin : '9 4 7 4',
+						width : 126
 					}, {
 						xtype : "textfield",
 						id : 'communityId_value',
 						readOnly : false,
-						width : 30,
+						width : 35,
 						value : 0,
-						margin : '7 10 0 0'
+						margin : '7 2 0 0'
+					}, {
+						xtype : 'label',
+						text : 'm',
+						margin : '9 4 0 0'
+
 					}, {
 						xtype : 'sliderfield',
 						id : 'communityId',
@@ -282,15 +318,20 @@ var utility = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'utilityId_value',
 						text : 'Utility Distance:',
-						margin : '9 10 7 7',
-						width : 120
+						margin : '9 4 7 4',
+						width : 126
 					}, {
 						xtype : "textfield",
 						id : 'utilityId_value',
 						readOnly : false,
-						width : 30,
+						width : 35,
 						value : 0,
-						margin : '7 10 0 0'
+						margin : '7 2 0 0'
+					}, {
+						xtype : 'label',
+						text : 'm',
+						margin : '9 4 0 0'
+
 					}, {
 						xtype : 'sliderfield',
 						id : 'utilityId',
@@ -316,15 +357,20 @@ var employment = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'employmentId_value',
 						text : 'Employment Distance:',
-						margin : '9 10 7 7',
-						width : 120
+						margin : '9 4 7 4',
+						width : 126
 					}, {
 						xtype : "textfield",
 						id : 'employmentId_value',
 						readOnly : false,
-						width : 30,
+						width : 35,
 						value : 0,
-						margin : '7 10 0 0'
+						margin : '7 2 5 0'
+					}, {
+						xtype : 'label',
+						text : 'm',
+						margin : '9 4 0 0'
+
 					}, {
 						xtype : 'sliderfield',
 						id : 'employmentId',
@@ -345,7 +391,7 @@ var employment = Ext.create('Ext.form.Panel', {
 
 var facilities = Ext.create('Ext.form.Panel', {
 			frame : true,
-			title : 'Distance To Public Transport',
+			title : 'Distance To Public Facilities',
 			width : '50%',
 			autoHeight : true,
 			bodyPadding : 0,
@@ -361,7 +407,6 @@ var landuses = Ext.create('Ext.form.Panel', {
 			width : '50%',
 			height : 55,
 			bodyPadding : 5,
-
 			fieldDefaults : {
 				labelAlign : 'left',
 				labelWidth : 140,
@@ -391,7 +436,7 @@ var landuses = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'checkboxfield',
 						id : 'urbanGrowthBoundryId',
-						boxLabel : 'Urban Growth Boundry'
+						boxLabel : 'Urban Growth Boundary'
 					}]
 		});
 
@@ -399,22 +444,17 @@ var geographicVariables = Ext.create('Ext.form.Panel', {
 			layout : 'column',
 			frame : false,
 			title : 'Geographic Variables',
-			width : '50%',
+			width : '10%',
 			height : 100,
 			bodyPadding : 5,
 			fieldDefaults : {
-				margin : '5 15 5 5'
+				margin : '5 200 5 5'
 			},
-			items : [{
-						xtype : 'sliderfield',
-						fieldLabel : 'Slope',
-						labelWidth : 50,
-						id : 'slopeId',
-						width : 400,
-						value : 0,
-						minValue : 0,
-						maxValue : 2000
-					}, {
+			items : [/*
+						 * { xtype : 'sliderfield', fieldLabel : 'Slope',
+						 * labelWidth : 50, id : 'slopeId', hide : true, width :
+						 * 400, value : 0, minValue : 0, maxValue : 2000 },
+						 */{
 						xtype : 'checkboxfield',
 						id : 'floodwayId',
 						boxLabel : 'Floodway'
@@ -442,15 +482,15 @@ var developAssesVariables = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'checkboxfield',
 						id : 'parkingId',
-						boxLabel : 'Parking'
+						boxLabel : 'Parking Overlay'
 					}, {
 						xtype : 'checkboxfield',
 						id : 'designDevelopmentId',
-						boxLabel : 'Design and Development'
+						boxLabel : 'Design and Development Overlay (DDO)'
 					}, {
 						xtype : 'checkboxfield',
 						id : 'developPlansId',
-						boxLabel : 'Development Plan'
+						boxLabel : 'Development Plan Overlay (DPO)'
 					}]
 		});
 
@@ -500,7 +540,7 @@ var heritage = Ext.create('Ext.form.Panel', {
 			frame : false,
 			title : 'Heritage',
 			width : '50%',
-			height : 60,
+			height : 68,
 			bodyPadding : 5,
 			fieldDefaults : {
 				margin : '5 20 8 5'
@@ -508,7 +548,7 @@ var heritage = Ext.create('Ext.form.Panel', {
 			items : [{
 						xtype : 'checkboxfield',
 						id : 'heritageId',
-						boxLabel : 'Heritage'
+						boxLabel : 'Heritage Overlay'
 					}]
 		});
 
@@ -608,8 +648,8 @@ var analyseBtn_DevelopPotential = Ext.create('Ext.Button', {
 			var urbanGrowthBoundryVal = JSON.parse(landuses.getForm()
 					.findField('urbanGrowthBoundryId').getValue());
 
-			var slopeVal = JSON.parse(geographicVariables.getForm()
-					.findField('slopeId').getValue());
+			/*var slopeVal = JSON.parse(geographicVariables.getForm()
+					.findField('slopeId').getValue());*/
 			var floodwayVal = JSON.parse(geographicVariables.getForm()
 					.findField('floodwayId').getValue());
 			var inundationVal = JSON.parse(geographicVariables.getForm()
@@ -647,6 +687,9 @@ var analyseBtn_DevelopPotential = Ext.create('Ext.Button', {
 			var publicAcquisitionVal = JSON.parse(ownershipVariables.getForm()
 					.findField('publicAcquisitionId').getValue());
 
+			var waitingMsg2 = Ext.MessageBox.wait('Processing...',
+					'Performing Analysis');
+
 			Ext.Ajax.request({
 						url : '/housing/housing-controller/developmentPotential',
 						method : 'post',
@@ -680,7 +723,7 @@ var analyseBtn_DevelopPotential = Ext.create('Ext.Button', {
 							specialPurposeVal : specialPurposeVal,
 							urbanGrowthBoundryVal : urbanGrowthBoundryVal,
 
-							slopeVal : slopeVal,
+							/*slopeVal : slopeVal,*/
 							floodwayVal : floodwayVal,
 							inundationVal : inundationVal,
 
@@ -704,12 +747,15 @@ var analyseBtn_DevelopPotential = Ext.create('Ext.Button', {
 
 						},
 						success : function(response) {
+							waitingMsg2.hide();
 							var jresp = Ext.JSON.decode(response.responseText);
 							console.log(jresp.message);
 							if (jresp.message == "Analysis Successfully Done") {
 								Ext.Msg.alert('Analysis Status', jresp.message,
 										Ext.emptyFn);
-								window.open('ui-jsp/map_potential.jsp');
+										window.open('ui-jsp/map_potential.jsp');
+								/*window.open('ui-jsp/map_potential.jsp');*/
+								/*window.open("ui-jsp/map_potential.jsp","_blank","toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=400, height=400");*/
 							} else {
 								Ext.Msg.show({
 											title : 'Analysis Status',
@@ -721,6 +767,7 @@ var analyseBtn_DevelopPotential = Ext.create('Ext.Button', {
 							}
 						},
 						failure : function(response, options) {
+							waitingMsg2.hide();
 							var jresp = Ext.JSON.decode(response.responseText);
 							Ext.MessageBox.alert(jresp.message);
 						}
@@ -734,7 +781,67 @@ var analyseBtn_DevelopPotential = Ext.create('Ext.Button', {
 
 var clearBtn_Potential = Ext.create('Ext.Button', {
 			text : 'Clear',
-			margin : '0 5 8 5'
+			margin : '0 5 8 5',
+			handler : function() {
+				Ext.getCmp("dpiId").setValue(0);
+				Ext.getCmp("dpiId_value").setValue(0);
+
+				Ext.getCmp("trainStationId").setValue(0);
+				Ext.getCmp("trainStationId_value").setValue(0);
+
+				Ext.getCmp("trainRouteId").setValue(0);
+				Ext.getCmp("trainRouteId_value").setValue(0);
+
+				Ext.getCmp("tramRouteId").setValue(0);
+				Ext.getCmp("tramRouteId_value").setValue(0);
+
+				Ext.getCmp("educationId").setValue(0);
+				Ext.getCmp("educationId_value").setValue(0);
+
+				Ext.getCmp("recreationId").setValue(0);
+				Ext.getCmp("recreationId_value").setValue(0);
+
+				Ext.getCmp("medicalId").setValue(0);
+				Ext.getCmp("medicalId_value").setValue(0);
+
+				Ext.getCmp("communityId").setValue(0);
+				Ext.getCmp("communityId_value").setValue(0);
+
+				Ext.getCmp("utilityId").setValue(0);
+				Ext.getCmp("utilityId_value").setValue(0);
+
+				Ext.getCmp("employmentId").setValue(0);
+				Ext.getCmp("employmentId_value").setValue(0);
+
+				Ext.getCmp("residentialId").setValue(false);
+				Ext.getCmp("businessId").setValue(false);
+				Ext.getCmp("ruralId").setValue(false);
+				Ext.getCmp("mixedUseId").setValue(false);
+				Ext.getCmp("specialPurposeId").setValue(false);
+				Ext.getCmp("urbanGrowthBoundryId").setValue(false);
+
+				Ext.getCmp("floodwayId").setValue(false);
+				Ext.getCmp("inundationId").setValue(false);
+				Ext.getCmp("neighbourhoodId").setValue(false);
+				Ext.getCmp("parkingId").setValue(false);
+				Ext.getCmp("designDevelopmentId").setValue(false);
+				Ext.getCmp("developPlansId").setValue(false);
+				Ext.getCmp("bushfireId").setValue(false);
+				Ext.getCmp("erosionId").setValue(false);
+				Ext.getCmp("vegetationProtectId").setValue(false);
+				Ext.getCmp("salinityId").setValue(false);
+				Ext.getCmp("contamintationId").setValue(false);
+				Ext.getCmp("envSignificanceId").setValue(false);
+				Ext.getCmp("envAuditId").setValue(false);
+				Ext.getCmp("heritageId").setValue(false);
+				Ext.getCmp("commonwealthLandId").setValue(false);
+				Ext.getCmp("publicAcquisitionId").setValue(false);
+
+				lgaCombo1.clearValue();
+				lgaCombo1.applyEmptyText();
+				lgaCombo1.getPicker().getSelectionModel().doMultiSelect([], false);
+				
+			}
 		});
 
 // *************** Footer Panel ***************
@@ -750,6 +857,7 @@ var developementPotential = Ext.create('Ext.form.Panel', {
 			frame : true,
 			title : 'Developement Potential Analysis',
 			items : [LGA_Potential, wholeForm_Potential, footerPanel_Potential],
-			height : 548,
+			/* height : 578, */
+			autoHeight : true,
 			width : 1000
 		});

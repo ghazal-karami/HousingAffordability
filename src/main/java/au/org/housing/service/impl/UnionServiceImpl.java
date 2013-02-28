@@ -21,17 +21,12 @@ public class UnionServiceImpl implements UnionService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UnionServiceImpl.class);
 
-	public Geometry createUnion(Collection<Geometry> bufferCollection) {
+	public Geometry createUnion(Collection<Geometry>  bufferCollection) {
 		Geometry unionGeometry = null;
-		Iterator<Geometry> i;	
+		Iterator<Geometry> i =null;	
 		try{
 			for ( i = bufferCollection.iterator(); i.hasNext();) {
 				Geometry geometry = i.next();
-				if (!geometry.isValid()){
-					Messages.setMessage(Messages._NOT_VALID);
-					LOGGER.error(Messages._NOT_VALID);
-					return null;
-				}
 				if (geometry == null)
 					continue;
 				if (unionGeometry == null) {
@@ -40,9 +35,15 @@ public class UnionServiceImpl implements UnionService {
 					unionGeometry = unionGeometry.union(geometry);
 				}
 			}
-		}catch(TopologyException e){
+			LOGGER.info("union finished-------------------------------------");
+		}catch(TopologyException te){
+			LOGGER.error(te.getMessage());	
+			te.printStackTrace();
+		}catch(Exception e){
 			LOGGER.error(e.getMessage());	
+			e.printStackTrace();
 		}
+		i.remove();
 		return unionGeometry;
 	}
 
@@ -50,11 +51,8 @@ public class UnionServiceImpl implements UnionService {
 		Geometry unionGeometry = null;
 		SimpleFeatureIterator i = null;		
 		try{
-			for (i = simpleFeatureCollection.features(); i.hasNext();) {	
-				
+			for (i = simpleFeatureCollection.features(); i.hasNext();) {					
 				SimpleFeature sf = i.next();
-				System.out.print(",   -------------"+ sf.getAttribute("objectid"));
-//				System.out.println();;
 				Geometry geometry = (Geometry) sf.getDefaultGeometry();
 //				if (!geometry.isValid()){
 //					Messages.setMessage(Messages._NOT_VALID);
@@ -73,10 +71,7 @@ public class UnionServiceImpl implements UnionService {
 			LOGGER.error(e.getMessage());			
 		}finally{
 			i.close(); 
-			System.out.println("finallyyyyyyyyyyyyyyyy");
 		}
-		
-		System.out.println("returrrrrrrrrrrrrrrrrn");
 		return unionGeometry;
 	}
 

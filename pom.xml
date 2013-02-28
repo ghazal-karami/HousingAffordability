@@ -8,7 +8,7 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>Our Spring test project</name>
+	<name>Housing Project</name>
 	<properties>
 		<!-- <org.springframework.version>3.2.0.RELEASE</org.springframework.version> -->
 		<org.springframework.version>3.1.4.RELEASE</org.springframework.version>
@@ -392,21 +392,12 @@
 
 		<!-- <dependency> <groupId>org.geotools.jdbc</groupId> <artifactId>gt-jdbc-oracle</artifactId> 
 			<version>${geotools.version}</version> </dependency> -->
-		<!-- <dependency>
-			<groupId>org.geotools.jdbc</groupId>
-			<artifactId>gt-jdbc-db2</artifactId>
-			<version>${geotools.version}</version>
-		</dependency> -->
-		<!-- <dependency>
-			<groupId>org.geotools.jdbc</groupId>
-			<artifactId>gt-jdbc-mysql</artifactId>
-			<version>${geotools.version}</version>
-		</dependency> -->
-		<!-- <dependency>
-			<groupId>org.geotools.jdbc</groupId>
-			<artifactId>gt-jdbc-sqlserver</artifactId>
-			<version>${geotools.version}</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.geotools.jdbc</groupId> <artifactId>gt-jdbc-db2</artifactId> 
+			<version>${geotools.version}</version> </dependency> -->
+		<!-- <dependency> <groupId>org.geotools.jdbc</groupId> <artifactId>gt-jdbc-mysql</artifactId> 
+			<version>${geotools.version}</version> </dependency> -->
+		<!-- <dependency> <groupId>org.geotools.jdbc</groupId> <artifactId>gt-jdbc-sqlserver</artifactId> 
+			<version>${geotools.version}</version> </dependency> -->
 		<dependency>
 			<groupId>org.geotools.xsd</groupId>
 			<artifactId>gt-xsd-kml</artifactId>
@@ -422,11 +413,19 @@
 			<artifactId>gt-wms</artifactId>
 			<version>${geotools.version}</version>
 		</dependency>
+
 		<dependency>
-			<groupId>org.geotools</groupId>
-			<artifactId>gt-postgis-versioned</artifactId>
+			<groupId>org.geotools.jdbc</groupId>
+			<artifactId>gt-jdbc-postgis</artifactId>
 			<version>${geotools.version}</version>
 		</dependency>
+
+		<!-- <dependency> <groupId>org.geotools</groupId> <artifactId>gt-jdbc-postgis</artifactId> 
+			<version>${geotools.version}</version> </dependency> -->
+		<!-- <dependency> <groupId>org.geotools</groupId> <artifactId>gt-postgis-versioned</artifactId> 
+			<version>${geotools.version}</version> </dependency> -->
+
+
 		<dependency>
 			<groupId>org.geotools</groupId>
 			<artifactId>gt-metadata</artifactId>
@@ -519,6 +518,10 @@
 
 	<build>
 		<plugins>
+		<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -529,7 +532,7 @@
 				</configuration>
 				<inherited>true</inherited>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.3</version>
 				<executions>
@@ -547,7 +550,7 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
@@ -569,17 +572,17 @@
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
+				
 			</resource>
 		</resources>
 		<testResources>
 			<testResource>
 				<directory>src/test/resources</directory>
-				<filtering>true</filtering>
+				
 			</testResource>
 			<testResource>
 				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
+				
 			</testResource>
 		</testResources>
 	</build>

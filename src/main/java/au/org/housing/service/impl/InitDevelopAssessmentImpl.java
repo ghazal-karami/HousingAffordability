@@ -1,5 +1,6 @@
 package au.org.housing.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +19,13 @@ public class InitDevelopAssessmentImpl implements InitDevelopAssessment {
 	
 	public void initParams(Map<String, Object> params) {	
 		
-		
-		parameter.setSelectedLGAs2((List<String>)params.get("selectedLGAs2"));
+		List<String> selectedLGAs2 = new ArrayList<String>(); 
+		selectedLGAs2 = (List<String>)params.get("selectedLGAs2");
+//		if (selectedLGAs2!= null && !selectedLGAs2.isEmpty()){
+			parameter.setSelectedLGAs2(selectedLGAs2);
+//		}else{
+//			parameter.setSelectedLGAs2(selectedLGAs2);
+//		}
 		
 		parameter.setDurationAssessmentOperateor((String) params.get("durationAssessmentOperateorVal"));  
 		parameter.setDurationAssessment((Integer) params.get("durationAssessmentVal"));  

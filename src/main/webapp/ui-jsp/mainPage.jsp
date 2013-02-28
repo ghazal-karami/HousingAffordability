@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Test Fetch Json</title>
+<title>Housing Demonstrator Tool</title>
 <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700'
 	rel='stylesheet' type='text/css' />
 <link

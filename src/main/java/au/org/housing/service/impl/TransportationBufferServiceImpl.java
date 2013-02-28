@@ -28,14 +28,14 @@ import com.vividsolutions.jts.geom.Geometry;
 
 @Service
 public class TransportationBufferServiceImpl implements
-		TransportationBufferService {
+TransportationBufferService {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(TransportationBufferServiceImpl.class);
 
 	@Autowired
 	private ParameterDevelopPotential parameter;
-	
+
 	@Autowired
 	private PostGISService postGISService;
 
@@ -111,8 +111,11 @@ public class TransportationBufferServiceImpl implements
 				}
 			}
 		}
-		Geometry union = unionService
-				.createUnion(trasportationbufferCollection);
+
+		Geometry union = null;
+		if (!trasportationbufferCollection.isEmpty()){
+			union = unionService.createUnion(trasportationbufferCollection);
+		}
 		return union;
 	}
 

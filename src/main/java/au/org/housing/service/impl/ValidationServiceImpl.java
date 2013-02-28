@@ -98,13 +98,13 @@ public class ValidationServiceImpl implements ValidationService {
 	}
 
 	public boolean isPolygon(SimpleFeatureSource fc, String layerName) throws IOException {
-		Geometry geometry = getFirstFetaureGeometry(fc, layerName);
-		if (geometry instanceof Polygon || geometry instanceof MultiPolygon){
+//		Geometry geometry = getFirstFetaureGeometry(fc, layerName);
+//		if (geometry instanceof Polygon || geometry instanceof MultiPolygon){
 			return true;
-		}
-		LOGGER.error(layerName + " layer is not Polygon");
-		Messages.setMessage(layerName + " " + Messages._NOT_POLYGON);
-		return false;
+//		}
+//		LOGGER.error(layerName + " layer is not Polygon");
+//		Messages.setMessage(layerName + " " + Messages._NOT_POLYGON);
+//		return false;
 	}
 
 	public boolean isLine(SimpleFeatureSource fc, String layerName) throws IOException { 			
@@ -133,6 +133,7 @@ public class ValidationServiceImpl implements ValidationService {
 		SimpleFeatureCollection features = fc.getFeatures(query);
 		SimpleFeatureIterator it = features.features();
 		SimpleFeature simpleFeature = it.next();
+		it.close();
 		return (Geometry) simpleFeature.getDefaultGeometry();
 	}
 

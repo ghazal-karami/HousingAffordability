@@ -25,6 +25,7 @@ public class BufferServiceImpl implements BufferService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BufferServiceImpl.class);
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public Collection<Geometry> createFeaturesBuffer(SimpleFeatureCollection features, double distance, String fileName) throws NoSuchAuthorityCodeException, IOException, FactoryException, URISyntaxException{
 		Collection<Geometry> bufferCollection = new ArrayList<Geometry>();
@@ -42,7 +43,7 @@ public class BufferServiceImpl implements BufferService {
 				bufferCollection.add(bufferGeometry);
 			}
 		} finally {
-			it.close(); 
+			it.close();
 		}		
 		return bufferCollection;
 	}

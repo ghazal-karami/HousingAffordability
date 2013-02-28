@@ -24,5 +24,7 @@ public interface PostGISService {
 
 	public void setDataStore(DataStore dataStore);
 	
+	public DataStore getPOSTGISDataStore() throws IOException;
+	
 	public void dipose();
 }

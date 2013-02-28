@@ -19,7 +19,9 @@ public class Messages {
 	
 
 	public final static String _GEOSERVER_NOT_EXIST = "Geoserver Does Not Exist!";
-	public final static String _PUBLISH_FAILED = "Unable To Publish The New Output Layer To Geoserver";
+	public final static String _PUBLISH_FAILED = "Unable To Publish The New Output Layer To Geoserver!";
+	public final static String _WORKSPACE_NOT_EXIST = "Workspace housingWS Does Not Exist In GeoServer!";
+	
 	
 	private static String message = Messages._SUCCESS;
 
