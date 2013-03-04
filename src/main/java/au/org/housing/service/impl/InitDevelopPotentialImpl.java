@@ -1,6 +1,5 @@
 package au.org.housing.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +9,15 @@ import org.springframework.stereotype.Service;
 import au.org.housing.model.ParameterDevelopPotential;
 import au.org.housing.service.InitDevelopPotential;
 
+/**
+ * Implementation for initializing ParameterDevelopPotential
+ * model based on the selected parameters by user and to be used
+ * in other handler services.
+ *
+ * @author Gh.Karami
+ * @version 1.0
+ *
+ */ 
 
 @Service
 public class InitDevelopPotentialImpl implements InitDevelopPotential {

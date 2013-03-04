@@ -1,5 +1,14 @@
 package au.org.housing.model;
 
+/**
+ * Contains the fields for displaying the categories and
+ * outcomes from related tables in PostGIS to the user.
+ *
+ * @author Gh.Karami
+ * @version 1.0
+ *
+ */ 
+
 public class AppCategoryOutcome {
 	public AppCategoryOutcome(int code, String desc) {
 		super();

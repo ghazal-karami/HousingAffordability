@@ -20,12 +20,13 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 /**
- * Represents Parameters for Development Potential Form
+ * Contains all the parameters on Assessment Potential form.
  *
  * @author Gh.Karami
  * @version 1.0
  *
- */
+ */ 
+
 
 @Component
 public class ParameterDevelopPotential {

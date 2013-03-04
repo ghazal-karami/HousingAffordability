@@ -9,6 +9,15 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+/**
+ * Utility class responsible for generating a zip file 
+ * of all the files in the sourceFolder.
+ *
+ * @author Gh.Karami
+ * @version 1.0
+ *
+ */
+
 public class Zip { 
 
 	List<String> fileList;
@@ -60,7 +69,6 @@ public class Zip {
 			}
 
 			zos.closeEntry();
-			//remember close it
 			zos.close();
 
 			System.out.println("Done");

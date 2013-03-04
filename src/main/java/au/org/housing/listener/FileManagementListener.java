@@ -5,14 +5,20 @@ import java.io.IOException;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 
-import au.org.housing.exception.Messages;
 import au.org.housing.utilities.TemporaryFileManager;
+
+/**
+ * Responsible for session creation and destroy.
+ * Need to be changed. 
+ *
+ * @author Amir.Nasr, Gh.Karami
+ * @version 1.0
+ *
+ */  
 
 public class FileManagementListener implements HttpSessionListener{
 	
@@ -24,6 +30,7 @@ public class FileManagementListener implements HttpSessionListener{
 
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
+		
 		System.out.println("sessionCreated");
 		totalActiveSessions++;
 		printCounter(se);		
@@ -31,21 +38,39 @@ public class FileManagementListener implements HttpSessionListener{
 
 	@Override
 	public void sessionDestroyed(HttpSessionEvent se) {
+//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//		String username = auth.getName(); //get logged in username
+		
 		System.out.println("sessionDestroyed - deduct one session from counter");	
 		totalActiveSessions--;
 		printCounter(se);
 		try {
-//			TemporaryFileManager.deleteAll(se.getSession());  			 // Amir			
+//			TemporaryFileManager.deleteAll(se.getSession());  			 // Amir
+			
+//			String w = "housingWS_" + username+se.getSession().getId();
+//			
 			TemporaryFileManager.deleteDir(se.getSession());   			 // Ghazal			
-			if (!TemporaryFileManager.deleteFromGeoServer(se.getSession())){     // Ghazal
-				throw new Exception(Messages.getMessage());
-			}
+//			if (!TemporaryFileManager.deleteFromGeoServer(se.getSession())){     // Ghazal
+////				throw new Exception(Messages.getMessage());
+//			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
+		
+		
+//		SecurityContextImpl scImpl = null;
+//		scImpl = (SecurityContextImpl)se.getSession().getAttribute("ACEGI_SECURITY_CONTEXT");
+//		Object obj = null;
+//		if ((scImpl != null) && (scImpl.getAuthentication().getPrincipal() != null)) {
+//			obj = scImpl.getAuthentication().getPrincipal();
+//		}            
+//		if ((obj == null) /*|| !(obj instanceof ATUserDetails)*/) {
+//			System.err.println("ERROR: can't find ATUserDetails");
+//			return;
+//		}
 	}
 
 	private void printCounter(HttpSessionEvent sessionEvent){		

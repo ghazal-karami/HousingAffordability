@@ -32,10 +32,6 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//import au.org.aurin.data.store.client.DataStoreClient;
-//import au.org.aurin.data.store.client.DataStoreClientImpl;
-//import au.org.aurin.security.util.SslUtil;
-
 /**
  * Handles reading and writing of GeoJSON in and out of Geotools
  * 

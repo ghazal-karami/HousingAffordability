@@ -750,12 +750,10 @@ var analyseBtn_DevelopPotential = Ext.create('Ext.Button', {
 							waitingMsg2.hide();
 							var jresp = Ext.JSON.decode(response.responseText);
 							console.log(jresp.message);
-							if (jresp.message == "Analysis Successfully Done") {
+							if (jresp.message == "Success") {
 								Ext.Msg.alert('Analysis Status', jresp.message,
 										Ext.emptyFn);
 										window.open('ui-jsp/map_potential.jsp');
-								/*window.open('ui-jsp/map_potential.jsp');*/
-								/*window.open("ui-jsp/map_potential.jsp","_blank","toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=400, height=400");*/
 							} else {
 								Ext.Msg.show({
 											title : 'Analysis Status',

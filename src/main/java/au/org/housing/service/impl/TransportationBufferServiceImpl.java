@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 
 import au.org.housing.config.InputLayersConfig;
+import au.org.housing.exception.HousingException;
 
 import au.org.housing.model.ParameterDevelopPotential;
 import au.org.housing.service.BufferService;
@@ -25,6 +26,19 @@ import au.org.housing.service.UnionService;
 import au.org.housing.service.ValidationService;
 
 import com.vividsolutions.jts.geom.Geometry;
+
+/**
+ * Implementation for generating buffer for Transportation 
+ * DataSets based on the selected parameters by user.
+ * At first a buffer is generated based on the distance 
+ * parameter for every Transportation DataSet selected, and at 
+ * the end, the Union of all these Transportations will
+ * be calculated.
+ *
+ * @author Gh.Karami
+ * @version 1.0
+ *
+ */
 
 @Service
 public class TransportationBufferServiceImpl implements
@@ -59,7 +73,7 @@ TransportationBufferService {
 
 	public Geometry generateTranportBuffer()
 			throws NoSuchAuthorityCodeException, IOException, FactoryException,
-			URISyntaxException, PSQLException {
+			URISyntaxException, PSQLException, HousingException {
 
 		trasportationbufferCollection = new ArrayList<Geometry>();
 

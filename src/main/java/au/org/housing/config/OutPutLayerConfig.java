@@ -3,6 +3,14 @@ package au.org.housing.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * Output layer config from its name to its attributes 
+ *
+ * @author Gh.Karami
+ * @version 1.0
+ *
+ */
+
 @Component
 public class OutPutLayerConfig{
 	

@@ -571,22 +571,9 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 				waitingMsg1.hide();
 				var jresp = Ext.JSON.decode(response.responseText);
 				console.log('assessmentResponse' + jresp.message);
-				if (jresp.message == "Analysis Successfully Done") {
+				if (jresp.message == "Success") {
 					Ext.Msg.alert('Analysis Status', jresp.message,Ext.emptyFn);
-					/*
-					 * Ext.Msg.show({ title : 'Analysis Status', msg :
-					 * jresp.message, width : 400 , buttons: Ext.Msg.OK });
-					 */
-					/*
-					 * new Ext.Window({ title : 'My PDF', height : 400, width :
-					 * 600, bodyCfg : { tag : 'iframe', src :
-					 * 'ui-jsp/map_assessment.jsp', style : 'border: 0 none' }
-					 * }).show();
-					 */
-					/* window.open('ui-jsp/map_assessment.jsp'); */
-					window.open('ui-jsp/map_assessment.jsp',"_blank");
-//					window.open(url, "_blank", "resizable=yes, scrollbars=yes, titlebar=yes, width=800, height=900, top=10, left=10");
-					/*window.open("ui-jsp/map_assessment.jsp","_blank","toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=400, height=400");*/
+					window.open('ui-jsp/map_assessment.jsp',"_blank");//					
 				} else {
 					Ext.Msg.show({
 								title : 'Analysis Status',
@@ -599,8 +586,8 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 			},
 			failure : function(response, options) {
 				waitingMsg1.hide();
-				var jresp = Ext.JSON.decode(response.responseText);
-				Ext.MessageBox.alert(jresp.message);
+//				var jresp = Ext.JSON.decode(response.responseText);
+				Ext.MessageBox.alert(response.responseText);
 			}
 		});
 		// } else {
@@ -645,14 +632,9 @@ var clearBtn_DevelopAssessment = Ext.create('Ext.Button', {
 
 				lgaCombo2.clearValue();
 				lgaCombo2.applyEmptyText();
-				lgaCombo2.getPicker().getSelectionModel().doMultiSelect([],
-						false);
-						
-						/*var grid = Ext.getCmp("ggg");
-						
-						grid.getSelectionModel().clearSelections()*/
-					/*Ext.getCmp("chk").setValue(false);	*/
-						
+				lgaCombo2.getPicker().getSelectionModel().doMultiSelect([],false);
+				outcomesGrid.getSelectionModel().deselectAll();
+				categoriesGrid.getSelectionModel().deselectAll();
 			}
 		});
 
@@ -661,7 +643,7 @@ var footerPanel_DevelopAssessment = Ext.create('Ext.form.Panel', {
 			layout : 'column',
 			frame : true,
 			border : 0,
-			items : [analyseBtn_DevelopAssessment/*, clearBtn_DevelopAssessment*/]
+			items : [analyseBtn_DevelopAssessment, clearBtn_DevelopAssessment]
 		});
 
 // *************** whole Form1 ***************
@@ -670,7 +652,6 @@ var developementAssessment = Ext.create('Ext.form.Panel', {
 			title : 'Developement Assessment Analysis',
 			items : [LGA_Assessment, wholeForm_Assessment,
 					footerPanel_DevelopAssessment],
-			/* height : 580, */
 			autoHeight : true,
 			width : 1000
 		});

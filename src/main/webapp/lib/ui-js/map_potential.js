@@ -15,22 +15,22 @@ Ext.onReady(function() {
 					var jsonResp = Ext.util.JSON.decode(response.responseText);
 					workspace = jsonResp.workspace;
 					layerName = workspace + ":" + jsonResp.layerName;
+					// lgaLayerName = workspace + ":lga_polygon_ArcGis_metric";
+					lgaLayerName = "housingWS:lga_polygon_ArcGis_metric";
 					minX = jsonResp.minX;
 					maxX = jsonResp.maxX;
 					minY = jsonResp.minY;
 					maxY = jsonResp.maxY;
-					loadMap(layerName, minX, maxX, minY, maxY);
+					var bounds = [minX, minY, maxX, maxY];
+					loadMap(workspace, layerName, lgaLayerName, bounds);
 				}
 			});
-	function loadMap(layerName, minX, maxX, minY, maxY) {
+	function loadMap(workspace, layerName, lgaLayerName, bounds) {
 		var ctrl, toolbarItems = [], action, actions = {};
-		var bounds = [minX, minY, maxX, maxY];
 		maxBounds = new OpenLayers.Bounds(bounds[0], bounds[1], bounds[2],
 				bounds[3]);
-		// alert('before ' + maxBounds);
 		maxBounds.transform(new OpenLayers.Projection("EPSG:28355"),
 				new OpenLayers.Projection("EPSG:900913"));
-		alert('after ' + maxBounds);
 
 		var options = {
 			projection : "EPSG:900913",
@@ -41,8 +41,8 @@ Ext.onReady(function() {
 		var osm = new OpenLayers.Layer.OSM();
 
 		var format = "image/png";
-		tiled = new OpenLayers.Layer.WMS("Housing Layer",
-				"/housing/geoserver/housingWS/wms", {
+		tiled = new OpenLayers.Layer.WMS("Housing Layer", "/housing/geoserver/"
+						+ workspace + "/wms", {
 					LAYERS : layerName,
 					format : format,
 					transparent : 'true'
@@ -50,7 +50,96 @@ Ext.onReady(function() {
 					transitionEffect : "resize"
 				});
 
+		lga = new OpenLayers.Layer.WMS("LGA Layer",
+				"/housing/geoserver/housingWS/wms", {
+					LAYERS : lgaLayerName,
+					format : format,
+					transparent : 'true'
+				}, {
+					transitionEffect : "resize"
+				});
+
 		var map = new OpenLayers.Map(options);
+
+		var measureLength = new GeoExt.ux.MeasureLength({
+					map : map,
+					tooltip : "Measure Length",
+					controlOptions : {
+						geodesic : true
+					},
+					toggleGroup : 'tools'
+				});
+
+		toolbarItems.push(measureLength);
+		var measureArea = new GeoExt.ux.MeasureArea({
+					map : map,
+					decimals : 0,
+					toggleGroup : 'tools'
+				});
+		toolbarItems.push(measureArea);
+
+		// Navigation control and DrawFeature controls
+		// in the same toggle group
+		action = new GeoExt.Action({
+					text : "nav",
+					control : new OpenLayers.Control.Navigation(),
+					map : map,
+					// button options
+					toggleGroup : "draw",
+					allowDepress : true,
+					pressed : false,
+					tooltip : "navigate",
+					// check item options
+					group : "draw",
+					checked : false
+				});
+		actions["nav"] = action;
+		toolbarItems.push(action);
+
+		// Navigation history - two "button" controls
+		ctrl = new OpenLayers.Control.NavigationHistory();
+		map.addControl(ctrl);
+
+		action = new GeoExt.Action({
+					text : "previous",
+					control : ctrl.previous,
+					disabled : true,
+					tooltip : "previous in history"
+				});
+		actions["previous"] = action;
+		toolbarItems.push(action);
+
+		action = new GeoExt.Action({
+					text : "next",
+					control : ctrl.next,
+					disabled : true,
+					tooltip : "next in history"
+				});
+		actions["next"] = action;
+		toolbarItems.push(action);
+		toolbarItems.push("->");
+
+		var layers;
+		for (var i = 1; i < map.layers.length; i++) {
+			layers = mapPanel.layers.getAt(i);
+			layers
+					.set(
+							"legendURL",
+							"/housing/geoserver/housingWS/wms?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER="
+									+ map.layers[i].params["LAYERS"]);
+		}
+		// var legend = new GeoExt.LegendPanel({
+		// title : "Map Legend",
+		// iconCls : 'legend',
+		// autoScroll : true,
+		// defaults : {
+		// cls : 'legend-item',
+		// baseParams : {
+		// FORMAT : 'image/png'
+		// }
+		// },
+		// layerStore: layers
+		// });
 
 		var legendPanel = new GeoExt.LegendPanel({
 					border : false,
@@ -73,18 +162,18 @@ Ext.onReady(function() {
 							}, {
 								region : "center",
 								id : "mappanel",
-								title : "Map",
 								xtype : "gx_mappanel",
 								map : map,
-								layers : [osm, tiled],
+								layers : [osm, lga, tiled],
 								extent : maxBounds,
-								split : true
+								split : true,
+								tbar : toolbarItems
 							}, {
 								region : "east",
 								showTitle : false,
 								cls : "opacity-slider",
 								items : [legendPanel],
-								title : "Description",
+								title : "Legend",
 								width : '10%',
 								split : true,
 								collapsible : true,

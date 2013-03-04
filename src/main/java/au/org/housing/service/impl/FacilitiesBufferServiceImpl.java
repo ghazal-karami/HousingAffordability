@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 
 import au.org.housing.config.InputLayersConfig;
-import au.org.housing.exception.LayerValidationException;
+import au.org.housing.exception.HousingException;
 import au.org.housing.model.ParameterDevelopPotential;
 import au.org.housing.service.BufferService;
 import au.org.housing.service.FacilitiesBufferService;
@@ -24,6 +24,19 @@ import au.org.housing.service.UnionService;
 import au.org.housing.service.ValidationService;
 
 import com.vividsolutions.jts.geom.Geometry;
+
+/**
+ * Implementation for generating buffer for Facilities 
+ * DataSets based on the selected parameters by user.
+ * At first a buffer is generated based on the distance 
+ * parameter for every Facility DataSet selected and at 
+ * the end, the Intersection of all these Facilities will
+ * be calculated.
+ *
+ * @author Gh.Karami
+ * @version 1.0
+ *
+ */ 
 
 @Service
 public class FacilitiesBufferServiceImpl implements FacilitiesBufferService {
@@ -48,7 +61,7 @@ public class FacilitiesBufferServiceImpl implements FacilitiesBufferService {
 	@Autowired
 	private InputLayersConfig layerMapping;
 	
-	public Geometry generateFacilityBuffer() throws NoSuchAuthorityCodeException, IOException, FactoryException, URISyntaxException, LayerValidationException, PSQLException{
+	public Geometry generateFacilityBuffer() throws NoSuchAuthorityCodeException, IOException, FactoryException, URISyntaxException, HousingException, PSQLException{
 		Geometry intersected = null;		
 		if (parameter.getEducation_BufferDistance() != 0){
 			intersected = analyse(intersected, layerMapping.getEducationFacilities(), parameter.getEducation_BufferDistance());
@@ -68,7 +81,7 @@ public class FacilitiesBufferServiceImpl implements FacilitiesBufferService {
 		return intersected;
 	}
 
-	private Geometry analyse(Geometry intersected, String layerName , Integer distance) throws IOException, NoSuchAuthorityCodeException, FactoryException, URISyntaxException, LayerValidationException, PSQLException{
+	private Geometry analyse(Geometry intersected, String layerName , Integer distance) throws IOException, NoSuchAuthorityCodeException, FactoryException, URISyntaxException, HousingException, PSQLException{
 		SimpleFeatureSource fc =  (SimpleFeatureSource) postGISService.getFeatureSource(layerName);
 		if ( validationService.isPolygon(fc, layerName) && validationService.isMetric(fc, layerName) ){
 			LOGGER.info("distance "+ distance);

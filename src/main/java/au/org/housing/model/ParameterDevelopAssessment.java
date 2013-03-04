@@ -1,16 +1,16 @@
 package au.org.housing.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
 /**
- * Represents Parameters for Development Assessment Form
- * 
+ * Contains all the parameters on Assessment Development form.
+ *
  * @author Gh.Karami
- * 
- */
+ * @version 1.0
+ *
+ */ 
 
 @Component
 public class ParameterDevelopAssessment {

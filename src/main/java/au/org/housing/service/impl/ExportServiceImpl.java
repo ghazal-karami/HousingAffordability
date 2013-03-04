@@ -1,30 +1,21 @@
 package au.org.housing.service.impl;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.zip.ZipOutputStream;
 
 import org.geotools.data.DataStore;
 import org.geotools.data.DefaultTransaction;
-import org.geotools.data.FeatureStore;
 import org.geotools.data.Transaction;
-import org.geotools.data.collection.ListFeatureCollection;
-import org.geotools.data.postgis.PostgisNGDataStoreFactory;
 import org.geotools.data.shapefile.ShapefileDataStore;
 import org.geotools.data.shapefile.ShapefileDataStoreFactory;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.data.simple.SimpleFeatureStore;
-import org.geotools.feature.simple.SimpleFeatureBuilder;
-import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
-import org.geotools.geojson.GeoJSONUtil;
 import org.geotools.referencing.CRS;
-import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
@@ -32,7 +23,14 @@ import org.springframework.stereotype.Service;
 
 import au.org.housing.service.ExportService;
 
-import com.vividsolutions.jts.geom.MultiPolygon;
+/**
+ * Implementation for exporting the collection of 
+ * features to Shape File or PostGIS.
+ *
+ * @author Gh.Karami
+ * @version 1.0
+ *
+ */ 
 
 @Service
 public class ExportServiceImpl implements ExportService {
@@ -41,7 +39,8 @@ public class ExportServiceImpl implements ExportService {
 			SimpleFeatureCollection simpleFeatureCollection, File newFile,
 			boolean createSchema) throws IOException,
 			NoSuchAuthorityCodeException, FactoryException {
-
+		System.out.println("sizeeeeee 333 == "+simpleFeatureCollection.size());
+		
 		if (!newFile.exists()) {
 			newFile.createNewFile();
 		}
@@ -86,6 +85,7 @@ public class ExportServiceImpl implements ExportService {
 			System.out.println(typeName + " does not support read/write access");
 		}
 		return exportStatus;
+		
 	}
 
 	public void featuresExportToPostGis(SimpleFeatureType type,

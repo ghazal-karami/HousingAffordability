@@ -6,15 +6,20 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
  
+/**
+ * GeoServer Connection Parameters and configuration for 
+ * publishing and visualization of the output layer
+ *
+ * @author Gh.Karami
+ * @version 1.0
+ *
+ */
+
 @Controller
 public class LoginController {
  
 	@RequestMapping(value="/loginSuccess", method = RequestMethod.GET)
 	public String printWelcome(ModelMap model, Principal principal ) {
- 
-		String name = principal.getName();
-		model.addAttribute("username", name);
-		model.addAttribute("message", "Spring Security Custom Form example");
 		return "mainPage";
  
 	}

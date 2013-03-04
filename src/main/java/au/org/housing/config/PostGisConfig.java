@@ -4,6 +4,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+/**
+ * PostGIS Connection Parameters and configuration
+ *
+ * @author Gh.Karami
+ * @version 1.0
+ *
+ */
+
 @Component
 @PropertySource("classpath:connections.properties")
 public class PostGisConfig{

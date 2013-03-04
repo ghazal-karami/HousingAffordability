@@ -10,6 +10,16 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+/**
+ * Interface for creating new feature type or
+ * simple feature or a collection of features
+ *
+ * @author Gh.Karami
+ * @version 1.0
+ *
+ */ 
+
+
 public interface FeatureBuilder {
 	
 	public SimpleFeatureType getType() ;

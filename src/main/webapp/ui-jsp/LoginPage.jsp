@@ -22,10 +22,10 @@
 		</div>
 	</c:if>
  
-	<form name='f' action="<c:url value='j_spring_security_check' />"
+	<form name='f' style='align:center;' action="<c:url value='j_spring_security_check' />"
 		method='POST'>
  
-		<table border="1" >
+		<table border="2" >
 			<tr>
 				<td>User:</td>
 				<td><input type='text' name='j_username' value=''>

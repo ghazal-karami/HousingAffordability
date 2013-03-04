@@ -1,45 +1,20 @@
 package au.org.housing.config;
 
-import java.util.List;
-
-import it.geosolutions.geoserver.rest.GeoServerRESTPublisher;
-import it.geosolutions.geoserver.rest.GeoServerRESTReader;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import au.org.housing.exception.Messages;
+/**
+ * GeoServer Connection Parameters and configuration for 
+ * publishing and visualization of the output layer
+ *
+ * @author Gh.Karami
+ * @version 1.0
+ *
+ */
 
 @Component
 public class GeoServerConfig{
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(GeoServerConfig.class);
 	
-	public  static GeoServerRESTPublisher publisher;
-	public  static GeoServerRESTReader reader;
-	
-	public boolean geoServerExist(){
-		if (!reader.existGeoserver()){
-			LOGGER.info(Messages._GEOSERVER_NOT_EXIST);
-			Messages.setMessage(Messages._GEOSERVER_NOT_EXIST);
-			return false;
-		}
-		return true;
-	}
-	
-	public boolean workSpaceExist(){
-		List<String> workSpaces = reader.getWorkspaceNames();
-		if (!workSpaces.contains(gsWorkspace)){
-			LOGGER.info(Messages._WORKSPACE_NOT_EXIST);
-			Messages.setMessage(Messages._GEOSERVER_NOT_EXIST);
-			return false;
-		}
-		return true;
-	}
-	
-
 	@Value("${geoserverRESTURL}") 
 	private String RESTURL; 
 	

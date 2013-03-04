@@ -17,8 +17,21 @@ var selectedCategories = [];
 
 var categoriesGrid = Ext.create('Ext.grid.Panel', {
 			store : categoriesStore,
-			id : 'ggg',
+			selModel : Ext.create('Ext.selection.CheckboxModel', {
+						mode : 'Multi',
+						header : true,
+						listeners : {
+							select : function(model, record, index) {
+								selectedCategories = record.get('code');
+							}
+						}
+					}),
 			columns : [{
+						text : 'Description',
+						dataIndex : 'desc',
+						flex : 1
+					}],
+			/*columns : [{
 						xtype : 'checkcolumn',
 						header : 'Select',
 						id : 'chk',
@@ -28,7 +41,7 @@ var categoriesGrid = Ext.create('Ext.grid.Panel', {
 						text : 'Description',
 						dataIndex : 'desc',
 						flex : 1
-					}],
+					}],*/
 			height : 213,
 			anchor : '100%',
 			margin : '8 10 5 0'

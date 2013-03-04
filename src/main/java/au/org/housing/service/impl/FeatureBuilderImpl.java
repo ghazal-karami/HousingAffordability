@@ -20,6 +20,15 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Polygon;
 
+/**
+ * Implementation for creating new feature type or
+ * simple feature or a collection of features
+ *
+ * @author Gh.Karami
+ * @version 1.0
+ *
+ */ 
+
 @Service
 public class FeatureBuilderImpl implements FeatureBuilder{
 	

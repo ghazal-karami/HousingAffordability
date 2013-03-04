@@ -10,18 +10,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import au.org.housing.exception.HousingException;
 import au.org.housing.exception.Messages;
 import au.org.housing.service.UnionService;
 
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.TopologyException;
 
+/**
+ * Implementation for generating Union of the  
+ * GeometryCollection or FeatureCollection .
+ *
+ * @author Gh.Karami
+ * @version 1.0
+ *
+ */
+
 @Service
 public class UnionServiceImpl implements UnionService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UnionServiceImpl.class);
 
-	public Geometry createUnion(Collection<Geometry>  bufferCollection) {
+	public Geometry createUnion(Collection<Geometry>  bufferCollection) throws HousingException {
 		Geometry unionGeometry = null;
 		Iterator<Geometry> i =null;	
 		try{
@@ -34,20 +44,20 @@ public class UnionServiceImpl implements UnionService {
 				} else {
 					unionGeometry = unionGeometry.union(geometry);
 				}
-			}
-			LOGGER.info("union finished-------------------------------------");
+			}	
+			LOGGER.info("Union Generated");
 		}catch(TopologyException te){
-			LOGGER.error(te.getMessage());	
 			te.printStackTrace();
+			throw new HousingException(Messages._NOT_VALID_GEOMETRY);
 		}catch(Exception e){
-			LOGGER.error(e.getMessage());	
 			e.printStackTrace();
+			throw new HousingException(Messages._ERROR_GENERATE_UNION);
 		}
 		i.remove();
 		return unionGeometry;
 	}
 
-	public Geometry createUnion(SimpleFeatureCollection simpleFeatureCollection) {
+	public Geometry createUnion(SimpleFeatureCollection simpleFeatureCollection) throws HousingException {
 		Geometry unionGeometry = null;
 		SimpleFeatureIterator i = null;		
 		try{
@@ -67,8 +77,13 @@ public class UnionServiceImpl implements UnionService {
 					unionGeometry = unionGeometry.union(geometry);
 				}
 			}
-		}catch(TopologyException e){
-			LOGGER.error(e.getMessage());			
+			LOGGER.info("Union Generated");
+		}catch(TopologyException te){
+			te.printStackTrace();
+			throw new HousingException(Messages._NOT_VALID_GEOMETRY);
+		}catch(Exception e){
+			e.printStackTrace();
+			throw new HousingException(Messages._ERROR_GENERATE_UNION);
 		}finally{
 			i.close(); 
 		}
