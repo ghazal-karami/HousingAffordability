@@ -93,7 +93,7 @@ public class HousingController {
 			e.printStackTrace();
 			responseMap.put("message", e.getMessage());
 		}		
-		request.getSession().setMaxInactiveInterval(60*60);
+		request.getSession().setMaxInactiveInterval(60*60); 
 		return responseMap;    	
 	}	
 
