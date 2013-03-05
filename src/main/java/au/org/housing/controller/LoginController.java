@@ -4,6 +4,9 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,11 +44,21 @@ public class LoginController {
 	
  
 	@RequestMapping(value="/loginSuccess", method = RequestMethod.GET)
-	public ModelAndView  printWelcome(Principal principal ) {
+	public ModelAndView  printWelcome(Principal principal, HttpServletRequest request, HttpSession session ) {
+		ModelAndView mav = new ModelAndView();
+		
+		System.out.println("session.getId()="+session.getId());
+		System.out.println("request.getSession()="+request.getSession().getId());
+		
+		if (principal.getName() == null){
+			mav.addObject("message", e.getMessage());
+		}
+		
+		System.out.println("principal.getName()="+principal.getName());
+		
 		String username = principal.getName();
 		String workspace = geoServerConfig.getGsWorkspace() + "_" + username;		
 		
-		ModelAndView mav = new ModelAndView();
 	    mav.setViewName("mainPage");
 	    mav.addObject("message", "Welcome "+ username);
 		
@@ -54,8 +67,7 @@ public class LoginController {
 		
 //		Map<String, Object> responseMap = new HashMap<String, Object>();
 //		responseMap.put("message", Messages._SUCCESS);
-//		responseMap.put("username", username);
-		
+//		responseMap.put("username", username);		
 		
 		try{
 			postGISService.getPOSTGISDataStore();

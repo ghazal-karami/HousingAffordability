@@ -56,8 +56,8 @@ public class Messages {
 	public final static String _WORKSPACE_NOT_EXIST_BUT_CREATED = "Workspace Does Not Exist In GeoServer, So Created!";
 
 	public final static String _EXPORT_TO_SHP_UNSUCCESSFULL= "Export To Shape File Was Unsuccessfull!";
-	public final static String _NO_FEATURE = "No Feature to Display On The map!";
-	public final static String _NO_PPARS_FOUND = "No PPARS Found!";
+	public final static String _NO_FEATURE = "No Feature to Display On The Map!";
+	public final static String _NO_PPARS_FOUND = "No Feature Found in PPARS Layer!";
 
 	public final static String _SUCCESSFULLY_DONE = "Analysis Successfully Done";
 	public final static String _SUCCESS = "Success";

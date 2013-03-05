@@ -90,7 +90,6 @@ public class HousingController {
 			developmentPotentialService.analyse(username , session);
 		}catch(Exception e){
 			LOGGER.info(e.getMessage());
-			e.printStackTrace();
 			responseMap.put("message", e.getMessage());
 		}		
 		request.getSession().setMaxInactiveInterval(60*60); 
@@ -110,7 +109,6 @@ public class HousingController {
 			developAssessment.analyse(username , session);
 		}catch(Exception e){
 			LOGGER.info(e.getMessage());
-			e.printStackTrace();
 			responseMap.put("message", e.getMessage());
 		}
 		request.getSession().setMaxInactiveInterval(60*60);
