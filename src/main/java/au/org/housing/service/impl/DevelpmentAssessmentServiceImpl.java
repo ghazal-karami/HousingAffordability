@@ -89,7 +89,7 @@ public class DevelpmentAssessmentServiceImpl implements DevelpmentAssessmentServ
 
 		String workspace = geoServerConfig.getGsWorkspace() + "_" + username;
 		//		String dataStore = geoServerConfig.getGsAssessmentDatastore();
-		String dataStore = "housingDS";
+		String dataStore = geoServerConfig.getGsDataStore();
 		String layer = geoServerConfig.getGsAssessmentLayer();
 		String style = geoServerConfig.getGsAssessmentStyle();
 		File newDirectory =  TemporaryFileManager.getNew(session, username,  layer , "",true);

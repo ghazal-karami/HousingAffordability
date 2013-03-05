@@ -128,7 +128,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 		outputLayer = new HashMap<String, Object>(); 
 		String workspace = geoServerConfig.getGsWorkspace() + "_" + username;
 //		String dataStore = geoServerConfig.getGsPotentialDatastore();
-		String dataStore = "housingDS";
+		String dataStore = geoServerConfig.getGsDataStore();
 		String layer = geoServerConfig.getGsPotentialLayer();
 		String style = geoServerConfig.getGsPotentialStyle();
 		File newDirectory =  TemporaryFileManager.getNew(session, username,  layer , "",true);

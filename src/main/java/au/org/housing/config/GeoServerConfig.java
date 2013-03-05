@@ -26,6 +26,9 @@ public class GeoServerConfig{
 
 	@Value("${gsWorkspace}") 
 	private String gsWorkspace; 
+	
+	@Value("${gsDataStore}") 
+	private String gsDataStore; 
 
 	@Value("${gsAssessmentDatastore}")
 	private String gsAssessmentDatastore; 
@@ -122,6 +125,14 @@ public class GeoServerConfig{
 
 	public void setRESTPW(String rESTPW) {
 		RESTPW = rESTPW;
+	}
+
+	public String getGsDataStore() {
+		return gsDataStore;
+	}
+
+	public void setGsDataStore(String gsDataStore) {
+		this.gsDataStore = gsDataStore;
 	}
 
 	
