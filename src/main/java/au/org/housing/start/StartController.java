@@ -20,6 +20,8 @@ import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,10 +59,10 @@ public class StartController {
 	@Autowired GeoServerConfig geoServerConfig;
 
 	@Autowired
-	private PostGISService postGISService;
+	PostGISService postGISService;
 
 	@Autowired
-	private GeoServerService geoServerService;
+	GeoServerService geoServerService;
 
 	HashMap<String, List<AppCategoryOutcome>> categoryMap = null;
 	HashMap<String, List<AppCategoryOutcome>> outcomeMap = null;
@@ -72,32 +74,33 @@ public class StartController {
 	}
 
 	
-	@RequestMapping(method = RequestMethod.POST, value = "connectionSetup", consumes="application/json")	
-	public @ResponseBody Map<String, Object> connectionSetup(ModelMap model,Principal principal) throws Exception { 
-		String username = principal.getName();
-		model.addAttribute("username", username);
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//	      String name = auth.getName(); //get logged in username
-		model.addAttribute("message", "Spring Security Custom Form example"+username);
-		
-		
-		Map<String, Object> responseMap = new HashMap<String, Object>();
-		responseMap.put("message", Messages._SUCCESS);
-		responseMap.put("username", username);
-		
-		String workspace = geoServerConfig.getGsWorkspace() + "_" + username;
-		
-		
-		try{
-			postGISService.getPOSTGISDataStore();
-			geoServerService.getGeoServer(workspace);
-		}catch(Exception e){
-			LOGGER.info(e.getMessage());
-			e.printStackTrace();
-			responseMap.put("message", e.getMessage());			
-		}		
-		return responseMap;
-	}	
+//	@RequestMapping(method = RequestMethod.POST, value = "connectionSetup", consumes="application/json")	
+//	public @ResponseBody Map<String, Object> connectionSetup(ModelMap model, Principal principal) throws Exception { 
+////		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+////	      String username = auth.getName(); //get logged in username
+//		
+//		
+//		
+////		String username = principal.getName();
+////		model.addAttribute("username", username);
+////		
+////		Map<String, Object> responseMap = new HashMap<String, Object>();
+////		responseMap.put("message", Messages._SUCCESS);
+////		responseMap.put("username", username);
+////		
+////		String workspace = geoServerConfig.getGsWorkspace() + "_" + username;
+////		
+////		
+////		try{
+////			postGISService.getPOSTGISDataStore();
+////			geoServerService.getGeoServer(workspace);
+////		}catch(Exception e){
+////			LOGGER.info(e.getMessage());
+////			e.printStackTrace();
+////			responseMap.put("message", e.getMessage());			
+////		}		
+////		return responseMap;
+//	}	
 
 	@RequestMapping(value="/getLGAs.json", method = RequestMethod.GET)
 	public @ResponseBody Map<String,? extends Object> loadLGAs() throws Exception { 

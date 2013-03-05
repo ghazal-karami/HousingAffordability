@@ -258,7 +258,8 @@ var estimatedCostOfWork = Ext.create('Ext.form.Panel', {
 						maxValue : 100000000,
 						listeners : {
 							change : function(select, thumb, newval, oldval) {
-								Ext.getCmp("estimatedCostOfWorkId_value").setValue(thumb);
+								Ext.getCmp("estimatedCostOfWorkId_value")
+										.setValue(thumb);
 							}
 						}
 					}]
@@ -303,30 +304,15 @@ var VCAT = Ext.create('Ext.form.Panel', {
 					}]
 		});
 
-/*var durationVCAT = Ext.create('Ext.form.Panel', {
-			layout : 'column',
-			border : 1,,
-			fieldDefaults : {
-				labelAlign : 'left',
-				
-			},
-			items : [VCATCombo, {xtype : "textfield",
-						id : 'durationWithVCATId_value',
-						readOnly : true,
-						width : 35,
-						value : 0
-					},{
-						xtype : 'sliderfield',
-						id : 'durationWithVCATId',
-						width : 200,
-						increment : 10,
-						value : 0,
-						minValue : 0,
-						maxValue : 365
-					}]
-		});*/
-		
-		var durationVCAT = Ext.create('Ext.form.Panel', {
+/*
+ * var durationVCAT = Ext.create('Ext.form.Panel', { layout : 'column', border :
+ * 1,, fieldDefaults : { labelAlign : 'left', }, items : [VCATCombo, {xtype :
+ * "textfield", id : 'durationWithVCATId_value', readOnly : true, width : 35,
+ * value : 0 },{ xtype : 'sliderfield', id : 'durationWithVCATId', width : 200,
+ * increment : 10, value : 0, minValue : 0, maxValue : 365 }] });
+ */
+
+var durationVCAT = Ext.create('Ext.form.Panel', {
 			layout : 'column',
 			margin : '0 1 0 0',
 			height : 35,
@@ -344,7 +330,7 @@ var VCAT = Ext.create('Ext.form.Panel', {
 						text : 'day(s)',
 						margin : '9 4 0 0'
 
-					},  {
+					}, {
 						xtype : 'sliderfield',
 						id : 'durationWithVCATId',
 						width : 300,
@@ -361,8 +347,6 @@ var VCAT = Ext.create('Ext.form.Panel', {
 						}
 					}]
 		});
-		
-		
 
 var applicationOutcomes = Ext.create('Ext.form.Panel', {
 	frame : true,
@@ -523,7 +507,7 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 			var row = userGrid.getSelectionModel().getSelection()[0];
 			console.log(row.get('desc'))
 		}
-		
+
 		console.log(selectedLGAs2);
 
 		var waitingMsg1 = Ext.MessageBox.wait('Processing...',
@@ -572,8 +556,27 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 				var jresp = Ext.JSON.decode(response.responseText);
 				console.log('assessmentResponse' + jresp.message);
 				if (jresp.message == "Success") {
-					Ext.Msg.alert('Analysis Status', jresp.message,Ext.emptyFn);
-					window.open('ui-jsp/map_assessment.jsp',"_blank");//					
+					new Ext.Window({
+								title : 'Analysis Status',
+								height : 100,
+								padding : 1,
+								width : 300,
+								style : {
+									"text-align" : "center"
+								},
+								items : [{
+											xtype : 'label',
+											text : jresp.message
+										}],
+								buttons : [{
+									text : 'Show Map',
+									handler : function() {
+										window.open(
+												'ui-jsp/map_assessment.jsp',
+												"_blank");
+									}
+								}]
+							}).show();
 				} else {
 					Ext.Msg.show({
 								title : 'Analysis Status',
@@ -586,7 +589,7 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 			},
 			failure : function(response, options) {
 				waitingMsg1.hide();
-//				var jresp = Ext.JSON.decode(response.responseText);
+				// var jresp = Ext.JSON.decode(response.responseText);
 				Ext.MessageBox.alert(response.responseText);
 			}
 		});
@@ -632,7 +635,8 @@ var clearBtn_DevelopAssessment = Ext.create('Ext.Button', {
 
 				lgaCombo2.clearValue();
 				lgaCombo2.applyEmptyText();
-				lgaCombo2.getPicker().getSelectionModel().doMultiSelect([],false);
+				lgaCombo2.getPicker().getSelectionModel().doMultiSelect([],
+						false);
 				outcomesGrid.getSelectionModel().deselectAll();
 				categoriesGrid.getSelectionModel().deselectAll();
 			}

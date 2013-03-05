@@ -12,7 +12,7 @@
 <!-- Google Maps API for "dev.geoext.org" -->
 <script type="text/javascript"	src="http://extjs.cachefly.net/ext-3.4.0/adapter/ext/ext-base.js"></script>
 <script type="text/javascript"	src="http://extjs.cachefly.net/ext-3.4.0/ext-all.js"></script>
-<script	src='http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA_5ak-hsiH4j5bQQn7-k66xTWxvN8zH6Ta_pgIhhU0TB7bG8iAhS99ituPif4lG-2CHXoZ3qenLnK1g'></script>
+<!-- <script	src='http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA_5ak-hsiH4j5bQQn7-k66xTWxvN8zH6Ta_pgIhhU0TB7bG8iAhS99ituPif4lG-2CHXoZ3qenLnK1g'></script> -->
 <script src="http://www.openlayers.org/api/2.11/OpenLayers.js"></script>
 <script type="text/javascript" src="/housing/lib/GeoExt/script/GeoExt.js"></script>
 <script type="text/javascript" src="/housing/lib/GeoExt/lib/GeoExt.js" ></script>

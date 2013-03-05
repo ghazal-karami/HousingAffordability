@@ -648,8 +648,10 @@ var analyseBtn_DevelopPotential = Ext.create('Ext.Button', {
 			var urbanGrowthBoundryVal = JSON.parse(landuses.getForm()
 					.findField('urbanGrowthBoundryId').getValue());
 
-			/*var slopeVal = JSON.parse(geographicVariables.getForm()
-					.findField('slopeId').getValue());*/
+			/*
+			 * var slopeVal = JSON.parse(geographicVariables.getForm()
+			 * .findField('slopeId').getValue());
+			 */
 			var floodwayVal = JSON.parse(geographicVariables.getForm()
 					.findField('floodwayId').getValue());
 			var inundationVal = JSON.parse(geographicVariables.getForm()
@@ -723,7 +725,7 @@ var analyseBtn_DevelopPotential = Ext.create('Ext.Button', {
 							specialPurposeVal : specialPurposeVal,
 							urbanGrowthBoundryVal : urbanGrowthBoundryVal,
 
-							/*slopeVal : slopeVal,*/
+							/* slopeVal : slopeVal, */
 							floodwayVal : floodwayVal,
 							inundationVal : inundationVal,
 
@@ -751,9 +753,28 @@ var analyseBtn_DevelopPotential = Ext.create('Ext.Button', {
 							var jresp = Ext.JSON.decode(response.responseText);
 							console.log(jresp.message);
 							if (jresp.message == "Success") {
-								Ext.Msg.alert('Analysis Status', jresp.message,
-										Ext.emptyFn);
-										window.open('ui-jsp/map_potential.jsp');
+								new Ext.Window({
+											title : 'Analysis Status',
+											height : 100,
+											padding : 1,
+											width : 300,
+											style : {
+												"text-align" : "center"
+											},
+											items : [{
+														xtype : 'label',
+														text : jresp.message
+													}],
+											buttons : [{
+												text : 'Show Map',
+												handler : function() {
+													window
+															.open(
+																	'ui-jsp/map_potential.jsp',
+																	"_blank");
+												}
+											}]
+										}).show();
 							} else {
 								Ext.Msg.show({
 											title : 'Analysis Status',
@@ -837,8 +858,9 @@ var clearBtn_Potential = Ext.create('Ext.Button', {
 
 				lgaCombo1.clearValue();
 				lgaCombo1.applyEmptyText();
-				lgaCombo1.getPicker().getSelectionModel().doMultiSelect([], false);
-				
+				lgaCombo1.getPicker().getSelectionModel().doMultiSelect([],
+						false);
+
 			}
 		});
 
