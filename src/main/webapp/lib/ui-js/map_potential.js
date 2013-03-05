@@ -149,7 +149,7 @@ Ext.onReady(function() {
 					}
 				});
 
-		new Ext.Viewport({
+		new Ext.Viewport({ 
 					layout : "border",
 					items : [{
 								region : "north",
