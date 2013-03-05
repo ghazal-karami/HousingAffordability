@@ -60,7 +60,8 @@ public class Messages {
 	public final static String _NO_PPARS_FOUND = "No Feature Found in PPARS Layer!";
 
 	public final static String _SUCCESSFULLY_DONE = "Analysis Successfully Done";
-	public final static String _SUCCESS = "Success";
+	public final static String _SUCCESS = "success";
+	public final static String _UNSUCCESS = "unsuccess";
 	public final static String _ERROR = "Error";
 
 	public final static String _SELECT_PARAM_TO_CONTINUE = "Please Select A Parameter To Continue!";

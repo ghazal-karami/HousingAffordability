@@ -164,7 +164,7 @@ Ext.onReady(function() {
 								id : "mappanel",
 								xtype : "gx_mappanel",
 								map : map,
-								layers : [osm, lga, tiled],
+								layers : [osm, tiled, lga],
 								extent : maxBounds,
 								split : true,
 								tbar : toolbarItems

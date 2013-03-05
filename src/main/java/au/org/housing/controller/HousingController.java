@@ -75,7 +75,8 @@ public class HousingController {
 
 		String username = principal.getName();
 		Map<String, Object> responseMap = new HashMap<String, Object>();
-		responseMap.put("message", Messages._SUCCESS);		
+		responseMap.put("message", Messages._SUCCESSFULLY_DONE);
+		responseMap.put("successStatus", Messages._SUCCESS);	
 		try{
 			initService.initParams(potentialParams);
 			Geometry transportGeometry  = transportationBufferService.generateTranportBuffer();
@@ -90,6 +91,7 @@ public class HousingController {
 			developmentPotentialService.analyse(username , session);
 		}catch(Exception e){
 			LOGGER.info(e.getMessage());
+			responseMap.put("successStatus", Messages._UNSUCCESS);
 			responseMap.put("message", e.getMessage());
 		}		
 		request.getSession().setMaxInactiveInterval(60*60); 
@@ -103,12 +105,14 @@ public class HousingController {
 			HttpServletRequest request,HttpServletResponse response, HttpSession session, Principal principal) throws Exception {
 		String username = principal.getName();
 		Map<String, Object> responseMap = new HashMap<String, Object>();
-		responseMap.put("message", Messages._SUCCESS);
+		responseMap.put("message", Messages._SUCCESSFULLY_DONE);
+		responseMap.put("successStatus", Messages._SUCCESS);
 		try{
 			initDevelopAssessment.initParams(assessmentParams);				
 			developAssessment.analyse(username , session);
 		}catch(Exception e){
 			LOGGER.info(e.getMessage());
+			responseMap.put("successStatus", Messages._UNSUCCESS);
 			responseMap.put("message", e.getMessage());
 		}
 		request.getSession().setMaxInactiveInterval(60*60);

@@ -752,7 +752,7 @@ var analyseBtn_DevelopPotential = Ext.create('Ext.Button', {
 							waitingMsg2.hide();
 							var jresp = Ext.JSON.decode(response.responseText);
 							console.log(jresp.message);
-							if (jresp.message == "Success") {
+							if (jresp.successStatus == "success") {
 								new Ext.Window({
 											title : 'Analysis Status',
 											height : 100,
