@@ -2,69 +2,101 @@ var dpi = Ext.create('Ext.form.Panel', {
 			layout : 'column',
 			bodyPadding : 2,
 			items : [dpiCombo, {
-						xtype : "textfield",
+						xtype : "numberfield",
 						id : 'dpiId_value',
 						readOnly : false,
 						width : 35,
 						value : 0,
-						margin : '5 10 2 1'
+						margin : '5 10 10 1',
+						hideTrigger : true,
+						listeners : {
+							specialkey : function(field, e) {
+								if (e.getKey() == e.ENTER) {
+									Ext.getCmp("dpiId").setValue(field
+											.getValue());
+								}
+							},
+							blur : function(field) {
+								Ext.getCmp("dpiId").setValue(field.getValue());
+							}
+						}
 					}, {
 						xtype : 'sliderfield',
 						id : 'dpiId',
+						useTips : true,
 						width : 350,
 						increment : 0.1,
-						decimalPrecision : true,
-						value : 0,
+						decimalPrecision : 1,
+						value : 0.0,
 						minValue : 0,
-						maxValue : 1,
+						maxValue : 1.0,
 						margin : '8 0 5 5',
 						listeners : {
 							change : function(select, thumb, newval, oldval) {
 								Ext.getCmp("dpiId_value").setValue(thumb);
+							},
+							onDrag : function(e) {
+								var pos = this.innerEl
+										.translatePoints(this.tracker.getXY());
+								this.setValue(Ext.util.Format.round(
+												this.reverseValue(pos.left),
+												this.decimalPrecision), true);
+								this.fireEvent('drag', this, e);
 							}
 						}
 					}]
 		});
 
 var trainStation = Ext.create('Ext.form.Panel', {
-			layout : 'column',
-			frame : false,
-			border : 0,
-			items : [{
-						xtype : 'label',
-						forId : 'trainStationId_value',
-						text : 'Train Station Distance:',
-						margin : '9 4 0 4',
-						width : 126
-					}, {
-						xtype : "textfield",
-						id : 'trainStationId_value',
-						readOnly : false,
-						width : 35,
-						value : 0,
-						margin : '7 2 0 0'
-					}, {
-						xtype : 'label',
-						text : 'm',
-						margin : '9 4 0 0'
-
-					}, {
-						xtype : 'sliderfield',
-						id : 'trainStationId',
-						width : 350,
-						increment : 50,
-						value : 0,
-						minValue : 0,
-						maxValue : 2000,
-						margin : '9 10 0 0',
-						listeners : {
-							change : function(select, thumb, newval, oldval) {
-								Ext.getCmp("trainStationId_value")
-										.setValue(thumb);
-							}
+	layout : 'column',
+	frame : false,
+	border : 0,
+	items : [{
+				xtype : 'label',
+				forId : 'trainStationId_value',
+				text : 'Train Station Distance:',
+				margin : '9 4 0 4',
+				width : 126
+			}, {
+				xtype : "numberfield",
+				id : 'trainStationId_value',
+				readOnly : false,
+				width : 35,
+				value : 0,
+				margin : '10 2 0 0',
+				hideTrigger : true,
+				listeners : {
+					specialkey : function(field, e) {
+						if (e.getKey() == e.ENTER) {
+							Ext.getCmp("trainStationId").setValue(field
+									.getValue());
 						}
-					}]
-		});
+					},
+					blur : function(field) {
+						Ext.getCmp("trainStationId").setValue(field.getValue());
+					}
+				}
+			}, {
+				xtype : 'label',
+				text : 'm',
+				margin : '9 4 0 0'
+
+			}, {
+				xtype : 'sliderfield',
+				id : 'trainStationId',
+				width : 350,
+				increment : 50,
+				value : 0,
+				minValue : 0,
+				maxValue : 2000,
+				margin : '9 10 0 0',
+				listeners : {
+					change : function(select, thumb, newval, oldval) {
+						Ext.getCmp("trainStationId_value").setValue(thumb);
+					}
+				}
+			}]
+});
 
 var trainRoute = Ext.create('Ext.form.Panel', {
 			layout : 'column',
@@ -77,12 +109,25 @@ var trainRoute = Ext.create('Ext.form.Panel', {
 						margin : '9 4 0 4',
 						width : 126
 					}, {
-						xtype : "textfield",
+						xtype : "numberfield",
 						id : 'trainRouteId_value',
 						readOnly : false,
 						width : 35,
 						value : 0,
-						margin : '7 2 0 0'
+						margin : '7 2 0 0',
+						hideTrigger : true,
+						listeners : {
+							specialkey : function(field, e) {
+								if (e.getKey() == e.ENTER) {
+									Ext.getCmp("trainRouteId").setValue(field
+											.getValue());
+								}
+							},
+							blur : function(field) {
+								Ext.getCmp("trainRouteId").setValue(field
+										.getValue());
+							}
+						}
 					}, {
 						xtype : 'label',
 						text : 'm',
@@ -117,12 +162,25 @@ var tramRoute = Ext.create('Ext.form.Panel', {
 						margin : '9 4 4 4',
 						width : 126
 					}, {
-						xtype : "textfield",
+						xtype : "numberfield",
 						id : 'tramRouteId_value',
 						readOnly : false,
 						width : 35,
 						value : 0,
-						margin : '7 2 4 0'
+						margin : '7 2 4 0',
+						hideTrigger : true,
+						listeners : {
+							specialkey : function(field, e) {
+								if (e.getKey() == e.ENTER) {
+									Ext.getCmp("tramRouteId").setValue(field
+											.getValue());
+								}
+							},
+							blur : function(field) {
+								Ext.getCmp("tramRouteId").setValue(field
+										.getValue());
+							}
+						}
 					}, {
 						xtype : 'label',
 						text : 'm',
@@ -145,13 +203,63 @@ var tramRoute = Ext.create('Ext.form.Panel', {
 					}]
 		});
 
+var busRoute = Ext.create('Ext.form.Panel', {
+	layout : 'column',
+	frame : false,
+	border : 0,
+	items : [{
+				xtype : 'label',
+				forId : 'busRouteId_value',
+				text : 'Bus Route Distance:',
+				margin : '2 4 15 4',
+				width : 126
+			}, {
+				xtype : "numberfield",
+				id : 'busRouteId_value',
+				readOnly : false,
+				width : 35,
+				value : 0,
+				margin : '2 2 15 0',
+				hideTrigger : true,
+				listeners : {
+					specialkey : function(field, e) {
+						if (e.getKey() == e.ENTER) {
+							Ext.getCmp("busRouteId").setValue(field.getValue());
+						}
+					},
+					blur : function(field) {
+						Ext.getCmp("busRouteId").setValue(field.getValue());
+					}
+				}
+			}, {
+				xtype : 'label',
+				text : 'm',
+				margin : '6 4 0 0'
+
+			}, {
+				xtype : 'sliderfield',
+				id : 'busRouteId',
+				width : 350,
+				increment : 50,
+				value : 0,
+				minValue : 0,
+				maxValue : 2000,
+				margin : '6 10 10 0',
+				listeners : {
+					change : function(select, thumb, newval, oldval) {
+						Ext.getCmp("busRouteId_value").setValue(thumb);
+					}
+				}
+			}]
+});
+
 var transports = Ext.create('Ext.form.Panel', {
 			frame : true,
 			title : 'Distance To Public Transport',
 			width : '50%',
-			height : 130,
+			height : 156,
 			bodyPadding : 1,
-			items : [trainStation, trainRoute, tramRoute]
+			items : [trainStation, trainRoute, tramRoute, busRoute]
 		});
 
 var education = Ext.create('Ext.form.Panel', {
@@ -165,12 +273,25 @@ var education = Ext.create('Ext.form.Panel', {
 						margin : '9 4 7 4',
 						width : 126
 					}, {
-						xtype : "textfield",
+						xtype : "numberfield",
 						id : 'educationId_value',
 						readOnly : false,
 						width : 35,
 						value : 0,
-						margin : '7 2 0 0'
+						margin : '7 2 0 0',
+						hideTrigger : true,
+						listeners : {
+							specialkey : function(field, e) {
+								if (e.getKey() == e.ENTER) {
+									Ext.getCmp("educationId").setValue(field
+											.getValue());
+								}
+							},
+							blur : function(field) {
+								Ext.getCmp("educationId").setValue(field
+										.getValue());
+							}
+						}
 					}, {
 						xtype : 'label',
 						text : 'm',
@@ -201,19 +322,32 @@ var recreation = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'recreationId_value',
 						text : 'Recreation Distance:',
-						margin : '4 4 7 4',
+						margin : '10 4 7 4',
 						width : 126
 					}, {
-						xtype : "textfield",
+						xtype : "numberfield",
 						id : 'recreationId_value',
 						readOnly : false,
 						width : 35,
 						value : 0,
-						margin : '4 2 0 0'
+						margin : '10 2 0 0',
+						hideTrigger : true,
+						listeners : {
+							specialkey : function(field, e) {
+								if (e.getKey() == e.ENTER) {
+									Ext.getCmp("recreationId").setValue(field
+											.getValue());
+								}
+							},
+							blur : function(field) {
+								Ext.getCmp("recreationId").setValue(field
+										.getValue());
+							}
+						}
 					}, {
 						xtype : 'label',
 						text : 'm',
-						margin : '9 4 0 0'
+						margin : '10 4 0 0'
 
 					}, {
 						xtype : 'sliderfield',
@@ -223,7 +357,7 @@ var recreation = Ext.create('Ext.form.Panel', {
 						value : 0,
 						minValue : 0,
 						maxValue : 2000,
-						margin : '4 10 0 0',
+						margin : '10 10 0 0',
 						listeners : {
 							change : function(select, thumb, newval, oldval) {
 								Ext.getCmp("recreationId_value")
@@ -244,12 +378,25 @@ var medical = Ext.create('Ext.form.Panel', {
 						margin : '9 4 7 4',
 						width : 126
 					}, {
-						xtype : "textfield",
+						xtype : "numberfield",
 						id : 'medicalId_value',
 						readOnly : false,
 						width : 35,
 						value : 0,
-						margin : '7 2 0 0'
+						margin : '7 2 0 0',
+						hideTrigger : true,
+						listeners : {
+							specialkey : function(field, e) {
+								if (e.getKey() == e.ENTER) {
+									Ext.getCmp("medicalId").setValue(field
+											.getValue());
+								}
+							},
+							blur : function(field) {
+								Ext.getCmp("medicalId").setValue(field
+										.getValue());
+							}
+						}
 					}, {
 						xtype : 'label',
 						text : 'm',
@@ -282,12 +429,25 @@ var community = Ext.create('Ext.form.Panel', {
 						margin : '9 4 7 4',
 						width : 126
 					}, {
-						xtype : "textfield",
+						xtype : "numberfield",
 						id : 'communityId_value',
 						readOnly : false,
 						width : 35,
 						value : 0,
-						margin : '7 2 0 0'
+						margin : '7 2 0 0',
+						hideTrigger : true,
+						listeners : {
+							specialkey : function(field, e) {
+								if (e.getKey() == e.ENTER) {
+									Ext.getCmp("communityId").setValue(field
+											.getValue());
+								}
+							},
+							blur : function(field) {
+								Ext.getCmp("communityId").setValue(field
+										.getValue());
+							}
+						}
 					}, {
 						xtype : 'label',
 						text : 'm',
@@ -318,15 +478,28 @@ var utility = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'utilityId_value',
 						text : 'Utility Distance:',
-						margin : '9 4 7 4',
+						margin : '7 4 7 4',
 						width : 126
 					}, {
-						xtype : "textfield",
+						xtype : "numberfield",
 						id : 'utilityId_value',
 						readOnly : false,
 						width : 35,
 						value : 0,
-						margin : '7 2 0 0'
+						margin : '5 2 10 0',
+						hideTrigger : true,
+						listeners : {
+							specialkey : function(field, e) {
+								if (e.getKey() == e.ENTER) {
+									Ext.getCmp("utilityId").setValue(field
+											.getValue());
+								}
+							},
+							blur : function(field) {
+								Ext.getCmp("utilityId").setValue(field
+										.getValue());
+							}
+						}
 					}, {
 						xtype : 'label',
 						text : 'm',
@@ -340,7 +513,7 @@ var utility = Ext.create('Ext.form.Panel', {
 						value : 0,
 						minValue : 0,
 						maxValue : 2000,
-						margin : '9 10 0 0',
+						margin : '9 10 4 0',
 						listeners : {
 							change : function(select, thumb, newval, oldval) {
 								Ext.getCmp("utilityId_value").setValue(thumb);
@@ -360,12 +533,25 @@ var employment = Ext.create('Ext.form.Panel', {
 						margin : '9 4 7 4',
 						width : 126
 					}, {
-						xtype : "textfield",
+						xtype : "numberfield",
 						id : 'employmentId_value',
 						readOnly : false,
 						width : 35,
 						value : 0,
-						margin : '7 2 5 0'
+						margin : '7 2 5 0',
+						hideTrigger : true,
+						listeners : {
+							specialkey : function(field, e) {
+								if (e.getKey() == e.ENTER) {
+									Ext.getCmp("employmentId").setValue(field
+											.getValue());
+								}
+							},
+							blur : function(field) {
+								Ext.getCmp("employmentId").setValue(field
+										.getValue());
+							}
+						}
 					}, {
 						xtype : 'label',
 						text : 'm',
@@ -396,8 +582,7 @@ var facilities = Ext.create('Ext.form.Panel', {
 			autoHeight : true,
 			bodyPadding : 0,
 
-			items : [recreation, education, medical, community, utility,
-					employment]
+			items : [recreation, education, medical, community, utility]
 		});
 
 var landuses = Ext.create('Ext.form.Panel', {
@@ -405,7 +590,7 @@ var landuses = Ext.create('Ext.form.Panel', {
 			frame : false,
 			title : 'Potential Land Use',
 			width : '50%',
-			height : 55,
+			height : 65,
 			bodyPadding : 5,
 			fieldDefaults : {
 				labelAlign : 'left',
@@ -576,7 +761,7 @@ var ownershipVariables = Ext.create('Ext.form.Panel', {
 
 // *************** Left hand form ***************
 var leftForm_Potential = Ext.create('Ext.form.Panel', {
-			frame : true,
+			frame : false,
 			title : 'Potentials',
 			items : [dpi, transports, facilities, landuses],
 			width : '53%'
@@ -619,6 +804,9 @@ var analyseBtn_DevelopPotential = Ext.create('Ext.Button', {
 
 			var tramRouteVal = JSON.parse(transports.getForm()
 					.findField('tramRouteId').getValue());
+
+			var busRouteVal = JSON.parse(transports.getForm()
+					.findField('busRouteId').getValue());
 
 			var educationVal = JSON.parse(facilities.getForm()
 					.findField('educationId').getValue());
@@ -703,10 +891,9 @@ var analyseBtn_DevelopPotential = Ext.create('Ext.Button', {
 							dpiVal : dpiVal,
 
 							trainStationVal : trainStationVal,
-
 							trainRouteVal : trainRouteVal,
-
 							tramRouteVal : tramRouteVal,
+							busRouteVal : busRouteVal,
 
 							educationVal : educationVal,
 
@@ -813,6 +1000,9 @@ var clearBtn_Potential = Ext.create('Ext.Button', {
 
 				Ext.getCmp("tramRouteId").setValue(0);
 				Ext.getCmp("tramRouteId_value").setValue(0);
+
+				Ext.getCmp("busRouteVal").setValue(0);
+				Ext.getCmp("busRouteId_value").setValue(0);
 
 				Ext.getCmp("educationId").setValue(0);
 				Ext.getCmp("educationId_value").setValue(0);

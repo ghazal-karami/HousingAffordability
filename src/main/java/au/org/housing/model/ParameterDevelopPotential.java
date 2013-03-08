@@ -47,7 +47,10 @@ public class ParameterDevelopPotential {
 	
 	Integer tram_Rt_BufferDistance = 0;  
 	
+	
+	Integer bus_Rt_BufferDistance = 0 ;
 
+	
 	Integer education_BufferDistance = 0;  
 	
 	
@@ -298,5 +301,10 @@ public class ParameterDevelopPotential {
 		this.dpiOperateorVal = dpiOperateorVal;
 	}
 	
-	
+	public Integer getBus_Rt_BufferDistance() {
+		return bus_Rt_BufferDistance;
+	}
+	public void setBus_Rt_BufferDistance(Integer bus_Rt_BufferDistance) {
+		this.bus_Rt_BufferDistance = bus_Rt_BufferDistance;
+	}
 }

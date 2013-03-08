@@ -28,6 +28,7 @@ public class InitDevelopAssessmentImpl implements InitDevelopAssessment {
 	public void initParams(Map<String, Object> params) {	
 
 		parameter.setSelectedLGAs2((List<String>)params.get("selectedLGAs2"));
+		System.out.println("selected LGAs=="+ parameter.getSelectedLGAs2());
 
 		parameter.setDurationAssessmentOperateor((String) params.get("durationAssessmentOperateorVal"));  
 		parameter.setDurationAssessment((Integer) params.get("durationAssessmentVal"));  

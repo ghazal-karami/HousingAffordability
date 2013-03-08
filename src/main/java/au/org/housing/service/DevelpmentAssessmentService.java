@@ -1,6 +1,7 @@
 package au.org.housing.service;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -22,7 +23,7 @@ import au.org.housing.exception.HousingException;
 
 public interface DevelpmentAssessmentService {
 	
-	public  boolean analyse(String username, HttpSession session) throws IOException, NoSuchAuthorityCodeException, FactoryException, ServiceException, PSQLException, HousingException ;
+	public  boolean analyse(String username, HttpSession session) throws IOException, NoSuchAuthorityCodeException, FactoryException, ServiceException, PSQLException, HousingException, IllegalArgumentException, URISyntaxException ;
 	
 	public Map<String, Object> getOutputLayer() ;
 	

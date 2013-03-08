@@ -90,7 +90,7 @@ public class HousingController {
 			}
 			developmentPotentialService.analyse(username , session);
 		}catch(Exception e){
-			LOGGER.info(e.getMessage());
+			e.printStackTrace();
 			responseMap.put("successStatus", Messages._UNSUCCESS);
 			responseMap.put("message", e.getMessage());
 		}		

@@ -7,6 +7,9 @@ import it.geosolutions.geoserver.rest.encoder.GSLayerEncoder;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -31,21 +34,22 @@ import au.org.housing.utilities.Zip;
 
 @Service
 public class GeoServerServiceImpl  implements GeoServerService{
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(GeoServerServiceImpl.class);
 
 	@Autowired
 	private GeoServerConfig geoServerConfig; 
-	
+
 	GeoServerRESTPublisher publisher;
 	GeoServerRESTReader reader;	
-	
-	public boolean getGeoServer(String workspace) throws HousingException, MalformedURLException{
+
+	public boolean getGeoServer(String workspace) throws HousingException, MalformedURLException, URISyntaxException{
 		geoServerExist();
-		workSpaceExist(workspace);				
+		workSpaceExist(workspace);	
+		stylesExist();
 		return true;			
 	}
-	
+
 	public boolean geoServerExist() throws HousingException, MalformedURLException{
 		reader = new GeoServerRESTReader(geoServerConfig.getRESTURL(), geoServerConfig.getRESTUSER(),geoServerConfig.getRESTPW());
 		if (reader == null){
@@ -56,7 +60,7 @@ public class GeoServerServiceImpl  implements GeoServerService{
 		}
 		return true;
 	}
-	
+
 	public boolean workSpaceExist(String workspace) throws HousingException{
 		List<String> workSpaces = reader.getWorkspaceNames();
 		publisher = new GeoServerRESTPublisher(geoServerConfig.getRESTURL(), geoServerConfig.getRESTUSER(),geoServerConfig.getRESTPW());
@@ -67,38 +71,50 @@ public class GeoServerServiceImpl  implements GeoServerService{
 		return true;
 	}
 	
-	public boolean styleExist(){
+	public boolean stylesExist() throws HousingException, URISyntaxException{
+		if (!reader.existsStyle(geoServerConfig.getGsPotentialStyle())){
+			URL url = this.getClass().getResource("/geoserver_styles");
+			File parentDirectory = new File(new URI(url.toString()));
+
+			File housingPotentialStyle = new File(parentDirectory, "housingPotentialStyle.sld");
+			if (!publisher.publishStyle(housingPotentialStyle, geoServerConfig.getGsPotentialStyle())){
+				throw new HousingException(Messages._STYLE_PUBLISH_FAILED);	        	
+			}
+			File housingAssessmentStyle = new File(parentDirectory, "housingAssessmentStyle.sld");
+			if (!publisher.publishStyle(housingAssessmentStyle, geoServerConfig.getGsAssessmentStyle())){
+				throw new HousingException(Messages._STYLE_PUBLISH_FAILED);	        	
+			}			
+		}
 		return true;
 	}
-	
-	public boolean publishToGeoServer(String workspace , String dataStore , String layer, String style, File newFile) throws FileNotFoundException, IllegalArgumentException, MalformedURLException, HousingException{
+
+	public boolean publishToGeoServer(String workspace , String dataStore , String layer, String style, File newFile) throws FileNotFoundException, IllegalArgumentException, MalformedURLException, HousingException, URISyntaxException{
 		try{
-		if (reader.getLayer(layer)!=null){	
+			if (reader.getLayer(layer)!=null){	
 				boolean ftRemoved = publisher.unpublishFeatureType(workspace, dataStore, layer);
 				publisher.removeLayer(workspace, layer);
-//				boolean dsRemoved = publisher.removeDatastore(workspace, dataStore, true);			
-		}
-	
-		String zipfileName = newFile.getAbsolutePath().substring(0, newFile.getAbsolutePath().lastIndexOf("."))+".zip";
-		Zip zip = new Zip(zipfileName,newFile.getParentFile().getAbsolutePath());			
-		zip.createZip();
-		
-		File zipFile = new File(zipfileName);
-		boolean published = true;
-		published = publisher.publishShp(workspace,dataStore, layer, zipFile, "EPSG:28355", style);
-		if (!published){
-			throw new HousingException(Messages._PUBLISH_FAILED);
-		}
-		
-		GSLayerEncoder layerEncoder = new GSLayerEncoder();
-		layerEncoder.setDefaultStyle(style);
-		publisher.configureLayer(workspace, layer, layerEncoder);
-		LOGGER.info("Publishsed Success");
+				//	boolean dsRemoved = publisher.removeDatastore(workspace, dataStore, true);			
+			}
+			String zipfileName = newFile.getAbsolutePath().substring(0, newFile.getAbsolutePath().lastIndexOf("."))+".zip";
+			Zip zip = new Zip(zipfileName,newFile.getParentFile().getAbsolutePath());			
+			zip.createZip();
+
+			File zipFile = new File(zipfileName);
+			boolean published = true;
+			published = publisher.publishShp(workspace,dataStore, layer, zipFile, "EPSG:28355", style);
+			if (!published){
+				throw new HousingException(Messages._WPRKSPACE_PUBLISH_FAILED);
+			}
+
+			GSLayerEncoder layerEncoder = new GSLayerEncoder();
+			layerEncoder.setDefaultStyle(style);
+			publisher.configureLayer(workspace, layer, layerEncoder);
+			LOGGER.info("Publishsed Success");
 		}catch(Exception e){
 			e.printStackTrace();
-			throw new HousingException(Messages._PUBLISH_FAILED);
+			throw new HousingException(Messages._WPRKSPACE_PUBLISH_FAILED);
 		}
 		return true;
 	}
-	
+
 }

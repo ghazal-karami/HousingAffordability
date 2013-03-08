@@ -105,6 +105,9 @@ public class InputLayersConfig{
 	@Value("${tramRoute}") 
 	private String tramRoute ;
 
+	@Value("${busRoute}") 
+	private String busRoute ;
+	
 	@Value("${educationFacilities}") 
 	private String educationFacilities;
 
@@ -382,5 +385,10 @@ public class InputLayersConfig{
 		this.propertyLgaCode = propertyLgaCode;
 	}
 	
-	
+	public String getBusRoute() {
+		return busRoute;
+	}
+	public void setBusRoute(String busRoute) {
+		this.busRoute = busRoute;
+	}
 }

@@ -44,7 +44,7 @@ Ext.onReady(function() {
 
 	var win = new Ext.Window({
 				id : 'myWin',
-				height : 630,
+				height : 637,
 				layout : 'fit',
 				title : 'Data Platform To Support Housing Analysis and Research',
 				frame : false,

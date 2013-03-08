@@ -33,7 +33,7 @@ var outcomesGrid = Ext.create('Ext.grid.GridPanel', {
 						flex : 1
 					}],
 			margin : '8 10 5 0',
-			height : 158,
+			height : 160,
 			anchor : '100%'
 		});
 		

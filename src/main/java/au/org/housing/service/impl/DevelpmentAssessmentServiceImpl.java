@@ -3,6 +3,7 @@ package au.org.housing.service.impl;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,7 +79,7 @@ public class DevelpmentAssessmentServiceImpl implements DevelpmentAssessmentServ
 	private File newFile;
 
 	public boolean analyse(String username, HttpSession session) throws IOException, FileNotFoundException,
-	ServiceException, NoSuchAuthorityCodeException, FactoryException, PSQLException, HousingException {
+	ServiceException, NoSuchAuthorityCodeException, FactoryException, PSQLException, HousingException, IllegalArgumentException, URISyntaxException {
 
 		ff = CommonFactoryFinder.getFilterFactory2(GeoTools.getDefaultHints());
 		outputLayer = new HashMap<String, Object>(); 
@@ -218,7 +219,7 @@ public class DevelpmentAssessmentServiceImpl implements DevelpmentAssessmentServ
 		Filter pparsFilter = ff.and(pparsFilters);
 		pparsCollection = pparsFc.getFeatures(pparsFilter);
 		if (pparsCollection == null || pparsCollection.isEmpty()){
-			throw new HousingException(Messages._NO_PPARS_FOUND);			
+			throw new HousingException(Messages._NO_FEATURE);			
 		}
 		System.out.println("pparsCollection.size()" + pparsCollection.size());
 		return pparsCollection;

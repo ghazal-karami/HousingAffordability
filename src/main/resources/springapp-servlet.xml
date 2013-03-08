@@ -3,63 +3,56 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:couchdb="http://www.ektorp.org/schema/couchdb" xmlns:security="http://www.springframework.org/schema/security"
+	 xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
          http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
          http://www.springframework.org/schema/context
          http://www.springframework.org/schema/context/spring-context-3.1.xsd
          http://www.springframework.org/schema/mvc
       	 http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
-     	 http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util-3.1.xsd
-     	 http://www.ektorp.org/schema/couchdb http://www.ektorp.org/schema/couchdb/couchdb.xsd
+     	 http://www.springframework.org/schema/util  
+     	 http://www.springframework.org/schema/util/spring-util-3.1.xsd
+     	 http://www.ektorp.org/schema/couchdb 
+     	 http://www.ektorp.org/schema/couchdb/couchdb.xsd
      	 http://www.springframework.org/schema/security
 		 http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
 
-	<!-- <security:global-method-security pre-post-annotations="enabled"/> <security:http 
-		auto-config='false' entry-point-ref="authenticationEntryPoint"> <security:intercept-url 
-		pattern="/main*" access="ROLE_USER" /> <security:custom-filter position="FORM_LOGIN_FILTER" 
-		ref="authenticationFilter" /> </security:http> <bean id="authenticationEntryPoint" 
-		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint"> 
-		<property name="loginFormUrl" value="/ui-jsp/loginPage.jsp" /> </bean> <bean 
-		id="authenticationFilter" class="au.org.housing.controller.RecrutementAuthProcessingFilter"> 
-		<property name="authenticationManager" ref="authenticationManager" /> </bean> 
-		<bean name="/main" class="au.org.housing.controller.MainController"/> Usernames/Passwords 
-		are moez/moez test/test <security:authentication-manager alias="authenticationManager" 
-		> <security:authentication-provider> <security:password-encoder hash="md5"/> 
-		<security:user-service> <security:user name="moez" password="f69471ca2c42621b8b8e731b2b4446e4" 
-		authorities="ROLE_SUPERVISOR, ROLE_USER, ROLE_TELLER" /> <security:user name="test" 
-		password="098f6bcd4621d373cade4e832627b4f6" authorities="ROLE_USER" /> </security:user-service> 
-		</security:authentication-provider> </security:authentication-manager> -->
+	<security:http auto-config="true">
+		<security:intercept-url pattern="/ui-jsp/**" access="ROLE_USER" />
+		<security:form-login login-page="/loginForm" default-target-url="/loginSuccess"
+			authentication-failure-url="/loginfailed"/>
+		<security:logout logout-success-url="/logout"  />
+	</security:http>
 
-
-	<!-- <security:http auto-config="true"> <security:intercept-url pattern="/ui-jsp/**" 
-		access="ROLE_USER" /> <security:form-login login-page="/loginForm" default-target-url="/loginSuccess" 
-		authentication-failure-url="/loginfailed"/> <security:logout logout-success-url="/logout" 
-		/> </security:http> <security:authentication-manager> <security:authentication-provider> 
-		<security:user-service> <security:user name="user" password="123" authorities="ROLE_USER" 
-		/> </security:user-service> </security:authentication-provider> </security:authentication-manager> -->
-
-
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:user-service>
+				<security:user name="user1" password="1" authorities="ROLE_USER" />
+				<security:user name="user2" password="2" authorities="ROLE_USER" />
+				<security:user name="user3" password="3" authorities="ROLE_USER" />
+				<security:user name="user4" password="4" authorities="ROLE_USER" />
+			</security:user-service>
+		</security:authentication-provider>
+	</security:authentication-manager>
 
 	<context:annotation-config />
+	
+	<!-- <bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<value>classpath:connections.properties</value>
+		</property>
+	</bean> -->
 
 	<!-- <context:property-placeholder location="classpath:postgis_connection.properties" 
 		/> -->
-
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<value>classpath:connections.properties/value>
-		</property>
-	</bean>
-	
-	
 	<context:property-placeholder location="classpath:connections.properties" />
 
 	<context:component-scan base-package="au.org.housing.config" />
 	<context:component-scan base-package="au.org.housing.start" />
-	<context:component-scan base-package="au.org.housing.controller" />
-	<context:component-scan base-package="au.org.housing.service" />
+	<context:component-scan base-package="au.org.housing.controller"  />
+	<context:component-scan base-package="au.org.housing.service" scoped-proxy="interfaces"  />
 	<context:component-scan base-package="au.org.housing.model" />
 
 	<mvc:resources location="/resources/" mapping="/resources/**" />
@@ -75,9 +68,9 @@
 			<value>application/openlayers</value> </list> </property> </bean> </mvc:message-converters> -->
 	</mvc:annotation-driven>
 
-	<!-- <util:properties id="couchdbProperties" location="classpath:/couchdb.properties" 
-		/> <couchdb:database id="housing_database" name="housing_database" url="http://localhost:5984" 
-		/> -->
+	<!-- <util:properties id="couchdbProperties" location="classpath:/couchdb.properties" />
+	<couchdb:database id="housing_database" name="housing_database"
+		url="http://localhost:5984" /> -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<!-- <property name="prefix" value="/WEB-INF/jsp/" /> -->
@@ -85,13 +78,16 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 
-	<!-- <bean id="housing_database" class="org.ektorp.impl.StdCouchDbConnector"> 
-		<constructor-arg value="layers" /> <constructor-arg> <bean id="couchDbInstance" 
-		class="org.ektorp.impl.StdCouchDbInstance"> <constructor-arg> <bean class="org.ektorp.spring.HttpClientFactoryBean" 
-		/> </constructor-arg> </bean> </constructor-arg> </bean> -->
-
-
-
-
+	<!-- <bean id="housing_database" class="org.ektorp.impl.StdCouchDbConnector">
+		<constructor-arg value="layers" />
+		<constructor-arg>
+			<bean id="couchDbInstance" class="org.ektorp.impl.StdCouchDbInstance">
+				<constructor-arg>
+					<bean class="org.ektorp.spring.HttpClientFactoryBean" />
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+	</bean>
+ -->
 
 </beans>

@@ -68,6 +68,7 @@ TransportationBufferService {
 	SimpleFeatureSource trainStationFc;
 	SimpleFeatureSource trainRouteFc;
 	SimpleFeatureSource tramRouteFc;
+	SimpleFeatureSource busRouteFc;
 
 	Collection<Geometry> trasportationbufferCollection;
 
@@ -120,6 +121,22 @@ TransportationBufferService {
 						.createFeaturesBuffer(tramRouteFc.getFeatures(),
 								parameter.getTram_Rt_BufferDistance(),
 								layerMapping.getTramRoute());
+				if (bufferCollection != null) {
+					trasportationbufferCollection.addAll(bufferCollection);
+				}
+			}
+		}
+		if (parameter.getBus_Rt_BufferDistance() != 0) {
+			busRouteFc = postGISService.getFeatureSource(
+					layerMapping.getBusRoute());
+			if (validationService.isLine(busRouteFc,
+					layerMapping.getBusRoute())
+					&& validationService.isMetric(busRouteFc,
+							layerMapping.getBusRoute())) {
+				Collection<Geometry> bufferCollection = bufferService
+						.createFeaturesBuffer(busRouteFc.getFeatures(),
+								parameter.getBus_Rt_BufferDistance(),
+								layerMapping.getBusRoute());
 				if (bufferCollection != null) {
 					trasportationbufferCollection.addAll(bufferCollection);
 				}

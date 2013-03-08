@@ -25,41 +25,43 @@ public class InitDevelopPotentialImpl implements InitDevelopPotential {
 	@Autowired
 	private ParameterDevelopPotential parameter;		
 
-	public void initParams(Map<String, Object> housingParams) {
+	public void initParams(Map<String, Object> params) {
 
-		parameter.setDpi(Float.valueOf(housingParams.get("dpiVal").toString()));
-		parameter.setDpiOperateorVal(String.valueOf(housingParams.get("dpiOperateorVal")));		
+		parameter.setDpi(Float.valueOf(params.get("dpiVal").toString()));
+		parameter.setDpiOperateorVal(String.valueOf(params.get("dpiOperateorVal")));		
 		
-		parameter.setTrain_St_BufferDistance((Integer) housingParams.get("trainStationVal")); 
-		parameter.setTrain_Rt_BufferDistance((Integer) housingParams.get("trainRouteVal"));
-		parameter.setTram_Rt_BufferDistance((Integer) housingParams.get("tramRouteVal"));
-		parameter.setEducation_BufferDistance((Integer) housingParams.get("educationVal"));
-		parameter.setRecreation_BufferDistance((Integer) housingParams.get("recreationVal"));
-		parameter.setMedical_BufferDistance((Integer) housingParams.get("medicalVal"));
-		parameter.setCommunity_BufferDistance((Integer) housingParams.get("communityVal"));
-		parameter.setUtility_BufferDistance((Integer) housingParams.get("utilityVal"));
-		parameter.setFloodway((Boolean) housingParams.get("floodwayVal"));
-		parameter.setInundation((Boolean) housingParams.get("inundationVal"));
-		parameter.setNeighborhood((Boolean) housingParams.get("neighbourhoodVal"));
-		parameter.setDesignDevelopment((Boolean) housingParams.get("designDevelopmentVal"));
-		parameter.setDevelopPlan((Boolean) housingParams.get("developPlansVal"));
-		parameter.setParking((Boolean) housingParams.get("parkingVal"));
-		parameter.setBushfire((Boolean) housingParams.get("bushfireVal"));
-		parameter.setErosion((Boolean) housingParams.get("erosionVal"));
-		parameter.setVegprotection((Boolean) housingParams.get("vegetationProtectVal"));
-		parameter.setSalinity((Boolean) housingParams.get("salinityVal"));
-		parameter.setContamination((Boolean) housingParams.get("contamintationVal"));
-		parameter.setEnvSignificance((Boolean) housingParams.get("envSignificanceVal"));
-		parameter.setEnvAudit((Boolean) housingParams.get("envAuditVal"));
-		parameter.setHeritage((Boolean) housingParams.get("heritageVal"));
-		parameter.setResidential((Boolean) housingParams.get("residentialVal"));
-		parameter.setBusiness((Boolean) housingParams.get("businessVal"));
-		parameter.setRural((Boolean) housingParams.get("ruralVal"));
-		parameter.setMixedUse((Boolean) housingParams.get("mixedUseVal"));
-		parameter.setSpecialPurpose((Boolean) housingParams.get("specialPurposeVal"));
-		parameter.setUrbanGrowthBoundry((Boolean) housingParams.get("urbanGrowthBoundryVal"));
+		parameter.setTrain_St_BufferDistance((Integer) params.get("trainStationVal")); 
+		parameter.setTrain_Rt_BufferDistance((Integer) params.get("trainRouteVal"));
+		parameter.setTram_Rt_BufferDistance((Integer) params.get("tramRouteVal"));
+		parameter.setBus_Rt_BufferDistance((Integer) params.get("busRouteVal"));		
+		
+		parameter.setEducation_BufferDistance((Integer) params.get("educationVal"));
+		parameter.setRecreation_BufferDistance((Integer) params.get("recreationVal"));
+		parameter.setMedical_BufferDistance((Integer) params.get("medicalVal"));
+		parameter.setCommunity_BufferDistance((Integer) params.get("communityVal"));
+		parameter.setUtility_BufferDistance((Integer) params.get("utilityVal"));
+		parameter.setFloodway((Boolean) params.get("floodwayVal"));
+		parameter.setInundation((Boolean) params.get("inundationVal"));
+		parameter.setNeighborhood((Boolean) params.get("neighbourhoodVal"));
+		parameter.setDesignDevelopment((Boolean) params.get("designDevelopmentVal"));
+		parameter.setDevelopPlan((Boolean) params.get("developPlansVal"));
+		parameter.setParking((Boolean) params.get("parkingVal"));
+		parameter.setBushfire((Boolean) params.get("bushfireVal"));
+		parameter.setErosion((Boolean) params.get("erosionVal"));
+		parameter.setVegprotection((Boolean) params.get("vegetationProtectVal"));
+		parameter.setSalinity((Boolean) params.get("salinityVal"));
+		parameter.setContamination((Boolean) params.get("contamintationVal"));
+		parameter.setEnvSignificance((Boolean) params.get("envSignificanceVal"));
+		parameter.setEnvAudit((Boolean) params.get("envAuditVal"));
+		parameter.setHeritage((Boolean) params.get("heritageVal"));
+		parameter.setResidential((Boolean) params.get("residentialVal"));
+		parameter.setBusiness((Boolean) params.get("businessVal"));
+		parameter.setRural((Boolean) params.get("ruralVal"));
+		parameter.setMixedUse((Boolean) params.get("mixedUseVal"));
+		parameter.setSpecialPurpose((Boolean) params.get("specialPurposeVal"));
+		parameter.setUrbanGrowthBoundry((Boolean) params.get("urbanGrowthBoundryVal"));
 
-		parameter.setSelectedLGAs((List<String>) housingParams.get("selectedLGAs1"));
+		parameter.setSelectedLGAs((List<String>) params.get("selectedLGAs1"));
 		System.out.println("selected LGAs=="+ parameter.getSelectedLGAs());
 
 	}

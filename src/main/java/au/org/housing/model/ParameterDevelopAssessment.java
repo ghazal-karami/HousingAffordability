@@ -3,7 +3,6 @@ package au.org.housing.model;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
-
 /**
  * Contains all the parameters on Assessment Development form.
  *

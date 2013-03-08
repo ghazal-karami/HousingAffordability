@@ -3,69 +3,87 @@ var durationAssessment = Ext.create('Ext.form.Panel', {
 			border : 0,
 			height : 27,
 			items : [durationAssessmentCombo, {
-						xtype : "textfield",
-						id : 'durationAssessmentId_value',
-						readOnly : false,
-						width : 35,
-						value : 0,
-						margin : '5 1 5 1',
-						listeners : {
-							'change' : function(field, newVal, oldVal) {
-								Ext.getCmp("durationAssessmentId")
-										.setValue(newVal);
-							}
+				xtype : "numberfield",
+				id : 'durationAssessmentId_value',
+				readOnly : false,
+				width : 35,
+				value : 0,
+				margin : '5 1 5 1',
+				hideTrigger : true,
+				listeners : {
+					specialkey : function(field, e) {
+						if (e.getKey() == e.ENTER) {
+							Ext.getCmp("durationAssessmentId").setValue(field
+									.getValue());
 						}
-					}, {
-						xtype : 'label',
-						text : 'day(s)',
-						margin : '9 4 0 0'
+					},
+					blur : function(field) {
+						Ext.getCmp("durationAssessmentId").setValue(field
+								.getValue());
+					}
+				}
+			}, {
+				xtype : 'label',
+				text : 'day(s)',
+				margin : '9 4 0 0'
 
-					}, {
-						xtype : 'sliderfield',
-						id : 'durationAssessmentId',
-						width : 290,
-						decimalPrecision : true,
-						increment : 10.0,
-						value : 0,
-						minValue : 0,
-						maxValue : 2000.0,
-						margin : '8 0 5 2',
-						listeners : {
-							change : function(select, thumb, newval, oldval) {
-								Ext.getCmp("durationAssessmentId_value")
-										.setValue(thumb);
-							}
-						}
-					}]
+			}, {
+				xtype : 'sliderfield',
+				id : 'durationAssessmentId',
+				width : 290,
+				decimalPrecision : true,
+				increment : 10.0,
+				value : 0,
+				minValue : 0,
+				maxValue : 2000.0,
+				margin : '8 0 5 2',
+				listeners : {
+					change : function(select, thumb, newval, oldval) {
+						Ext.getCmp("durationAssessmentId_value")
+								.setValue(thumb);
+					}
+				}
+			}]
 		});
 
 var numOfObjection = Ext.create('Ext.form.Panel', {
 			layout : 'column',
 			border : 0,
-			height : 27,
+			height : 32,
 			items : [numOfObjectionCombo, {
-						xtype : "textfield",
-						id : 'numOfObjectionId_value',
-						readOnly : true,
-						width : 35,
-						value : 0,
-						margin : '5 13 5 1'
-					}, {
-						xtype : 'sliderfield',
-						id : 'numOfObjectionId',
-						width : 290,
-						increment : 1,
-						value : 0,
-						minValue : 0,
-						maxValue : 100.0,
-						margin : '8 0 5 28',
-						listeners : {
-							change : function(select, thumb, newval, oldval) {
-								Ext.getCmp("numOfObjectionId_value")
-										.setValue(thumb);
-							}
+				xtype : "numberfield",
+				id : 'numOfObjectionId_value',
+				width : 35,
+				value : 0,
+				margin : '5 13 10 1',
+				hideTrigger : true,
+				listeners : {
+					specialkey : function(field, e) {
+						if (e.getKey() == e.ENTER) {
+							Ext.getCmp("numOfObjectionId").setValue(field
+									.getValue());
 						}
-					}]
+					},
+					blur : function(field) {
+						Ext.getCmp("numOfObjectionId").setValue(field
+								.getValue());
+					}
+				}
+			}, {
+				xtype : 'sliderfield',
+				id : 'numOfObjectionId',
+				width : 290,
+				increment : 1,
+				value : 0,
+				minValue : 0,
+				maxValue : 100.0,
+				margin : '8 0 10 28',
+				listeners : {
+					change : function(select, thumb, newval, oldval) {
+						Ext.getCmp("numOfObjectionId_value").setValue(thumb);
+					}
+				}
+			}]
 		});
 
 var requireFurtherInput = Ext.create('Ext.form.Panel', {
@@ -117,28 +135,39 @@ var numOfDwelling = Ext.create('Ext.form.Panel', {
 			anchor : '100%',
 			margin : '4 0 10 0',
 			items : [numOfDwellingCombo, {
-						xtype : "textfield",
-						id : 'numOfDwellingId_value',
-						readOnly : true,
-						width : 35,
-						value : 0,
-						margin : '5 1 5 1'
-					}, {
-						xtype : 'sliderfield',
-						id : 'numOfDwellingId',
-						width : 290,
-						increment : 10,
-						value : 0,
-						minValue : 0,
-						maxValue : 100.0,
-						margin : '8 2 2 1',
-						listeners : {
-							change : function(select, thumb, newval, oldval) {
-								Ext.getCmp("numOfDwellingId_value")
-										.setValue(thumb);
-							}
+				xtype : "numberfield",
+				id : 'numOfDwellingId_value',
+				width : 35,
+				value : 0,
+				margin : '5 1 5 1',
+				hideTrigger : true,
+				listeners : {
+					specialkey : function(field, e) {
+						if (e.getKey() == e.ENTER) {
+							Ext.getCmp("numOfDwellingId").setValue(field
+									.getValue());
 						}
-					}]
+					},
+					blur : function(field) {
+						Ext.getCmp("numOfDwellingId")
+								.setValue(field.getValue());
+					}
+				}
+			}, {
+				xtype : 'sliderfield',
+				id : 'numOfDwellingId',
+				width : 290,
+				increment : 10,
+				value : 0,
+				minValue : 0,
+				maxValue : 100.0,
+				margin : '8 2 2 1',
+				listeners : {
+					change : function(select, thumb, newval, oldval) {
+						Ext.getCmp("numOfDwellingId_value").setValue(thumb);
+					}
+				}
+			}]
 		});
 
 var categoriesOfApplication = Ext.create('Ext.form.Panel', {
@@ -243,26 +272,38 @@ var estimatedCostOfWork = Ext.create('Ext.form.Panel', {
 				margin : '5 1 5 1'
 			},
 			items : [estimatedCostOfWorkCombo, {
-						xtype : "textfield",
-						id : 'estimatedCostOfWorkId_value',
-						readOnly : true,
-						width : 70,
-						value : 0
-					}, {
-						xtype : 'sliderfield',
-						id : 'estimatedCostOfWorkId',
-						width : 280,
-						value : 0,
-						minValue : 0,
-						increment : 10000,
-						maxValue : 100000000,
-						listeners : {
-							change : function(select, thumb, newval, oldval) {
-								Ext.getCmp("estimatedCostOfWorkId_value")
-										.setValue(thumb);
-							}
+				xtype : "numberfield",
+				id : 'estimatedCostOfWorkId_value',
+				width : 70,
+				value : 0,
+				hideTrigger : true,
+				listeners : {
+					specialkey : function(field, e) {
+						if (e.getKey() == e.ENTER) {
+							Ext.getCmp("estimatedCostOfWorkId").setValue(field
+									.getValue());
 						}
-					}]
+					},
+					blur : function(field) {
+						Ext.getCmp("estimatedCostOfWorkId").setValue(field
+								.getValue());
+					}
+				}
+			}, {
+				xtype : 'sliderfield',
+				id : 'estimatedCostOfWorkId',
+				width : 280,
+				value : 0,
+				minValue : 0,
+				increment : 10000,
+				maxValue : 100000000,
+				listeners : {
+					change : function(select, thumb, newval, oldval) {
+						Ext.getCmp("estimatedCostOfWorkId_value")
+								.setValue(thumb);
+					}
+				}
+			}]
 		});
 
 var applicationDetails = Ext.create('Ext.form.Panel', {
@@ -304,49 +345,50 @@ var VCAT = Ext.create('Ext.form.Panel', {
 					}]
 		});
 
-/*
- * var durationVCAT = Ext.create('Ext.form.Panel', { layout : 'column', border :
- * 1,, fieldDefaults : { labelAlign : 'left', }, items : [VCATCombo, {xtype :
- * "textfield", id : 'durationWithVCATId_value', readOnly : true, width : 35,
- * value : 0 },{ xtype : 'sliderfield', id : 'durationWithVCATId', width : 200,
- * increment : 10, value : 0, minValue : 0, maxValue : 365 }] });
- */
-
 var durationVCAT = Ext.create('Ext.form.Panel', {
-			layout : 'column',
-			margin : '0 1 0 0',
-			height : 35,
-			anchor : '100%',
-			margin : '4 0 10 0',
-			items : [VCATCombo, {
-						xtype : "textfield",
-						id : 'durationWithVCATId_value',
-						readOnly : true,
-						width : 35,
-						value : 0,
-						margin : '5 1 5 1'
-					}, {
-						xtype : 'label',
-						text : 'day(s)',
-						margin : '9 4 0 0'
+	layout : 'column',
+	margin : '0 1 0 0',
+	height : 35,
+	anchor : '100%',
+	margin : '4 0 10 0',
+	items : [VCATCombo, {
+		xtype : "textfield",
+		id : 'durationWithVCATId_value',
+		width : 35,
+		value : 0,
+		margin : '5 1 5 1',
+		hideTrigger : true,
+		listeners : {
+			specialkey : function(field, e) {
+				if (e.getKey() == e.ENTER) {
+					Ext.getCmp("durationWithVCATId").setValue(field.getValue());
+				}
+			},
+			blur : function(field) {
+				Ext.getCmp("durationWithVCATId").setValue(field.getValue());
+			}
+		}
+	}, {
+		xtype : 'label',
+		text : 'day(s)',
+		margin : '9 4 0 0'
 
-					}, {
-						xtype : 'sliderfield',
-						id : 'durationWithVCATId',
-						width : 300,
-						increment : 5,
-						value : 0,
-						minValue : 0,
-						maxValue : 365,
-						margin : '8 2 2 1',
-						listeners : {
-							change : function(select, thumb, newval, oldval) {
-								Ext.getCmp("durationWithVCATId_value")
-										.setValue(thumb);
-							}
-						}
-					}]
-		});
+	}, {
+		xtype : 'sliderfield',
+		id : 'durationWithVCATId',
+		width : 300,
+		increment : 5,
+		value : 0,
+		minValue : 0,
+		maxValue : 365,
+		margin : '8 2 2 1',
+		listeners : {
+			change : function(select, thumb, newval, oldval) {
+				Ext.getCmp("durationWithVCATId_value").setValue(thumb);
+			}
+		}
+	}]
+});
 
 var applicationOutcomes = Ext.create('Ext.form.Panel', {
 	frame : true,
@@ -376,14 +418,6 @@ var rightForm_Assessment = Ext.create('Ext.form.Panel', {
 		});
 
 // *************** Whole Form ***************
-/*
- * var developementAssessment = Ext.create('Ext.form.Panel', { layout :
- * 'column', title : 'Developement Assessment Analysis', items :
- * [leftForm_Assessment, rightForm_Assessment],
- * 
- * height : 564, width : 1000 });
- */
-
 var LGA_Assessment = Ext.create('Ext.form.Panel', {
 			items : [LGA2],
 			width : '50%'

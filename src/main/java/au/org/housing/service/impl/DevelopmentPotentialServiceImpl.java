@@ -39,6 +39,7 @@ import org.postgresql.util.PSQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import au.org.housing.config.GeoServerConfig;
@@ -69,6 +70,7 @@ import com.vividsolutions.jts.geom.TopologyException;
  */ 
 
 @Service
+@Scope("session")	
 public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DevelopmentPotentialServiceImpl.class);
@@ -335,7 +337,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 			anyOverlayChecked = true;
 		}
 		//************ LAND SUBJECT TO INUNDATION OVERLAY ************
-		//		Geometry inundationsUnion = null; //????
+				 inundationsUnion = null; //???
 		if (parameter.getInundation()) {		 
 			filter = ff.equals(ff.property(inputLayersConfig.getPlanCodes_group1()),ff.literal("LAND SUBJECT TO INUNDATION OVERLAY"));
 			SimpleFeatureCollection inundations = overlayCollection(filter);
@@ -566,6 +568,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 			throw new HousingException(Messages._ERROR_PROPERTY_FILTER);
 		}
 	}
+	
 
 	private boolean generateQuery(HttpSession session) throws SQLException, Exception{
 		propertyQuery = new Query();
@@ -607,6 +610,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 				SimpleFeature sf = propertyIt.next();
 				sfb.addAll(sf.getAttributes());
 				Geometry propertyGeom = (Geometry) sf.getDefaultGeometry();
+				propertyGeom = propertyGeom.buffer(0.001);
 				System.out.println("  prooperty layer pfi  == "+ sf.getAttribute("pfi"));			
 
 				if (anyOverlayChecked){
