@@ -84,8 +84,9 @@ var VCATCombo = Ext.create('Ext.form.ComboBox', {
 // ///////////////
 var dpiCombo = Ext.create('Ext.form.ComboBox', {
 			store : operatorStore,
-			fieldLabel : 'DPI',
-			labelWidth : 88,
+//			fieldLabel : 'DPI',
+//			labelWidth : 144,
+//			labelWidth : '40%',
 			queryMode : 'local',
 			displayField : 'icon',
 			valueField : 'code',

@@ -2,7 +2,12 @@ var dpi = Ext.create('Ext.form.Panel', {
 			layout : 'column',
 
 			bodyPadding : 2,
-			items : [dpiCombo, {
+			items : [{
+						xtype : 'label',
+						text : 'DPI:',
+						margin : '9 7 0 4',
+						width : '15%'
+					}, dpiCombo, {
 						xtype : "numberfield",
 						id : 'dpiId_value',
 						readOnly : false,
@@ -671,7 +676,7 @@ var developAssesVariables = Ext.create('Ext.form.Panel', {
 
 			title : 'Development Assesment Variables',
 			width : '50%',
-			
+
 			bodyPadding : 5,
 
 			fieldDefaults : {
@@ -700,7 +705,7 @@ var environmentalVariables = Ext.create('Ext.form.Panel', {
 			layout : 'column',
 			frame : false,
 			title : 'Environmental Variables',
-			width : '50%',			
+			width : '50%',
 			bodyPadding : 2,
 			fieldDefaults : {
 				margin : '10 20 5 5'
@@ -959,7 +964,7 @@ var analyseBtn_DevelopPotential = Ext.create('Ext.Button', {
 							var jresp = Ext.JSON.decode(response.responseText);
 							console.log(jresp.message);
 							if (jresp.successStatus == "success") {
-								new Ext.Window({
+								var showMap = new Ext.Window({
 											title : 'Analysis Status',
 											height : 100,
 											padding : 1,
@@ -978,6 +983,7 @@ var analyseBtn_DevelopPotential = Ext.create('Ext.Button', {
 															.open(
 																	'ui-jsp/map_potential.jsp',
 																	"_blank");
+													showMap.close();
 												}
 											}]
 										}).show();

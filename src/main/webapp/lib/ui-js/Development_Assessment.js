@@ -593,11 +593,12 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 				var jresp = Ext.JSON.decode(response.responseText);
 				console.log('assessmentResponse' + jresp.message);
 				if (jresp.successStatus == "success") {
-					new Ext.Window({
+					var showMap = new Ext.Window({
 								title : 'Analysis Status',
 								height : 100,
 								padding : 1,
 								width : 300,
+								scope : this,
 								style : {
 									"text-align" : "center"
 								},
@@ -608,8 +609,8 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 								buttons : [{
 									text : 'Show Map',
 									handler : function() {
-										window.open(
-												'ui-jsp/map_assessment.jsp',"_blank");
+										window.open('ui-jsp/map_assessment.jsp',"_blank");
+										showMapWin.close();
 									}
 								}]
 							}).show();
