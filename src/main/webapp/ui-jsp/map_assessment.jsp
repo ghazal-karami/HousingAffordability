@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Development Potential Result Map</title>
+<title>Development Assessment Result Map</title>
 
 <script type="text/javascript"
 	src="http://extjs.cachefly.net/ext-3.4.0/adapter/ext/ext-base.js"></script>
@@ -28,7 +28,7 @@
 	src="/housing/lib/GeoExt/extensions/geoext.ux/ux/Measure/lib/GeoExt.ux/MeasureArea.js"></script>
 <script type="text/javascript"
 	src="/housing/lib/GeoExt/extensions/geoext.ux/ux/Measure/lib/GeoExt.ux/MeasureLength.js"></script>
-<script type="text/javascript" src="/housing/lib/ui-js/map_potential.js"></script>
+<script type="text/javascript" src="/housing/lib/ui-js/map_assessment.js"></script>
 </head>
 <body>
 </body>

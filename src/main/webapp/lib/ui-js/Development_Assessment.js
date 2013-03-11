@@ -426,7 +426,7 @@ var LGA_Assessment = Ext.create('Ext.form.Panel', {
 			width : '50%'
 		});
 
-// *************** developementPotential Form ***************
+// *************** developementAssessment Form ***************
 var wholeForm_Assessment = Ext.create('Ext.form.Panel', {
 			layout : 'column',
 			items : [leftForm_Assessment, rightForm_Assessment]
@@ -609,8 +609,7 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 									text : 'Show Map',
 									handler : function() {
 										window.open(
-												'ui-jsp/map_assessment.jsp',
-												"_blank");
+												'ui-jsp/map_assessment.jsp',"_blank");
 									}
 								}]
 							}).show();
@@ -692,8 +691,7 @@ var developementAssessment = Ext.create('Ext.form.Panel', {
 			frame : true,
 			autoScroll:true,
 			title : 'Developement Assessment Analysis',
-			items : [LGA_Assessment, wholeForm_Assessment,
-					footerPanel_DevelopAssessment],
+			items : [LGA_Assessment, wholeForm_Assessment,footerPanel_DevelopAssessment],
 			autoHeight : true,
 			width : 1000
 		});

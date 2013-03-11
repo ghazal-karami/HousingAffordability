@@ -120,12 +120,19 @@ public class HousingController {
 	}	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/map_assessment")
-	public @ResponseBody Map<String, Object> mapAssessment(HttpSession session) throws Exception { 
+	public @ResponseBody Map<String, Object> mapAssessment(HttpSession session) throws Exception {
+		
+//		Map<String, Object> potentialParams = developmentPotentialService.getOutputLayer();
+//		System.out.println("layeName ="+ );
+//		System.out.println("max x ="+ potentialParams.);
+//		System.out.println("max y ="+ );
+//		System.out.println("min x ="+ );
+//		System.out.println("min y ="+ );
 		return developAssessment.getOutputLayer();
 	}	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/map_potential")
-	public @ResponseBody Map<String, Object> mapPotential() throws Exception { 
+	public @ResponseBody Map<String, Object> mapPotential(HttpSession session) throws Exception { 
 //		Map<String, Object> potentialParams = new HashMap<String, Object>();
 //		potentialParams.put("workspace", propertyFilterService.getGeoServerConfig().getGsWorkspace());
 //		potentialParams.put("layerName", propertyFilterService.getLayerName());
@@ -138,6 +145,11 @@ public class HousingController {
 //		//		System.out.println(assessmentParams.get("layerName"));
 //		//		System.out.println("outputLayer.get(maxX)  222 === "+assessmentParams.get("maxX"));
 //		return potentialParams;
+		
+		
+		
+		
+		
 		return developmentPotentialService.getOutputLayer();
 	}	
 

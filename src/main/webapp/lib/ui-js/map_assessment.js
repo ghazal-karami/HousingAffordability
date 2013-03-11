@@ -15,33 +15,23 @@ Ext.onReady(function() {
 					var jsonResp = Ext.util.JSON.decode(response.responseText);
 					workspace = jsonResp.workspace;
 					layerName = workspace + ":" + jsonResp.layerName;
-//					lgaLayerName = workspace + ":lga_polygon_ArcGis_metric";
+					// lgaLayerName = workspace + ":lga_polygon_ArcGis_metric";
 					lgaLayerName = "housingWS:lga_polygon_ArcGis_metric";
 					minX = jsonResp.minX;
 					maxX = jsonResp.maxX;
 					minY = jsonResp.minY;
-					maxY = jsonResp.maxY;					
+					maxY = jsonResp.maxY;
 					var bounds = [minX, minY, maxX, maxY];
-					
-					console.log(minX);
-					console.log(maxX);
-					console.log(minY);
-					console.log(maxY);
-					console.log(layerName);
-					console.log(lgaLayerName);
-					
-					loadMap(workspace,layerName, lgaLayerName, bounds);
+					loadMap(workspace, layerName, lgaLayerName, bounds);
 				}
 			});
-	function loadMap(workspace,layerName, lgaLayerName, bounds) {
-		
-		
-		
+	function loadMap(workspace, layerName, lgaLayerName, bounds) {
 		var ctrl, toolbarItems = [], action, actions = {};
-		maxBounds = new OpenLayers.Bounds(bounds[0], bounds[1], bounds[2],bounds[3]);
+		maxBounds = new OpenLayers.Bounds(bounds[0], bounds[1], bounds[2],
+				bounds[3]);
 		maxBounds.transform(new OpenLayers.Projection("EPSG:28355"),
 				new OpenLayers.Projection("EPSG:900913"));
-		
+
 		var options = {
 			projection : "EPSG:900913",
 			maxExtent : maxBounds,
@@ -51,8 +41,8 @@ Ext.onReady(function() {
 		var osm = new OpenLayers.Layer.OSM();
 
 		var format = "image/png";
-		tiled = new OpenLayers.Layer.WMS("Housing Layer",
-				"/housing/geoserver/"+workspace+"/wms", {
+		tiled = new OpenLayers.Layer.WMS("Housing Layer", "/housing/geoserver/"
+						+ workspace + "/wms", {
 					LAYERS : layerName,
 					format : format,
 					transparent : 'true'
@@ -60,14 +50,14 @@ Ext.onReady(function() {
 					transitionEffect : "resize"
 				});
 
-//		lga = new OpenLayers.Layer.WMS("LGA Layer",
-//				"/housing/geoserver/housingWS/wms", {
-//					LAYERS : lgaLayerName,
-//					format : format,
-//					transparent : 'true'
-//				}, {
-//					transitionEffect : "resize"
-//				});
+		lga = new OpenLayers.Layer.WMS("LGA Layer",
+				"/housing/geoserver/housingWS/wms", {
+					LAYERS : lgaLayerName,
+					format : format,
+					transparent : 'true'
+				}, {
+					transitionEffect : "resize"
+				});
 
 		var map = new OpenLayers.Map(options);
 
@@ -80,7 +70,6 @@ Ext.onReady(function() {
 					toggleGroup : 'tools'
 				});
 
-				
 		toolbarItems.push(measureLength);
 		var measureArea = new GeoExt.ux.MeasureArea({
 					map : map,
@@ -110,8 +99,7 @@ Ext.onReady(function() {
 		// Navigation history - two "button" controls
 		ctrl = new OpenLayers.Control.NavigationHistory();
 		map.addControl(ctrl);
-		
-		
+
 		action = new GeoExt.Action({
 					text : "previous",
 					control : ctrl.previous,
@@ -131,6 +119,28 @@ Ext.onReady(function() {
 		toolbarItems.push(action);
 		toolbarItems.push("->");
 
+		var layers;
+		for (var i = 1; i < map.layers.length; i++) {
+			layers = mapPanel.layers.getAt(i);
+			layers
+					.set(
+							"legendURL",
+							"/housing/geoserver/housingWS/wms?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER="
+									+ map.layers[i].params["LAYERS"]);
+		}
+		// var legend = new GeoExt.LegendPanel({
+		// title : "Map Legend",
+		// iconCls : 'legend',
+		// autoScroll : true,
+		// defaults : {
+		// cls : 'legend-item',
+		// baseParams : {
+		// FORMAT : 'image/png'
+		// }
+		// },
+		// layerStore: layers
+		// });
+
 		var legendPanel = new GeoExt.LegendPanel({
 					border : false,
 					autoScroll : false,
@@ -139,7 +149,7 @@ Ext.onReady(function() {
 					}
 				});
 
-		new Ext.Viewport({
+		new Ext.Viewport({ 
 					layout : "border",
 					items : [{
 								region : "north",
@@ -154,7 +164,7 @@ Ext.onReady(function() {
 								id : "mappanel",
 								xtype : "gx_mappanel",
 								map : map,
-								layers : [osm, tiled ],
+								layers : [osm, tiled, lga],
 								extent : maxBounds,
 								split : true,
 								tbar : toolbarItems
@@ -207,6 +217,7 @@ Ext.onReady(function() {
 					'ascending' : false
 				}));
 		mapPanel.map.addControl(new OpenLayers.Control.ScaleLine());
+		mapPanel.map.addControl(new OpenLayers.Control.OverviewMap());
 		mapPanel.map.addControl(new OpenLayers.Control.KeyboardDefaults());
 		mapPanel.map.addControl(featureInfo);
 		featureInfo.activate();
