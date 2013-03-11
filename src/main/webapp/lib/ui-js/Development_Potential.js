@@ -1,5 +1,6 @@
 var dpi = Ext.create('Ext.form.Panel', {
 			layout : 'column',
+
 			bodyPadding : 2,
 			items : [dpiCombo, {
 						xtype : "numberfield",
@@ -7,7 +8,7 @@ var dpi = Ext.create('Ext.form.Panel', {
 						readOnly : false,
 						width : 35,
 						value : 0,
-						margin : '5 10 10 1',
+						margin : '5 1 10 4',
 						hideTrigger : true,
 						listeners : {
 							specialkey : function(field, e) {
@@ -24,13 +25,13 @@ var dpi = Ext.create('Ext.form.Panel', {
 						xtype : 'sliderfield',
 						id : 'dpiId',
 						useTips : true,
-						width : 350,
+						width : '63%',
 						increment : 0.1,
 						decimalPrecision : 1,
 						value : 0.0,
 						minValue : 0,
 						maxValue : 1.0,
-						margin : '8 0 5 5',
+						margin : '8 0 1 10',
 						listeners : {
 							change : function(select, thumb, newval, oldval) {
 								Ext.getCmp("dpiId_value").setValue(thumb);
@@ -49,6 +50,8 @@ var dpi = Ext.create('Ext.form.Panel', {
 
 var trainStation = Ext.create('Ext.form.Panel', {
 	layout : 'column',
+
+	autoHeight : true,
 	frame : false,
 	border : 0,
 	items : [{
@@ -56,7 +59,7 @@ var trainStation = Ext.create('Ext.form.Panel', {
 				forId : 'trainStationId_value',
 				text : 'Train Station Distance:',
 				margin : '9 4 0 4',
-				width : 126
+				width : '22%'
 			}, {
 				xtype : "numberfield",
 				id : 'trainStationId_value',
@@ -84,7 +87,7 @@ var trainStation = Ext.create('Ext.form.Panel', {
 			}, {
 				xtype : 'sliderfield',
 				id : 'trainStationId',
-				width : 350,
+				width : '63%',
 				increment : 50,
 				value : 0,
 				minValue : 0,
@@ -100,6 +103,8 @@ var trainStation = Ext.create('Ext.form.Panel', {
 
 var trainRoute = Ext.create('Ext.form.Panel', {
 			layout : 'column',
+
+			autoHeight : true,
 			frame : false,
 			border : 0,
 			items : [{
@@ -107,7 +112,7 @@ var trainRoute = Ext.create('Ext.form.Panel', {
 						forId : 'trainRouteId_value',
 						text : 'Train Route Distance:',
 						margin : '9 4 0 4',
-						width : 126
+						width : '22%'
 					}, {
 						xtype : "numberfield",
 						id : 'trainRouteId_value',
@@ -136,7 +141,7 @@ var trainRoute = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'sliderfield',
 						id : 'trainRouteId',
-						width : 350,
+						width : '63%',
 						increment : 50,
 						value : 0,
 						minValue : 0,
@@ -153,6 +158,8 @@ var trainRoute = Ext.create('Ext.form.Panel', {
 
 var tramRoute = Ext.create('Ext.form.Panel', {
 			layout : 'column',
+
+			autoHeight : true,
 			frame : false,
 			border : 0,
 			items : [{
@@ -160,7 +167,7 @@ var tramRoute = Ext.create('Ext.form.Panel', {
 						forId : 'tramRouteId_value',
 						text : 'Tram Route Distance:',
 						margin : '9 4 4 4',
-						width : 126
+						width : '22%'
 					}, {
 						xtype : "numberfield",
 						id : 'tramRouteId_value',
@@ -189,7 +196,7 @@ var tramRoute = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'sliderfield',
 						id : 'tramRouteId',
-						width : 350,
+						width : '63%',
 						increment : 50,
 						value : 0,
 						minValue : 0,
@@ -205,6 +212,8 @@ var tramRoute = Ext.create('Ext.form.Panel', {
 
 var busRoute = Ext.create('Ext.form.Panel', {
 	layout : 'column',
+
+	autoHeight : true,
 	frame : false,
 	border : 0,
 	items : [{
@@ -212,7 +221,7 @@ var busRoute = Ext.create('Ext.form.Panel', {
 				forId : 'busRouteId_value',
 				text : 'Bus Route Distance:',
 				margin : '2 4 15 4',
-				width : 126
+				width : '22%'
 			}, {
 				xtype : "numberfield",
 				id : 'busRouteId_value',
@@ -239,7 +248,7 @@ var busRoute = Ext.create('Ext.form.Panel', {
 			}, {
 				xtype : 'sliderfield',
 				id : 'busRouteId',
-				width : 350,
+				width : '63%',
 				increment : 50,
 				value : 0,
 				minValue : 0,
@@ -255,15 +264,18 @@ var busRoute = Ext.create('Ext.form.Panel', {
 
 var transports = Ext.create('Ext.form.Panel', {
 			frame : true,
+			autoHeight : true,
 			title : 'Distance To Public Transport',
 			width : '50%',
-			height : 156,
+
 			bodyPadding : 1,
 			items : [trainStation, trainRoute, tramRoute, busRoute]
 		});
 
 var education = Ext.create('Ext.form.Panel', {
 			layout : 'column',
+
+			autoHeight : true,
 			frame : false,
 			border : 0,
 			items : [{
@@ -271,7 +283,7 @@ var education = Ext.create('Ext.form.Panel', {
 						forId : 'educationId_value',
 						text : 'Education Distance:',
 						margin : '9 4 7 4',
-						width : 126
+						width : '22%'
 					}, {
 						xtype : "numberfield",
 						id : 'educationId_value',
@@ -300,7 +312,7 @@ var education = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'sliderfield',
 						id : 'educationId',
-						width : 350,
+						width : '63%',
 						increment : 50,
 						value : 0,
 						minValue : 0,
@@ -316,6 +328,8 @@ var education = Ext.create('Ext.form.Panel', {
 
 var recreation = Ext.create('Ext.form.Panel', {
 			layout : 'column',
+
+			autoHeight : true,
 			frame : false,
 			border : 0,
 			items : [{
@@ -323,7 +337,7 @@ var recreation = Ext.create('Ext.form.Panel', {
 						forId : 'recreationId_value',
 						text : 'Recreation Distance:',
 						margin : '10 4 7 4',
-						width : 126
+						width : '22%'
 					}, {
 						xtype : "numberfield",
 						id : 'recreationId_value',
@@ -352,7 +366,7 @@ var recreation = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'sliderfield',
 						id : 'recreationId',
-						width : 350,
+						width : '63%',
 						increment : 50,
 						value : 0,
 						minValue : 0,
@@ -369,6 +383,8 @@ var recreation = Ext.create('Ext.form.Panel', {
 
 var medical = Ext.create('Ext.form.Panel', {
 			layout : 'column',
+
+			autoHeight : true,
 			frame : false,
 			border : 0,
 			items : [{
@@ -376,7 +392,7 @@ var medical = Ext.create('Ext.form.Panel', {
 						forId : 'medicalId_value',
 						text : 'Medical Distance:',
 						margin : '9 4 7 4',
-						width : 126
+						width : '22%'
 					}, {
 						xtype : "numberfield",
 						id : 'medicalId_value',
@@ -405,7 +421,7 @@ var medical = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'sliderfield',
 						id : 'medicalId',
-						width : 350,
+						width : '63%',
 						increment : 50,
 						value : 0,
 						minValue : 0,
@@ -418,8 +434,11 @@ var medical = Ext.create('Ext.form.Panel', {
 						}
 					}]
 		});
+
 var community = Ext.create('Ext.form.Panel', {
 			layout : 'column',
+
+			autoHeight : true,
 			frame : false,
 			border : 0,
 			items : [{
@@ -427,7 +446,7 @@ var community = Ext.create('Ext.form.Panel', {
 						forId : 'communityId_value',
 						text : 'Community Distance:',
 						margin : '9 4 7 4',
-						width : 126
+						width : '22%'
 					}, {
 						xtype : "numberfield",
 						id : 'communityId_value',
@@ -456,7 +475,7 @@ var community = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'sliderfield',
 						id : 'communityId',
-						width : 350,
+						width : '63%',
 						increment : 50,
 						value : 0,
 						minValue : 0,
@@ -472,6 +491,8 @@ var community = Ext.create('Ext.form.Panel', {
 
 var utility = Ext.create('Ext.form.Panel', {
 			layout : 'column',
+
+			autoHeight : true,
 			frame : false,
 			border : 0,
 			items : [{
@@ -479,7 +500,7 @@ var utility = Ext.create('Ext.form.Panel', {
 						forId : 'utilityId_value',
 						text : 'Utility Distance:',
 						margin : '7 4 7 4',
-						width : 126
+						width : '22%'
 					}, {
 						xtype : "numberfield",
 						id : 'utilityId_value',
@@ -508,7 +529,7 @@ var utility = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'sliderfield',
 						id : 'utilityId',
-						width : 350,
+						width : '63%',
 						increment : 50,
 						value : 0,
 						minValue : 0,
@@ -524,6 +545,8 @@ var utility = Ext.create('Ext.form.Panel', {
 
 var employment = Ext.create('Ext.form.Panel', {
 			layout : 'column',
+
+			autoHeight : true,
 			frame : false,
 			border : 0,
 			items : [{
@@ -531,7 +554,7 @@ var employment = Ext.create('Ext.form.Panel', {
 						forId : 'employmentId_value',
 						text : 'Employment Distance:',
 						margin : '9 4 7 4',
-						width : 126
+						width : '22%'
 					}, {
 						xtype : "numberfield",
 						id : 'employmentId_value',
@@ -560,7 +583,7 @@ var employment = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'sliderfield',
 						id : 'employmentId',
-						width : 350,
+						width : '63%',
 						increment : 50,
 						value : 0,
 						minValue : 0,
@@ -587,16 +610,16 @@ var facilities = Ext.create('Ext.form.Panel', {
 
 var landuses = Ext.create('Ext.form.Panel', {
 			layout : 'column',
+			autoHeight : true,
 			frame : false,
 			title : 'Potential Land Use',
 			width : '50%',
-			height : 65,
 			bodyPadding : 5,
 			fieldDefaults : {
 				labelAlign : 'left',
 				labelWidth : 140,
 				anchor : '100%',
-				margin : '2 0 2 10'
+				margin : '8 0 8 10'
 			},
 			items : [{
 						xtype : 'checkboxfield',
@@ -630,23 +653,17 @@ var geographicVariables = Ext.create('Ext.form.Panel', {
 			frame : false,
 			title : 'Geographic Variables',
 			width : '10%',
-			height : 100,
 			bodyPadding : 5,
-			fieldDefaults : {
-				margin : '5 200 5 5'
-			},
-			items : [/*
-						 * { xtype : 'sliderfield', fieldLabel : 'Slope',
-						 * labelWidth : 50, id : 'slopeId', hide : true, width :
-						 * 400, value : 0, minValue : 0, maxValue : 2000 },
-						 */{
+			items : [{
 						xtype : 'checkboxfield',
 						id : 'floodwayId',
-						boxLabel : 'Floodway'
+						boxLabel : 'Floodway',
+						margin : '10 200 10 5'
 					}, {
 						xtype : 'checkboxfield',
 						id : 'inundationId',
-						boxLabel : 'Land Subject To Inundation'
+						boxLabel : 'Land Subject To Inundation',
+						margin : '5 200 10 5'
 					}]
 		});
 
@@ -654,11 +671,11 @@ var developAssesVariables = Ext.create('Ext.form.Panel', {
 
 			title : 'Development Assesment Variables',
 			width : '50%',
-			height : 130,
+			
 			bodyPadding : 5,
 
 			fieldDefaults : {
-				margin : '5 20 5 5'
+				margin : '10 20 8 5'
 			},
 			items : [{
 						xtype : 'checkboxfield',
@@ -683,11 +700,10 @@ var environmentalVariables = Ext.create('Ext.form.Panel', {
 			layout : 'column',
 			frame : false,
 			title : 'Environmental Variables',
-			width : '50%',
-			height : 94,
+			width : '50%',			
 			bodyPadding : 2,
 			fieldDefaults : {
-				margin : '5 20 8 5'
+				margin : '10 20 5 5'
 			},
 			items : [{
 						xtype : 'checkboxfield',
@@ -712,7 +728,8 @@ var environmentalVariables = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'checkboxfield',
 						id : 'envSignificanceId',
-						boxLabel : 'Environmental Significance'
+						boxLabel : 'Environmental Significance',
+						margin : '10 20 10 5'
 					}, {
 						xtype : 'checkboxfield',
 						id : 'envAuditId',
@@ -740,13 +757,12 @@ var heritage = Ext.create('Ext.form.Panel', {
 var ownershipVariables = Ext.create('Ext.form.Panel', {
 			layout : 'column',
 			frame : false,
-			title : 'Potential Land Use',
+			title : 'Ownership Variables',
 			width : '50%',
-			height : 72,
 			bodyPadding : 5,
-
+			border : 0,
 			fieldDefaults : {
-				margin : '8 20 8 5'
+				margin : '8 20 20 5'
 			},
 			items : [{
 						xtype : 'checkboxfield',
@@ -762,6 +778,7 @@ var ownershipVariables = Ext.create('Ext.form.Panel', {
 // *************** Left hand form ***************
 var leftForm_Potential = Ext.create('Ext.form.Panel', {
 			frame : false,
+			autoHeight : true,
 			title : 'Potentials',
 			items : [dpi, transports, facilities, landuses],
 			width : '53%'
@@ -769,7 +786,8 @@ var leftForm_Potential = Ext.create('Ext.form.Panel', {
 
 // *************** Right hand form ***************
 var rightForm_Potential = Ext.create('Ext.form.Panel', {
-			frame : true,
+			frame : false,
+			autoHeight : true,
 			items : [geographicVariables, developAssesVariables,
 					environmentalVariables, heritage, ownershipVariables],
 			width : '47%'
@@ -778,6 +796,7 @@ var rightForm_Potential = Ext.create('Ext.form.Panel', {
 // *************** developementPotential Form ***************
 var wholeForm_Potential = Ext.create('Ext.form.Panel', {
 			layout : 'column',
+			autoHeight : true,
 			items : [leftForm_Potential, rightForm_Potential]
 		});
 
@@ -1065,6 +1084,8 @@ var footerPanel_Potential = Ext.create('Ext.form.Panel', {
 // *************** whole Form1 ***************
 var developementPotential = Ext.create('Ext.form.Panel', {
 			frame : true,
+			autoScroll : true,
+			autoHeight : true,
 			title : 'Developement Potential Analysis',
 			items : [LGA_Potential, wholeForm_Potential, footerPanel_Potential],
 			/* height : 578, */

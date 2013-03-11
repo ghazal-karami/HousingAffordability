@@ -87,7 +87,7 @@ public class LoginController {
 
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public String logout(ModelMap model) {
-
+		System.out.println("logout");
 		return "loginPage";
 
 	}

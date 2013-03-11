@@ -22,10 +22,21 @@ Ext.onReady(function() {
 					minY = jsonResp.minY;
 					maxY = jsonResp.maxY;					
 					var bounds = [minX, minY, maxX, maxY];
+					
+					console.log(minX);
+					console.log(maxX);
+					console.log(minY);
+					console.log(maxY);
+					console.log(layerName);
+					console.log(lgaLayerName);
+					
 					loadMap(workspace,layerName, lgaLayerName, bounds);
 				}
 			});
 	function loadMap(workspace,layerName, lgaLayerName, bounds) {
+		
+		
+		
 		var ctrl, toolbarItems = [], action, actions = {};
 		maxBounds = new OpenLayers.Bounds(bounds[0], bounds[1], bounds[2],bounds[3]);
 		maxBounds.transform(new OpenLayers.Projection("EPSG:28355"),
@@ -49,14 +60,14 @@ Ext.onReady(function() {
 					transitionEffect : "resize"
 				});
 
-		lga = new OpenLayers.Layer.WMS("LGA Layer",
-				"/housing/geoserver/housingWS/wms", {
-					LAYERS : lgaLayerName,
-					format : format,
-					transparent : 'true'
-				}, {
-					transitionEffect : "resize"
-				});
+//		lga = new OpenLayers.Layer.WMS("LGA Layer",
+//				"/housing/geoserver/housingWS/wms", {
+//					LAYERS : lgaLayerName,
+//					format : format,
+//					transparent : 'true'
+//				}, {
+//					transitionEffect : "resize"
+//				});
 
 		var map = new OpenLayers.Map(options);
 
@@ -143,7 +154,7 @@ Ext.onReady(function() {
 								id : "mappanel",
 								xtype : "gx_mappanel",
 								map : map,
-								layers : [osm, tiled, lga ],
+								layers : [osm, tiled ],
 								extent : maxBounds,
 								split : true,
 								tbar : toolbarItems

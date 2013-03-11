@@ -111,8 +111,7 @@ var requireFurtherInput = Ext.create('Ext.form.Panel', {
 									xtype : 'checkboxfield',
 									id : 'referralIssuesId',
 									boxLabel : 'Referral Issues',
-									checked : false,
-									margin : '5 0 11 0'
+									checked : false
 								}]
 					}]
 		});
