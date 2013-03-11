@@ -610,7 +610,7 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 									text : 'Show Map',
 									handler : function() {
 										window.open('ui-jsp/map_assessment.jsp',"_blank");
-										showMapWin.close();
+										showMap.close();
 									}
 								}]
 							}).show();
