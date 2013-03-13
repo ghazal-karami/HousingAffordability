@@ -51,10 +51,12 @@ public class Messages {
 
 	public final static String _GEOSERVER_NOT_RUNNING = "Geoserver Is Not Running!";
 	public final static String _ERROR_CONNECT_GEOSERVER = "Error Connecting To GeoServer!";
-	public final static String _WPRKSPACE_PUBLISH_FAILED = "Unable To Publish The New Output Layer To Geoserver!";
+
+	public final static String _LAYER_PUBLISH_FAILED = "Unable To Publish The New Output Layer To Geoserver!";
+	public final static String _STYLE_PUBLISH_FAILED = "Unable To Publish Style To Geoserver!";
+	
 	public final static String _WORKSPACE_NOT_EXIST = "Workspace housingWS Does Not Exist In GeoServer!";
 	public final static String _WORKSPACE_NOT_EXIST_BUT_CREATED = "Workspace Does Not Exist In GeoServer, So Created!";
-	public final static String _STYLE_PUBLISH_FAILED = "Unable To Publish Style To Geoserver!";
 
 	public final static String _EXPORT_TO_SHP_UNSUCCESSFULL= "Export To Shape File Was Unsuccessfull!";
 	public final static String _NO_FEATURE = "No Feature to Display On The Map!";
@@ -63,6 +65,7 @@ public class Messages {
 	public final static String _SUCCESSFULLY_DONE = "Analysis Successfully Done";
 	public final static String _SUCCESS = "success";
 	public final static String _UNSUCCESS = "unsuccess";
+	public final static String _INVALIDATE = "invalidate";
 	public final static String _ERROR = "Error";
 
 	public final static String _SELECT_PARAM_TO_CONTINUE = "Please Select A Parameter To Continue!";

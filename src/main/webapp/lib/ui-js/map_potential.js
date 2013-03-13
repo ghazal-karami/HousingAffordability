@@ -126,30 +126,33 @@ Ext.onReady(function() {
 					.set(
 							"legendURL",
 							"/housing/geoserver/housingWS/wms?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER="
-									+ map.layers[i].params["LAYERS"]);
+									+ tiled);
 		}
-		// var legend = new GeoExt.LegendPanel({
-		// title : "Map Legend",
-		// iconCls : 'legend',
-		// autoScroll : true,
-		// defaults : {
-		// cls : 'legend-item',
-		// baseParams : {
-		// FORMAT : 'image/png'
-		// }
-		// },
-		// layerStore: layers
-		// });
-
 		var legendPanel = new GeoExt.LegendPanel({
-					border : false,
-					autoScroll : false,
+					title : "Map Legend",
+					iconCls : 'legend',
+					autoScroll : true,
 					bodyStyle : {
 						"background-color" : "#CBE0F7"
 					}
+					defaults : {
+						cls : 'legend-item',
+						baseParams : {
+							FORMAT : 'image/png'
+						}
+					},
+					layerStore : layers
 				});
 
-		new Ext.Viewport({ 
+//		var legendPanel = new GeoExt.LegendPanel({
+//					border : false,
+//					autoScroll : false,
+//					bodyStyle : {
+//						"background-color" : "#CBE0F7"
+//					}
+//				});
+
+		new Ext.Viewport({
 					layout : "border",
 					items : [{
 								region : "north",

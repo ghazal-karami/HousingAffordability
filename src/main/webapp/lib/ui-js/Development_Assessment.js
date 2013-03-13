@@ -614,7 +614,15 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 									}
 								}]
 							}).show();
-				} else {
+				} else if (jresp.successStatus == "unsuccess") {
+					Ext.Msg.show({
+								title : 'Analysis Status',
+								msg : jresp.message,
+								width : 400,
+								buttons : Ext.Msg.OK,
+								icon : Ext.MessageBox.WARNING
+							});
+				}else if (jresp.successStatus == "invalidate") {
 					Ext.Msg.show({
 								title : 'Analysis Status',
 								msg : jresp.message,

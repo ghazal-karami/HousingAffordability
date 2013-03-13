@@ -42,6 +42,7 @@ import com.vividsolutions.jts.geom.Geometry;
 
 @Controller 
 @RequestMapping("/housing-controller")
+
 public class HousingController {	
 	private static final Logger LOGGER = LoggerFactory.getLogger(HousingController.class);
 
@@ -103,8 +104,8 @@ public class HousingController {
 	public @ResponseBody Map<String, Object> developmentAssessment(
 			@RequestBody Map<String, Object> assessmentParams, 
 			HttpServletRequest request,HttpServletResponse response, HttpSession session, Principal principal) throws Exception {
-		String username = principal.getName();
 		Map<String, Object> responseMap = new HashMap<String, Object>();
+		String username = principal.getName();
 		responseMap.put("message", Messages._SUCCESSFULLY_DONE);
 		responseMap.put("successStatus", Messages._SUCCESS);
 		try{
@@ -145,10 +146,6 @@ public class HousingController {
 //		//		System.out.println(assessmentParams.get("layerName"));
 //		//		System.out.println("outputLayer.get(maxX)  222 === "+assessmentParams.get("maxX"));
 //		return potentialParams;
-		
-		
-		
-		
 		
 		return developmentPotentialService.getOutputLayer();
 	}	

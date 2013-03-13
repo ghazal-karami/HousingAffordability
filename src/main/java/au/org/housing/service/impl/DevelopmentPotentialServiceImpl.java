@@ -78,13 +78,13 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 	@Autowired	ParameterDevelopPotential parameter;
 	@Autowired	 PostGISService postGISService;
 	@Autowired	 GeoServerConfig geoServerConfig;
+	@Autowired	GeoServerService geoServerService;
 	@Autowired	private ValidationService validationService;
 	@Autowired	private ExportService exportService;
 	@Autowired	UnionService unionService;
 	@Autowired 	FeatureBuilder featureBuilder;
 	@Autowired	InputLayersConfig inputLayersConfig;
 	@Autowired	OutPutLayerConfig outPutLayerConfig;
-	@Autowired	GeoServerService geoServerService;
 
 	SimpleFeatureSource propertyFc = null;
 	SimpleFeatureSource planCodeListFc = null;
@@ -114,12 +114,17 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 	SimpleFeatureCollection planCodeList = null;
 	SimpleFeatureCollection tblZoneCodes = null;
 	File newFile;
-	Map<String, Object> outputLayer;	  	
+	Map<String, Object> outputLayer;	 
+	
+	
+	String oldRules ;
 	 
 
 	public boolean analyse(String username, HttpSession session) throws SQLException, Exception{
+		
 		layersValidation();
-		propertyOverlaysNum = -1;		
+		propertyOverlaysNum = -1;
+		oldRules = "";
 		dropCreateSchema = true;
 		propertyFilters = new ArrayList<Filter>();
 		propertyFilter = null;	
@@ -132,7 +137,8 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 //		String dataStore = geoServerConfig.getGsPotentialDatastore();
 		String dataStore = geoServerConfig.getGsDataStore();
 		String layer = geoServerConfig.getGsPotentialLayer();
-		String style = geoServerConfig.getGsPotentialStyle();
+//		String style = geoServerConfig.getGsPotentialStyle();
+		String styleName = username+"_"+geoServerConfig.getGsPotentialStyle();
 		File newDirectory =  TemporaryFileManager.getNew(session, username,  layer , "",true);
 		newFile = new File(newDirectory.getAbsolutePath()+"/"+ layer + ".shp");
 		System.out.println(newFile.toURI());
@@ -150,9 +156,11 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 		if (!this.overlayIntersection(username, layer, session)){
 			return false;
 		}
-
+		
+		String sldBody = GeoServerServiceImpl.potentialStyleStart + oldRules + GeoServerServiceImpl.potentialStyleEnd;
 		geoServerService.getGeoServer(workspace);
-		geoServerService.publishToGeoServer( workspace , dataStore , layer, style, newFile );	
+		geoServerService.publishPotentialStyle(sldBody, styleName);
+		geoServerService.publishToGeoServer( workspace , dataStore , layer, styleName, newFile );	
 
 		outputLayer.put("workspace", workspace);
 		outputLayer.put("layerName", layer);		
@@ -596,23 +604,23 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 	}
 
 	private boolean overlayIntersection(String username, String layer, HttpSession session) throws NoSuchAuthorityCodeException, IOException, FactoryException, SQLException, Exception{
+		List<Integer> oldRulesList = new ArrayList<Integer>(); 
 		newFeatureType = stb.buildFeatureType();
 		sfb = new SimpleFeatureBuilder(newFeatureType);
 		List<SimpleFeature> newList = new ArrayList<SimpleFeature>();
 		SimpleFeatureIterator propertyIt = null;
 		propertyIt = properties.features();
 		LOGGER.info("properties.size()=="+String.valueOf(properties.size()));
-		/*  SimpleFeatureCollection featureCollectionNew = FeatureCollections.newCollection();			*/
+		
 		try {
 			int i = 0;
+			propertyOverlaysNum = -1;
 			while (propertyIt.hasNext()) {
-				propertyOverlaysNum = -1;
+				
 				SimpleFeature sf = propertyIt.next();
 				sfb.addAll(sf.getAttributes());
 				Geometry propertyGeom = (Geometry) sf.getDefaultGeometry();
 				propertyGeom = propertyGeom.buffer(0.001);
-				System.out.println("  prooperty layer pfi  == "+ sf.getAttribute("pfi"));			
-
 				if (anyOverlayChecked){
 					propertyOverlaysNum = 0;
 					// **************** Intersections ****************
@@ -728,6 +736,13 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 						}									
 					}
 				}
+				
+				// **************** Create Styles ****************
+				if (!oldRulesList.contains(Integer.valueOf(propertyOverlaysNum))){					
+ 					oldRules = geoServerService.createPotentialRule(oldRules, propertyOverlaysNum);
+ 					oldRulesList.add(Integer.valueOf(propertyOverlaysNum));
+				}
+				
 				// **************** Intersections End ****************
 				sfb.set("OverlaysNum", propertyOverlaysNum);
 				SimpleFeature newFeature = sfb.buildFeature(null);
@@ -744,6 +759,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 					dropCreateSchema = false;
 				}				
 			}
+			
 			if (!newList.isEmpty()){
 				System.out.println("properties.size() < 1000");
 				SimpleFeatureCollection featureCollectionNew = new ListFeatureCollection(newFeatureType, newList);

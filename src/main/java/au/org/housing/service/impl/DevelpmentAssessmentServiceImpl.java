@@ -98,6 +98,7 @@ public class DevelpmentAssessmentServiceImpl implements DevelpmentAssessmentServ
 
 		exportToShapeFile(propertyCollection, username, layer, session);
 		geoServerService.getGeoServer(workspace);
+		geoServerService.publishAssessmentStyle(style);
 		geoServerService.publishToGeoServer( workspace , dataStore , layer, style, newFile );		
 
 		outputLayer.put("layerName", layer);

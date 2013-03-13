@@ -39,10 +39,11 @@
 			<tr>
 				<td colspan='2'><input name="submit" type="submit"
 					value="submit" />
-					<input name="reset" type="reset" />
 				</td>
-				
-				
+			</tr>
+			<tr>
+				<td colspan='2'><input name="reset" type="reset" />
+				</td>
 			</tr>
 		</table>
  

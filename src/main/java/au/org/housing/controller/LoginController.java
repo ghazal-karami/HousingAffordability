@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,18 +63,18 @@ public class LoginController {
 		try{
 			postGISService.getPOSTGISDataStore();
 			geoServerService.getGeoServer(workspace);
-		}catch(Exception e){
+		}catch(Exception e){    
 			LOGGER.info(e.getMessage());
 			e.printStackTrace();
-			mav.addObject("successStatus", Messages._UNSUCCESS);
-			mav.addObject("message", e.getMessage());	
+			mav.addObject("successStatus", Messages._UNSUCCESS);			
+			mav.addObject("message", e.getMessage() );	
 		}
 		return mav; 
 	}
 
 	@RequestMapping(value="/loginForm", method = RequestMethod.GET)
 	public String login(ModelMap model) { 
-		return "loginPage";
+		return "loginPage"; 
 
 	}
 
@@ -86,7 +87,7 @@ public class LoginController {
 	}
 
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
-	public String logout(ModelMap model) {
+	public String logout(ModelMap model, HttpSession session) {		
 		System.out.println("logout");
 		return "loginPage";
 

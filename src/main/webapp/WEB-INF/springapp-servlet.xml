@@ -17,10 +17,15 @@
 
 
 	<security:http auto-config="true">
+		<security:intercept-url pattern="/housing/**" access="ROLE_USER" />
 		<security:intercept-url pattern="/ui-jsp/**" access="ROLE_USER" />
 		<security:form-login login-page="/loginForm" default-target-url="/loginSuccess"
 			authentication-failure-url="/loginfailed"/>
-		<security:logout logout-success-url="/logout"  />
+		<security:logout logout-success-url="/logout" invalidate-session="false" delete-cookies="JSESSIONID"/>
+		
+		<security:session-management session-fixation-protection="newSession" invalid-session-url="/logout">
+          <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="false" expired-url="/logout"/>
+      </security:session-management>
 	</security:http>
 
 	<security:authentication-manager>

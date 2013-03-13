@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,9 +32,8 @@ var username = "<%=request.getAttribute("username")%>";
 	border-bottom: 0px solid red;
 	color: black;
 	/* border-width: 2px;
-	border-style: solid; */
-.myCSS2 .x-panel-body-default {
-	background: white;
+	border-style: solid; */ . myCSS2 .x-panel-body-default { background :
+	white;
 	/* border-color: white; */
 	border-left: 2px solid red;
 	border-right: 2px solid red;
@@ -61,6 +61,9 @@ var username = "<%=request.getAttribute("username")%>";
 </head>
 <body>
 	<div id="tabs1" style="width: 800px; height: 400px;"></div>
+
+
+	
 </body>
 </html>
 
