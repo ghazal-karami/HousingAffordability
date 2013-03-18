@@ -134,7 +134,7 @@ Ext.onReady(function() {
 					autoScroll : true,
 					bodyStyle : {
 						"background-color" : "#CBE0F7"
-					}
+					},
 					defaults : {
 						cls : 'legend-item',
 						baseParams : {
