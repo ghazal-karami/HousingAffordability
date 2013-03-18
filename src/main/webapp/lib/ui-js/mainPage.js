@@ -2,17 +2,23 @@ Ext.onReady(function() {
 	Ext.QuickTips.init();
 
 	analyseBtn_DevelopPotential.disable();
-	// analyseBtn_DevelopAssessment.disable();
+	analyseBtn_DevelopAssessment.disable();
 	Ext.Ajax.timeout = 14000000;
 
-	// alert("Welcome " + username);
+	alert("Welcome " + username);
 	if (successStatus == "success") {
 		analyseBtn_DevelopPotential.enable();
-		// analyseBtn_DevelopAssessment.enable();
+		analyseBtn_DevelopAssessment.enable();
 	} else {
 		alert(message);
 	}
 
+	var currentdate = new Date();
+	var datetime = currentdate.getDate() + "/" + (currentdate.getMonth() + 1)
+			+ "/" + currentdate.getFullYear() + " @ " + currentdate.getHours()
+			+ ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+
+	
 	var tabPanel = Ext.widget('tabpanel', {
 		activeTab : 1,
 		title : 'Data Platform To Support Housing Analysis and Research',
@@ -123,50 +129,25 @@ Ext.onReady(function() {
 	});
 
 	Ext.widget({
-		xtype : 'viewport',
-		layout : 'border',
-		resizable : false,
-		items : [{
-			region : 'north',
-			// height : 120,
-			items : [{
-				layout : 'column',
-				border : 0,
-				contentEl : 'header'
-				
-//				items : [{
-//							region : 'west',
-//							width : '75%',
-//							height : 135,
-//							border : 0,
-//							margin : '10 0 0 0',
-////							html : '<img src="./resources/aurin_logo.gif" />'
-////							html : '<div><a target="_blank" href="http://www.unimelb.edu.au" style="margin-right: 500px; width: 59%; height: 105px; background-image: url("./resources/aurin_logo.gif"); display: block;"id="g-global-menu-logo"> </a></div>'
-//							contentEl : 'g-global-menu-logo'
-//						}, {
-//							region : 'center',
-//							width : '7%',
-//							height : 135,
-//							margin : '0 0 3 0',
-//							border : 0,
-//							html : '<img src="./resources/csdila_logo.png" />'
-//						}, {
-//							region : 'east',
-//							width : '13%',
-//							height : 135,
-//							margin : '0 0 3 0',
-//							border : 0,
-//							html : '<img src="./resources/melbourne_uni_logo.png" />'
-//						}]
+				xtype : 'viewport',
+				layout : 'border',
+				resizable : false,
+				items : [{
+					region : 'north',
+					// height : 120,
+					items : [{
+								layout : 'column',
+								border : 0,
+								contentEl : 'header'
+							}]
 
-			}]
-
-				// }]
-		}, {
-			region : 'center',
-			layout : 'fit',
-			items : [tabPanel]
-		}]
-	});
+						// }]
+					}, {
+					region : 'center',
+					layout : 'fit',
+					items : [tabPanel],
+					bbar : [datetime]
+				}]
+			});
 
 });
