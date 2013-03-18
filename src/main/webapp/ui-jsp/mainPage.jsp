@@ -23,6 +23,13 @@ var username = "<%=request.getAttribute("username")%>";
 </script>
 
 <style type="text/css">
+.ext-el-mask {
+	color: blue;
+	cursor: default;
+	opacity: 0.6;
+	background-color: red;
+}
+
 .myCSS .x-panel-body-default {
 	background: white;
 	/* border-color: white; */
@@ -48,22 +55,55 @@ var username = "<%=request.getAttribute("username")%>";
 
 
 <!-- <script src="/housing/lib/ui-js/connectionSetup.js"></script> -->
-<script src="/housing/lib/ui-js/AppCategories.js"></script>
-<script src="/housing/lib/ui-js/AppOutcomes.js"></script>
+<script src="/housing/lib/ui-js/operators.js"></script>
 
-<script src="/housing/lib/ui-js/OperatorsComboBox.js"></script>
-<script src="/housing/lib/ui-js/LGAComboBox1.js"></script>
-<script src="/housing/lib/ui-js/LGAComboBox2.js"></script>
+<script src="/housing/lib/ui-js/lga2.js"></script>
+<script src="/housing/lib/ui-js/app_categories.js"></script>
+<script src="/housing/lib/ui-js/app_outcomes.js"></script>
+<script src="/housing/lib/ui-js/processingDetails.js"></script>
+<script src="/housing/lib/ui-js/categoriesOfApplication.js"></script>
+<script src="/housing/lib/ui-js/prev_prop_use.js"></script>
+<script src="/housing/lib/ui-js/applicationDetails.js"></script>
+<script src="/housing/lib/ui-js/applicationOutcomes.js"></script>
+
+<script src="/housing/lib/ui-js/lga1.js"></script>
+<script src="/housing/lib/ui-js/dpi.js"></script>
+<script src="/housing/lib/ui-js/transport.js"></script>
+<script src="/housing/lib/ui-js/facility.js"></script>
+<script src="/housing/lib/ui-js/landuse.js"></script>
+<script src="/housing/lib/ui-js/constraints.js"></script>
+
+
+<script src="/housing/lib/ui-js/buttons_potential.js"></script>
+<script src="/housing/lib/ui-js/buttons_assessment.js"></script>
 <script src="/housing/lib/ui-js/Development_Potential.js"></script>
+
 <script src="/housing/lib/ui-js/Development_Assessment.js"></script>
 <script src="/housing/lib/ui-js/mainPage.js"></script>
 
 </head>
 <body>
 	<div id="tabs1" style="width: 800px; height: 400px;"></div>
+	<table width="100%" height="120px" style="margin-bottom: 7px"
+		id="header">
+		<tbody>
+			<tr>
+				<td colpan="3"><a target="_blank" href="http://aurin.org.au/"
+					style="margin-top: 30px; margin-right: 10px; width: 440px; height: 100px; background-image: url('./resources/aurin_logo.gif'); z-index: 10000; display: block;"
+					></a></td>
+				<td align="right" rowspan="2" width="100%" id="ext-gen1277"><a
+					target="_blank" href="http://www.csdila.unimelb.edu.au/"
+					style="margin-right: 20px; width: 82px; height: 136px; background-image: url('./resources/csdila_logo.png'); z-index: 10000; display: block;"
+					></a></td>
+				<td align="right" rowspan="2" width="100%"><a target="_blank"
+					href="http://www.unimelb.edu.au/"
+					style="margin-right: 10px; width: 140px; height: 140px; background-image: url('./resources/melbourne_uni_logo.png'); z-index: 10000; display: block;"
+					></a></td>
+			</tr>
 
+		</tbody>
+	</table>
 
-	
 </body>
 </html>
 

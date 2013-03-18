@@ -1,8 +1,8 @@
 var durationAssessment = Ext.create('Ext.form.Panel', {
 			layout : 'column',
-			autoHeight:true,
+			autoHeight : true,
 			border : 0,
-			
+
 			items : [durationAssessmentCombo, {
 				xtype : "numberfield",
 				id : 'durationAssessmentId_value',
@@ -50,7 +50,7 @@ var durationAssessment = Ext.create('Ext.form.Panel', {
 var numOfObjection = Ext.create('Ext.form.Panel', {
 			layout : 'column',
 			border : 0,
-			autoHeight:true,
+			autoHeight : true,
 			items : [numOfObjectionCombo, {
 				xtype : "numberfield",
 				id : 'numOfObjectionId_value',
@@ -111,7 +111,8 @@ var requireFurtherInput = Ext.create('Ext.form.Panel', {
 									xtype : 'checkboxfield',
 									id : 'referralIssuesId',
 									boxLabel : 'Referral Issues',
-									checked : false
+									checked : false,
+									margin : '5 0 11 0'
 								}]
 					}]
 		});
@@ -133,7 +134,7 @@ var processingDetails = Ext.create('Ext.form.Panel', {
 var numOfDwelling = Ext.create('Ext.form.Panel', {
 			layout : 'column',
 			margin : '0 1 0 0',
-			autoHeight:true,
+			autoHeight : true,
 			anchor : '100%',
 			margin : '4 0 10 0',
 			items : [numOfDwellingCombo, {
@@ -266,7 +267,7 @@ var changeOfUse = Ext.create('Ext.form.Panel', {
 var estimatedCostOfWork = Ext.create('Ext.form.Panel', {
 			layout : 'column',
 			border : 0,
-			autoHeight :true,
+			autoHeight : true,
 			margin : '3 3 3 3',
 			fieldDefaults : {
 				labelAlign : 'left',
@@ -425,66 +426,61 @@ var LGA_Assessment = Ext.create('Ext.form.Panel', {
 			width : '50%'
 		});
 
-// *************** developementPotential Form ***************
+// *************** developementAssessment Form ***************
 var wholeForm_Assessment = Ext.create('Ext.form.Panel', {
 			layout : 'column',
 			items : [leftForm_Assessment, rightForm_Assessment]
 		});
 
-var myPhoto = new Ext.Component({
-			autoEl : {
-				tag : 'img'
-			}
-		});
-
-var win2 = new Ext.Window({
-			id : 'myWin2',
-			title : 'Data Platform To Support Housing Analysis and Research',
-			frame : false,
-			shadow : false,
-			border : true,
-			items : [{
-				xtype : 'box',
-				imageSrc : '/housing/housing-controller/displayMap',
-				autoEl : {
-					tag : 'img',
-					height : 700,
-					width : 1000
-				},
-				refreshMe : function(src) {
-					var el;
-					if (el = this.el) {
-						el.dom.src = (src || this.imageSrc) + '?dc='
-								+ new Date().getTime();
-					}
-				},
-				listeners : {
-					render : function() {
-						this.refreshMe();
-					}
-				}
-			}]
-
-		});
-
-var win3 = new Ext.Window({
-			title : 'My PDF',
-			height : 400,
-			width : 600,
-			bodyCfg : {
-				tag : 'iframe',
-				src : 'ui-jsp/map.jsp',
-				style : 'border: 0 none'
-			}
-		});
-
 // *************** Buttons ***************
+
+var p = Ext.create('Ext.ProgressBar', {
+			text : 'Updating...',
+			width : 200
+		});
+// p.wait({
+// interval : 500, // bar will move fast!
+// duration : 50000,
+// increment : 15,
+// text : 'Updating...',
+// scope : this,
+// fn : function() {
+// p.updateText('Done!');
+// }
+// });
+
 var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
+	id : 'btn1',
 	text : 'Analyse',
 	margin : '0 5 8 5',
-
+	id : 'jj',
 	handler : function() {
+		console.log('herae');
 
+		// p.updateProgress("Loading...");
+
+		// Ext.fly('p1text').update('Working');
+		// if (!pbar1.rendered){
+		// pbar1.render('p1');
+		// }else{
+		// pbar1.text = 'Initializing...';
+		// pbar1.show();
+		// }
+		//
+		//
+		// Runner.run(pbar1, Ext.get('btn1'), count, function(){
+		// pbar1.reset(true);
+		// Ext.fly('p1text').update('Done.').show();
+		// });
+		//
+
+		// var mask = new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."});
+		// mask.show();
+		// Ext.Ajax.on('requestcomplete',Ext.getBody().unmask ,Ext.getBody());
+		// Ext.Ajax.on('requestexception', Ext.getBody().unmask ,
+		// Ext.getBody());
+
+		console.log("1111111111111111111");
 		// if (developementAssessment.getForm().isValid()) {
 		var categoryRecords = categoriesGrid.getStore().queryBy(
 				function(record) {
@@ -546,10 +542,27 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 
 		console.log(selectedLGAs2);
 
-		var waitingMsg1 = Ext.MessageBox.wait('Processing...',
-				'Performing Analysis');
-		Ext.Ajax.request({
+		// var waitingMsg1 = Ext.MessageBox.wait('Processing...','Performing
+		// Analysis');
+		var p = Ext.create('Ext.ProgressBar', {
+					renderTo :'analyseBtn_DevelopAssessment',
+					width : 300
+				});
 
+		// Wait for 5 seconds, then update the status el (progress bar will
+		// auto-reset)
+		p.wait({
+					interval : 500, // bar will move fast!
+					duration : 50000,
+					increment : 15,
+					text : 'Updating...',
+					scope : this,
+					fn : function() {
+						p.updateText('Done!');
+					}
+				});
+
+		Ext.Ajax.request({
 			url : '/housing/housing-controller/developmentAssessment',
 			method : 'post',
 			waitMsg : 'Saving changes...',
@@ -588,45 +601,92 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 				durationWithVCATVal : durationWithVCATVal
 			},
 			success : function(response) {
+				console.log("222222222222222222");
+
 				waitingMsg1.hide();
-				var jresp = Ext.JSON.decode(response.responseText);
-				console.log('assessmentResponse' + jresp.message);
-				if (jresp.successStatus == "success") {
-					new Ext.Window({
-								title : 'Analysis Status',
-								height : 100,
-								padding : 1,
-								width : 300,
-								style : {
-									"text-align" : "center"
-								},
-								items : [{
-											xtype : 'label',
-											text : jresp.message
-										}],
-								buttons : [{
-									text : 'Show Map',
-									handler : function() {
-										window.open(
-												'ui-jsp/map_assessment.jsp',
-												"_blank");
-									}
-								}]
-							}).show();
-				} else {
-					Ext.Msg.show({
-								title : 'Analysis Status',
-								msg : jresp.message,
-								width : 400,
-								buttons : Ext.Msg.OK,
-								icon : Ext.MessageBox.WARNING
-							});
+				try {
+					var jresp = Ext.JSON.decode(response.responseText);
+
+					console.log('assessmentResponse' + jresp.message);
+					if (jresp.successStatus == "success") {
+						var showMap = new Ext.Window({
+									title : 'Analysis Status',
+									height : 100,
+									padding : 1,
+									width : 300,
+									scope : this,
+									style : {
+										"text-align" : "center"
+									},
+									items : [{
+												xtype : 'label',
+												text : jresp.message
+											}],
+									buttons : [{
+										text : 'Show Map',
+										handler : function() {
+											window
+													.open(
+															'ui-jsp/map_assessment.jsp',
+															"_blank");
+											showMap.close();
+										}
+									}]
+								}).show();
+					} else if (jresp.successStatus == "unsuccess") {
+						console.log("333333333333333333333333333");
+						Ext.Msg.show({
+									title : 'Analysis Status',
+									msg : jresp.message,
+									width : 400,
+									buttons : Ext.Msg.OK,
+									icon : Ext.MessageBox.WARNING
+								});
+					} else if (jresp.successStatus == "invalidate") {
+						console.log("44444444444444444444444444");
+						Ext.Msg.show({
+									title : 'Analysis Status',
+									msg : jresp.message,
+									width : 400,
+									buttons : Ext.Msg.OK,
+									icon : Ext.MessageBox.WARNING
+								});
+					}
+				} catch (e) {
+					alert('Request is not valid!');
 				}
 			},
 			failure : function(response, options) {
-				waitingMsg1.hide();
-				// var jresp = Ext.JSON.decode(response.responseText);
-				Ext.MessageBox.alert(response.responseText);
+				console.log("555555555555555555555555555");
+				console.log("errrrrrrrrrrrrrrrrrrrrrrrror");
+				// waitingMsg1.hide();
+				if (response.status == 500) {
+					var sessionExpired = new Ext.Window({
+						title : 'System Message',
+						height : 100,
+						padding : 1,
+						width : 300,
+						items : [{
+									xtype : 'label',
+									text : "This UserId is Logged in another session"
+								}],
+						buttons : [{
+							text : 'Login',
+							handler : function() {
+								Ext.Ajax.request({
+									url : 'logout',
+									method : 'GET',
+									success : function() {
+										window.location = '/ui-jsp/loginPage.jsp';
+									}
+								})
+							}
+
+						}]
+					}).show();
+
+				}
+
 			}
 		});
 		// } else {
@@ -689,7 +749,7 @@ var footerPanel_DevelopAssessment = Ext.create('Ext.form.Panel', {
 // *************** whole Form1 ***************
 var developementAssessment = Ext.create('Ext.form.Panel', {
 			frame : true,
-			autoScroll:true,
+			autoScroll : true,
 			title : 'Developement Assessment Analysis',
 			items : [LGA_Assessment, wholeForm_Assessment,
 					footerPanel_DevelopAssessment],

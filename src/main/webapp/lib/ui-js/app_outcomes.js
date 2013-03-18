@@ -37,5 +37,6 @@ var outcomesGrid = Ext.create('Ext.grid.GridPanel', {
 			anchor : '100%'
 		});
 		
+
 		
 		

@@ -30,19 +30,8 @@ var categoriesGrid = Ext.create('Ext.grid.Panel', {
 						text : 'Description',
 						dataIndex : 'desc',
 						flex : 1
-					}],
-			/*columns : [{
-						xtype : 'checkcolumn',
-						header : 'Select',
-						id : 'chk',
-						dataIndex : 'check',
-						width : 40
-					}, {
-						text : 'Description',
-						dataIndex : 'desc',
-						flex : 1
-					}],*/
-			height : 213,
+					}],			
+			height : 245,
 			anchor : '100%',
 			margin : '8 10 5 0'
 		});

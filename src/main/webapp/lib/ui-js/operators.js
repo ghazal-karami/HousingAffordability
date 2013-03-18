@@ -21,6 +21,7 @@ var operatorStore = Ext.create('Ext.data.Store', {
 var durationAssessmentCombo = Ext.create('Ext.form.ComboBox', {
 			store : operatorStore,
 			fieldLabel : 'Duration Of Assessment',
+			labelWidth : '80%',
 			queryMode : 'local',
 			displayField : 'icon',
 			valueField : 'code',
@@ -28,12 +29,13 @@ var durationAssessmentCombo = Ext.create('Ext.form.ComboBox', {
 			selectOnFocus : true,
 			maxWidth : 3,
 			size : 3,
-			margin : '5 2 5 4'
+			margin : '5 2 5 7'
 		});
 
 var numOfObjectionCombo = Ext.create('Ext.form.ComboBox', {
 			store : operatorStore,
 			fieldLabel : 'Number Of Objection',
+			labelWidth : '80%',
 			queryMode : 'local',
 			displayField : 'icon',
 			valueField : 'code',
@@ -42,7 +44,7 @@ var numOfObjectionCombo = Ext.create('Ext.form.ComboBox', {
 			size : 3,
 			matchFieldWidth : false,
 			listWidth : 2,
-			margin : '5 2 5 4'
+			margin : '5 2 5 7'
 		});
 
 var numOfDwellingCombo = Ext.create('Ext.form.ComboBox', {
@@ -84,16 +86,12 @@ var VCATCombo = Ext.create('Ext.form.ComboBox', {
 // ///////////////
 var dpiCombo = Ext.create('Ext.form.ComboBox', {
 			store : operatorStore,
-//			fieldLabel : 'DPI',
-//			labelWidth : 144,
-//			labelWidth : '40%',
 			queryMode : 'local',
 			displayField : 'icon',
 			valueField : 'code',
 			value : '=',
 			selectOnFocus : true,
-			size : 3,
-			margin : '5 3 5 7'
+			size : 3
 		});
 
 var trainStationCombo = Ext.create('Ext.form.ComboBox', {

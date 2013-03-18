@@ -23,5 +23,9 @@ public interface DevelopmentPotentialService {
 	public void setBufferAllParams(Geometry bufferAllParams);
 
 	public Map<String, Object> getOutputLayer() ;
+	
+	public String getStep() ;
+
+	public void setStep(String step) ;
 
 }

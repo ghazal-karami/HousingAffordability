@@ -33,6 +33,10 @@
 	</servlet-mapping>
 	
 	<listener>
+     <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+ </listener> 
+ 
+	<listener>
 		<listener-class>
             au.org.housing.listener.FileManagementListener
 		</listener-class>

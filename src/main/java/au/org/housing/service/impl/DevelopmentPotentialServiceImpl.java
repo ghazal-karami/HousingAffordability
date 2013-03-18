@@ -116,12 +116,20 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 	File newFile;
 	Map<String, Object> outputLayer;	 
 	
-	
+	String step;
+	public String getStep() {
+		return step;
+	}
+
+	public void setStep(String step) {
+		this.step = step;
+	}
+
 	String oldRules ;
 	 
 
 	public boolean analyse(String username, HttpSession session) throws SQLException, Exception{
-		
+		step = "start";
 		layersValidation();
 		propertyOverlaysNum = -1;
 		oldRules = "";
@@ -185,6 +193,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 	}
 
 	private void lgaFilter() throws Exception{	
+		step = "lgaFilter";
 		try{
 			List<Filter> lgaFilters = new ArrayList<Filter>();
 			for (String lga_code : parameter.getSelectedLGAs()) {
@@ -200,6 +209,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 	}	
 
 	private void dpiFilter() throws Exception{
+		step = "dpiFilter";
 		try{
 			if (parameter.getDpi() != 0) {
 				Divide divide = ff.divide(ff.property(inputLayersConfig.getProperty_svCurrentYear()),
@@ -231,6 +241,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 	}
 
 	private void landUseFilter() throws Exception{
+		step = "landUseFilter";
 		try{
 			landUseFilters = new ArrayList<Filter>();
 			Filter filter = null;

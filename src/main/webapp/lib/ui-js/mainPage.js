@@ -1,135 +1,172 @@
-/* global Ext:false */
 Ext.onReady(function() {
-
-	Ext.define('LinkButton', {
-		extend : 'Ext.Component',
-		alias : 'widget.linkbutton',
-		renderTpl : '<div id="{id}-btnWrap" style="min-height:24px;" class="{baseCls}-linkbutton">'
-				+ '<a id="{id}-btnEl" href="#" <tpl if="tabIndex"> tabIndex="{tabIndex}"</tpl> role="link">'
-				+ '<tpl if="iconCls">'
-				+ '<span style="min-width:18px;min-height:24px;float:left;" class="{iconCls}"></span>'
-				+ '</tpl>'
-				+ '<span id="{id}-btnInnerEl" class="{baseCls}-inner">'
-				+ '{text}'
-				+ '</span>'
-				+ '<span id="{id}-btnIconEl" class="{baseCls}-icon"></span>'
-				+ '</a>' + '</div>',
-		renderSelectors : {
-			linkEl : 'a'
-		},
-		initComponent : function() {
-			this.callParent(arguments);
-			this.renderData = {
-				text : this.text,
-				iconCls : this.iconCls
-			};
-		},
-		listeners : {
-			render : function(c) {
-				c.el.on('click', c.handler);
-			}
-		},
-		handler : function(e) {
-		}
-	});
+	Ext.QuickTips.init();
 
 	analyseBtn_DevelopPotential.disable();
-	analyseBtn_DevelopAssessment.disable();
+	// analyseBtn_DevelopAssessment.disable();
 	Ext.Ajax.timeout = 14000000;
 
-	alert("Welcome " + username);
+	// alert("Welcome " + username);
 	if (successStatus == "success") {
 		analyseBtn_DevelopPotential.enable();
-		analyseBtn_DevelopAssessment.enable();
+		// analyseBtn_DevelopAssessment.enable();
 	} else {
 		alert(message);
 	}
-	Ext.create('Ext.container.Viewport', {
-		layout : 'border',
-		items : [{
-					region : 'north',
-					xtype : 'container',
-					layout : 'border',
-					height : 100,
 
+	var tabPanel = Ext.widget('tabpanel', {
+		activeTab : 1,
+		title : 'Data Platform To Support Housing Analysis and Research',
+		items : [{
+					title : 'Developement Potential Analysis',
+					layout : 'border',
+					autoHeight : true,
 					items : [{
+								region : 'north',
+								height : 45,
+								split : true,
+								items : [LGA1]
+							}, {
 								region : 'west',
-								bodyStyle : {
-									"background-color" : "#DFE8F6"
-								},
-								xtype : 'box',
-								autoEl : {
-									tag : 'img',
-									src : './resources/aurin_logo.gif'
-								}
+								autoScroll : true,
+								border : true,
+								width : '52%',
+								items : [leftForm_Potential],
+								split : true,
+								resizable : false,
+								bodyPadding : 13
 							}, {
 								region : 'east',
-//								contentEl : 'f',
-								html : '<div><a href="<c:url value="j_spring_security_logout" />">Logout</a></div>',
-								width : 50,
-								border : 0,
-								bodyStyle : {
-									"background-color" : "#DFE8F6"
-								}
-
-								// xtype : 'linkbutton',
-							// text : 'Logout',
-							// margin : '60 50 0 0',
-							// handler : function() {
-							// Ext.Ajax.request({
-							// url : '/housing/logout',
-							// method : 'GET',
-							// success : function(response) {
-							//
-							// // var jresp = Ext.JSON
-							// // .decode(response.responseText);
-							// console.log('assessmentResponse'
-							// + response.responseText);
-							// window.location = 'ui-jsp/loginPage.jsp';
-							// }
-							//
-							// });
-							// }
-						}]
-				},
-				/*
-				 * { region : 'north', html : "<img
-				 * src=./resources/aurin_logo.gif>", height : 100,
-				 * 
-				 * bodyStyle : { "background-color" : "#CBE0F7", "text-align" :
-				 * "left" }, border : false, margins : '0 0 0 0', tbar : [{
-				 * xtype : 'button', border : 0, text : 'test Button', style : {
-				 * "background-color" : "#CBE0F7" }, handler : function(btn) {
-				 * alert('Button Click'); } }] },
-				 */{
-					region : 'west',
+								autoScroll : true,
+								xtype : 'panel',
+								width : '48%',
+								items : [rightForm_Potential],
+								split : true,
+								resizable : false,
+								bodyPadding : 13
+							}, {
+								region : 'south',
+								xtype : 'panel',
+								height : 70,
+								split : true,
+								items : [footerPanel_Potential],
+								bodyPadding : 10
+							}],
 					bodyStyle : {
-						"background-color" : "#DFE8F6"
-					},
-					border : false,
-					width : 0
+						"margin-left" : "1px"
+					}
 				}, {
-					region : 'south',
+					title : 'Developement Assessment Analysis',
+					layout : 'border',
+					items : [{
+								region : 'north',
+								height : 45,
+								split : true,
+								items : [LGA2]
+							}, {
+								region : 'west',
+								autoScroll : true,
+								border : true,
+								width : '52%',
+								items : [leftForm_Assessment],
+								split : true,
+								resizable : false,
+								bodyPadding : 13
+							}, {
+								region : 'east',
+								autoScroll : true,
+								xtype : 'panel',
+								width : '48%',
+								items : [rightForm_Assessment],
+								split : true,
+								resizable : false,
+								bodyPadding : 13
+							}, {
+								region : 'south',
+								xtype : 'panel',
+								height : 70,
+								split : true,
+								items : [footerPanel_Assessment],
+								bodyPadding : 10
+							}],
 					bodyStyle : {
-						"background-color" : "#DFE8F6"
-					},
-					border : false,
-					height : 1
-				}, {
-					region : 'east',
-					bodyStyle : {
-						"background-color" : "#DFE8F6"
-					},
-					border : false,
-					width : 0
-				}, {
-					region : 'center',
-					title : "Data Platform To Support Housing Analysis and Research",
-					xtype : 'tabpanel',
-					// TabPanel itself has no title
-					activeTab : 1,
-					// First tab active by default
-					items : [developementPotential, developementAssessment]
-				}]
+						"margin-left" : "1px"
+					}
+				}],
+		listeners : {
+			render : function() {
+				this.tabBar.add({
+							xtype : 'tbfill'
+						}, {
+							xtype : 'label',
+							text : 'You are logged in as ' + username + '   ',
+							style : {
+								"margin-top" : "3px",
+								"margin-bottom" : "1px"
+							}
+						}, {
+							xtype : 'panel',
+							border : false,
+							text : 'Logout',
+							html : "<a href='j_spring_security_logout'>Logout</a>",
+							style : {
+								"margin-right" : "20px",
+								"margin-left" : "20px",
+								"margin-top" : "2px",
+								"margin-bottom" : "2px"
+							},
+							bodyStyle : {
+								"background-color" : "#DFE8F6"
+							}
+						});
+			}
+		}
 	});
+
+	Ext.widget({
+		xtype : 'viewport',
+		layout : 'border',
+		resizable : false,
+		items : [{
+			region : 'north',
+			// height : 120,
+			items : [{
+				layout : 'column',
+				border : 0,
+				contentEl : 'header'
+				
+//				items : [{
+//							region : 'west',
+//							width : '75%',
+//							height : 135,
+//							border : 0,
+//							margin : '10 0 0 0',
+////							html : '<img src="./resources/aurin_logo.gif" />'
+////							html : '<div><a target="_blank" href="http://www.unimelb.edu.au" style="margin-right: 500px; width: 59%; height: 105px; background-image: url("./resources/aurin_logo.gif"); display: block;"id="g-global-menu-logo"> </a></div>'
+//							contentEl : 'g-global-menu-logo'
+//						}, {
+//							region : 'center',
+//							width : '7%',
+//							height : 135,
+//							margin : '0 0 3 0',
+//							border : 0,
+//							html : '<img src="./resources/csdila_logo.png" />'
+//						}, {
+//							region : 'east',
+//							width : '13%',
+//							height : 135,
+//							margin : '0 0 3 0',
+//							border : 0,
+//							html : '<img src="./resources/melbourne_uni_logo.png" />'
+//						}]
+
+			}]
+
+				// }]
+		}, {
+			region : 'center',
+			layout : 'fit',
+			items : [tabPanel]
+		}]
+	});
+
 });

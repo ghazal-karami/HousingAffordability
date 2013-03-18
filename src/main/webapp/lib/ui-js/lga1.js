@@ -39,11 +39,18 @@ var lgaCombo1 = new Ext.form.ComboBox({
 								selectedLGAs1.push(rec.get('lgaCode'));
 							});
 					console.log(selectedLGAs1);
-				}
+				},
+				render : function(p) {
+						Ext.QuickTips.register({
+							target : p.getEl(),
+							text : 'Select from LGA list and the analysis is performed only in the selected LGAs.'							
+						});
+					}
 			}
 		});
 
 var LGA1 = Ext.create('Ext.form.Panel', {
 			items : [lgaCombo1, selectedLGAs1],
-			width : '40%'
+			width : '100%',
+			border : false
 		});
