@@ -30,7 +30,7 @@ var developAssesVariables = Ext.create('Ext.form.Panel', {
 			bodyPadding : 5,
 			defaultType : 'checkboxfield',
 			fieldDefaults : {
-				margin : '8 50 10 5'
+				margin : '8 50 6 5'
 			},
 			items : [{
 						xtype : 'checkboxfield',
@@ -61,7 +61,7 @@ var environmentalVariables = Ext.create('Ext.form.Panel', {
 			bodyPadding : 5,
 			defaultType : 'checkboxfield',
 			fieldDefaults : {
-				margin : '2 30 10 5'
+				margin : '2 30 6 5'
 			},
 			items : [{
 						xtype : 'checkboxfield',
@@ -120,7 +120,7 @@ var ownershipVariables = Ext.create('Ext.form.Panel', {
 	bodyPadding : 5,
 	defaultType : 'checkboxfield',
 	fieldDefaults : {
-		margin : '2 50 10 5'
+		margin : '2 50 5 5'
 	},
 	listeners : {
 		render : function(p) {

@@ -19,7 +19,7 @@ var recreation = Ext.create('Ext.form.Panel', {
 						readOnly : false,
 						size : 3 ,
 						value : 0,
-						margin : '10 2 0 0',
+						margin : '5 2 0 0',
 						hideTrigger : true,
 						listeners : {
 							specialkey : function(field, e) {
@@ -243,7 +243,7 @@ var utility = Ext.create('Ext.form.Panel', {
 						readOnly : false,
 						size : 3 ,
 						value : 0,
-						margin : '5 2 10 0',
+						margin : '5 2 5 0',
 						hideTrigger : true,
 						listeners : {
 							specialkey : function(field, e) {

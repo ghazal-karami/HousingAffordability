@@ -8,7 +8,7 @@
 		<servlet-class>au.org.housing.proxy.servlet.ProxyServletWithAuth</servlet-class>
 		<init-param>
 			<param-name>ProxyTo</param-name>
-			<param-value>http://localhost:8086/geoserver</param-value>
+			<param-value>http://localhost:8085/geoserver</param-value>
 		</init-param>
 		<init-param>
 			<param-name>Prefix</param-name>

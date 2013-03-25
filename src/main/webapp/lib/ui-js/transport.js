@@ -10,12 +10,12 @@ var trainStation = Ext.create('Ext.form.Panel', {
 				xtype : 'label',
 				forId : 'trainStationId_value',
 				text : 'Train Station Distance:',
-				margin : '10 4 7 4',
+				margin : '5 4 7 4',
 				width : '25%'
 			}, {
 				xtype : "numberfield",
 				id : 'trainStationId_value',
-				margin : '10 2 0 0',
+				margin : '5 2 0 0',
 				size : 3 ,
 				value : 0,
 				hideTrigger : true,
@@ -33,7 +33,7 @@ var trainStation = Ext.create('Ext.form.Panel', {
 			}, {
 				xtype : 'label',
 				text : 'm',
-				margin : '10 4 0 0'
+				margin : '5 4 0 0'
 
 			}, {
 				xtype : 'sliderfield',
@@ -43,7 +43,7 @@ var trainStation = Ext.create('Ext.form.Panel', {
 				value : 0,
 				minValue : 0,
 				maxValue : 2000,
-				margin : '10 10 0 0',
+				margin : '5 10 0 0',
 				listeners : {
 					change : function(select, thumb, newval, oldval) {
 						Ext.getCmp("trainStationId_value").setValue(thumb);
@@ -175,7 +175,7 @@ var busRoute = Ext.create('Ext.form.Panel', {
 				xtype : 'label',
 				forId : 'busRouteId_value',
 				text : 'Bus Route Distance:',
-				margin : '7 4 7 4',
+				margin : '7 4 3 4',
 				width : '25%'
 			}, {
 				xtype : "numberfield",
@@ -183,7 +183,7 @@ var busRoute = Ext.create('Ext.form.Panel', {
 				readOnly : false,
 				size : 3,
 				value : 0,
-				margin : '5 2 10 0',
+				margin : '5 2 3 0',
 				hideTrigger : true,
 				listeners : {
 					specialkey : function(field, e) {

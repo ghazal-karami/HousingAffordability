@@ -84,18 +84,18 @@ var username = "<%=request.getAttribute("username")%>";
 </head>
 <body>
 	<div id="tabs1" style="width: 800px; height: 400px;"></div>
-	<table width="100%" height="120px" style="margin-bottom: 7px"
+	<table width="100%" height="90px" style="margin-bottom: 1px"
 		id="header">
 		<tbody>
 			<tr>
 				<td colpan="3"><a target="_blank" href="http://aurin.org.au/"
-					style="margin-top: 30px; margin-right: 10px; width: 440px; height: 100px; background-image: url('./resources/aurin_logo.gif'); z-index: 10000; display: block;"></a></td>
+					style="margin-top: 5px; margin-right: 10px; width: 440px; height: 100px; background-image: url('./resources/aurin_logo.gif'); z-index: 10000; display: block;"></a></td>
 				<td align="right" rowspan="2" width="100%" id="ext-gen1277"><a
 					target="_blank" href="http://www.csdila.unimelb.edu.au/"
-					style="margin-right: 20px; width: 82px; height: 136px; background-image: url('./resources/csdila_logo.png'); z-index: 10000; display: block;"></a></td>
+					style="margin-top: 0px;margin-right: 20px; width: 65px; height: 106px; background-image: url('./resources/csdila_logo.png'); z-index: 10000; display: block;"></a></td>
 				<td align="right" rowspan="2" width="100%"><a target="_blank"
 					href="http://www.unimelb.edu.au/"
-					style="margin-right: 10px; width: 140px; height: 140px; background-image: url('./resources/melbourne_uni_logo.png'); z-index: 10000; display: block;"></a></td>
+					style="margin-top: 13px; margin-right: 10px; width: 100px; height: 104px; background-image: url('./resources/melbourne_uni_logo.png'); z-index: 10000; display: block;"></a></td>
 			</tr>
 
 		</tbody>

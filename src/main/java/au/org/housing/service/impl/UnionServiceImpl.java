@@ -37,6 +37,7 @@ public class UnionServiceImpl implements UnionService {
 		try{
 			for ( i = bufferCollection.iterator(); i.hasNext();) {
 				Geometry geometry = i.next();
+				geometry = geometry.buffer(0.001);
 				if (geometry == null)
 					continue;
 				if (unionGeometry == null) {
@@ -64,6 +65,7 @@ public class UnionServiceImpl implements UnionService {
 			for (i = simpleFeatureCollection.features(); i.hasNext();) {					
 				SimpleFeature sf = i.next();
 				Geometry geometry = (Geometry) sf.getDefaultGeometry();
+				geometry = geometry.buffer(0.001);
 //				if (!geometry.isValid()){
 //					Messages.setMessage(Messages._NOT_VALID);
 //					LOGGER.error(Messages._NOT_VALID);

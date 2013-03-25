@@ -18,9 +18,8 @@ Ext.onReady(function() {
 			+ "/" + currentdate.getFullYear() + " @ " + currentdate.getHours()
 			+ ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
 
-	
 	var tabPanel = Ext.widget('tabpanel', {
-		activeTab : 1,
+		activeTab : 0,
 		title : 'Data Platform To Support Housing Analysis and Research',
 		items : [{
 					title : 'Developement Potential Analysis',
@@ -133,21 +132,15 @@ Ext.onReady(function() {
 				layout : 'border',
 				resizable : false,
 				items : [{
-					region : 'north',
-					// height : 120,
-					items : [{
-								layout : 'column',
-								border : 0,
-								contentEl : 'header'
-							}]
-
-						// }]
-					}, {
-					region : 'center',
-					layout : 'fit',
-					items : [tabPanel],
-					bbar : [datetime]
-				}]
+							region : 'north',
+							contentEl : 'header',
+							split : true
+						}, {
+							region : 'center',
+							layout : 'fit',
+							items : [tabPanel],
+							bbar : [datetime]
+						}]
 			});
 
 });

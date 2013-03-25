@@ -7,7 +7,7 @@ var landuses = Ext.create('Ext.form.Panel', {
 		labelAlign : 'left',
 		labelWidth : 140,
 		anchor : '100%',
-		margin : '8 0 8 10'
+		margin : '4 0 4 10'
 	},
 	listeners : {
 		render : function(p) {

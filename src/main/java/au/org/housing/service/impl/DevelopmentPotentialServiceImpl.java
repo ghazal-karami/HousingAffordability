@@ -283,9 +283,9 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 			if (bufferAllParams != null) {
 				Filter filter = null;
 				LOGGER.info("bufferAllParams is not null");
-				if (bufferAllParams.isValid()){
-					LOGGER.info("bufferAllParams is Valid");
-				}
+//				if (bufferAllParams.isValid()){
+//					LOGGER.info("bufferAllParams is Valid");
+//				}
 				GeometryDescriptor gd = propertyFc.getSchema().getGeometryDescriptor();
 				String gemoName = gd.getName().toString();
 				filter = ff.within(ff.property(gemoName),ff.literal(bufferAllParams));
@@ -346,7 +346,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 			SimpleFeatureCollection floodways = overlayCollection(filter);
 			if ( floodways != null ){
 				floodwaysUnion = (Geometry) unionService.createUnion(floodways);
-				floodwaysUnion = floodwaysUnion.buffer(0.001);
+//				floodwaysUnion = floodwaysUnion.buffer(0.001);
 				overlayMap.put("floodways", floodwaysUnion);
 				System.out.println("floodway size==="+floodways.size());
 			}else{
@@ -362,7 +362,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 			SimpleFeatureCollection inundations = overlayCollection(filter);
 			if ( inundations != null ){
 				inundationsUnion = unionService.createUnion(inundations) ; 
-				inundationsUnion = inundationsUnion.buffer(0.001);
+//				inundationsUnion = inundationsUnion.buffer(0.001);
 				overlayMap.put("inundations", inundationsUnion);
 				System.out.println("inundations size==="+inundations.size());
 			}else{
@@ -378,7 +378,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 			SimpleFeatureCollection neighborhoods = overlayCollection(filter);
 			if ( neighborhoods != null && !neighborhoods.isEmpty()){
 				neighborhoodsUnion = (Geometry) unionService.createUnion(neighborhoods);
-				neighborhoodsUnion = neighborhoodsUnion.buffer(0.001);
+//				neighborhoodsUnion = neighborhoodsUnion.buffer(0.001);
 				overlayMap.put("neighborhoods", neighborhoodsUnion);
 				System.out.println("neighborhoods size==="+neighborhoods.size());
 			}else{
@@ -395,7 +395,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 			SimpleFeatureCollection designDevelopments = overlayCollection(filter);
 			if ( designDevelopments != null && !designDevelopments.isEmpty()){
 				designDevelopmentsUnion = (Geometry) unionService.createUnion(designDevelopments);
-				designDevelopmentsUnion = designDevelopmentsUnion.buffer(0.001);
+//				designDevelopmentsUnion = designDevelopmentsUnion.buffer(0.001);
 				overlayMap.put("designDevelopments", designDevelopmentsUnion);
 				System.out.println("designDevelopments size==="+designDevelopments.size());	
 			}else{
@@ -411,7 +411,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 			SimpleFeatureCollection developPlans = overlayCollection(filter);
 			if ( developPlans != null && !developPlans.isEmpty()){
 				developPlansUnion = (Geometry) unionService.createUnion(developPlans);
-				developPlansUnion = developPlansUnion.buffer(0.001);
+//				developPlansUnion = developPlansUnion.buffer(0.001);
 				overlayMap.put("developPlans", developPlansUnion);
 				System.out.println("developPlans size==="+developPlans.size());	
 			}else{
@@ -427,7 +427,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 			SimpleFeatureCollection parkings = overlayCollection(filter);
 			if ( parkings != null && !parkings.isEmpty() ){
 				parkingsUnion = (Geometry) unionService.createUnion(parkings);
-				parkingsUnion = parkingsUnion.buffer(0.001);
+//				parkingsUnion = parkingsUnion.buffer(0.001);
 				overlayMap.put("parkings", parkingsUnion);
 				System.out.println("parkings size==="+parkings.size());	
 			}else{
@@ -445,7 +445,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 			SimpleFeatureCollection bushfires = overlayCollection(filter);
 			if ( bushfires != null && !bushfires.isEmpty() ){
 				bushfiresUnion = (Geometry) unionService.createUnion(bushfires);
-				bushfiresUnion = bushfiresUnion.buffer(0.001);
+//				bushfiresUnion = bushfiresUnion.buffer(0.001);
 				overlayMap.put("bushfires", bushfiresUnion);
 				System.out.println("bushfires size==="+bushfires.size());
 			}else{
@@ -461,7 +461,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 			SimpleFeatureCollection erosions = overlayCollection(filter);
 			if ( erosions != null && !erosions.isEmpty()){
 				erosionsUnion = (Geometry) unionService.createUnion(erosions);
-				erosionsUnion = erosionsUnion.buffer(0.001);
+//				erosionsUnion = erosionsUnion.buffer(0.001);
 				overlayMap.put("erosions", erosionsUnion);
 				System.out.println("erosions size==="+erosions.size());	
 			}else{
@@ -477,7 +477,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 			SimpleFeatureCollection vegprotections = overlayCollection(filter);
 			if ( vegprotections != null && !vegprotections.isEmpty()){
 				vegprotectionsUnion = (Geometry) unionService.createUnion(vegprotections);
-				vegprotectionsUnion = vegprotectionsUnion.buffer(0.001);
+//				vegprotectionsUnion = vegprotectionsUnion.buffer(0.001);
 				overlayMap.put("vegprotections", vegprotectionsUnion);
 				System.out.println("vegprotections size==="+vegprotections.size());	
 			}else{
@@ -493,7 +493,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 			SimpleFeatureCollection salinitys = overlayCollection(filter);
 			if ( salinitys != null && !salinitys.isEmpty()){
 				salinitysUnion = (Geometry) unionService.createUnion(salinitys);
-				salinitysUnion = salinitysUnion.buffer(0.001);
+//				salinitysUnion = salinitysUnion.buffer(0.001);
 				overlayMap.put("salinitys", salinitysUnion);
 				System.out.println("salinitys size==="+salinitys.size());	
 			}else{
@@ -509,7 +509,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 			SimpleFeatureCollection contaminations = overlayCollection(filter);
 			if ( contaminations != null && !contaminations.isEmpty()){
 				contaminationsUnion = (Geometry) unionService.createUnion(contaminations);
-				contaminationsUnion = contaminationsUnion.buffer(0.001);
+//				contaminationsUnion = contaminationsUnion.buffer(0.001);
 				overlayMap.put("contaminations", contaminationsUnion);
 				System.out.println("contaminations size==="+contaminations.size());	
 			}else{
@@ -525,7 +525,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 			SimpleFeatureCollection envSignificances = overlayCollection(filter);
 			if ( envSignificances != null && !envSignificances.isEmpty()){
 				envSignificancesUnion = (Geometry) unionService.createUnion(envSignificances);
-				envSignificancesUnion = envSignificancesUnion.buffer(0.001);
+//				envSignificancesUnion = envSignificancesUnion.buffer(0.001);
 				overlayMap.put("envSignificances", envSignificancesUnion);
 				System.out.println("envSignificances size==="+envSignificances.size());	
 			}else{
@@ -541,7 +541,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 			SimpleFeatureCollection envAudits = overlayCollection(filter);
 			if ( envAudits != null && !envAudits.isEmpty()){
 				envAuditsUnion = (Geometry) unionService.createUnion(envAudits);
-				envAuditsUnion = envAuditsUnion.buffer(0.001);
+//				envAuditsUnion = envAuditsUnion.buffer(0.001);
 				overlayMap.put("envAudits", envAuditsUnion);
 				System.out.println("envAudits size==="+envAudits.size());	
 			}else{
@@ -557,7 +557,7 @@ public class DevelopmentPotentialServiceImpl implements DevelopmentPotentialServ
 			SimpleFeatureCollection heritages = overlayCollection(filter);
 			if (heritages != null && !heritages.isEmpty()){
 				heritageUnion = (Geometry) unionService.createUnion(heritages);
-				heritageUnion = heritageUnion.buffer(0.001);
+//				heritageUnion = heritageUnion.buffer(0.001);
 				overlayMap.put("heritages", heritageUnion);
 				System.out.println("heritages size==="+heritages.size());
 			}else{

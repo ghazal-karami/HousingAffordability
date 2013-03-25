@@ -16,7 +16,7 @@ Ext.onReady(function() {
 					workspace = jsonResp.workspace;
 					layerName = workspace + ":" + jsonResp.layerName;
 					// lgaLayerName = workspace + ":lga_polygon_ArcGis_metric";
-					lgaLayerName = "housingWS:lga_polygon_ArcGis_metric";
+					lgaLayerName = "housingWS:lga_polygon";
 					minX = jsonResp.minX;
 					maxX = jsonResp.maxX;
 					minY = jsonResp.minY;
@@ -126,25 +126,41 @@ Ext.onReady(function() {
 					.set(
 							"legendURL",
 							"/housing/geoserver/housingWS/wms?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER="
-									+ map.layers[i].params["LAYERS"]);
+									+ tiled);
 		}
-		
 		var legendPanel = new GeoExt.LegendPanel({
-					border : false,
-					autoScroll : false,
+					autoScroll : true,
 					bodyStyle : {
-						"background-color" : "#CBE0F7"
-					}
+						"background-color" : "white"
+					},
+					defaults : {
+						cls : 'legend-item',
+						baseParams : {
+							FORMAT : 'image/png'
+						}
+					},
+					layerStore : layers
 				});
+
+//		var legendPanel = new GeoExt.LegendPanel({
+//					border : false,
+//					autoScroll : false,
+//					bodyStyle : {
+//						"background-color" : "#CBE0F7"
+//					}
+//				});
 
 		new Ext.Viewport({
 					layout : "border",
 					items : [{
 								region : "north",
-								html : "<img src=../resources/aurin_logo.gif>",
-								height : 100,
+								xtype : 'panel',
+//								html : "<img src=../resources/aurin_logo.gif>",
+								contentEl : 'header',
+								height : 120,
 								bodyStyle : {
-									"background-color" : "#CBE0F7"
+//									"background-color" : "#CBE0F7"
+									"background-color" : "white"
 								},
 								split : true
 							}, {
@@ -161,12 +177,12 @@ Ext.onReady(function() {
 								showTitle : false,
 								cls : "opacity-slider",
 								items : [legendPanel],
-								title : "Legend",
+								title : "Map Legend",
 								width : '10%',
 								split : true,
 								collapsible : true,
 								bodyStyle : {
-									"background-color" : "#CBE0F7"
+									"background-color" : "white"
 								}
 							}]
 				});
