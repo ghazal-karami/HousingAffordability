@@ -3,8 +3,8 @@ Ext.onReady(function() {
 
 			var dialog = new Ext.Window({
 						title : "Housing Affordability and Land Administration System",
-						height : 270,
-						width : 500,
+						height : 320,
+						width : 540,
 						contentEl : 'login'
 					}).show();
 		});

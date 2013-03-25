@@ -15,29 +15,27 @@
 
 <body onload='document.f.j_username.focus();'
 	style='text-align: center;'>
-	<table width="70%" height="120px"
-		style="margin-bottom: 7px; margin-left: 180px; align: center; margin-top: 80px;"
+	<table width="100%" height="90px" style="margin-bottom: 1px"
 		id="header">
-		<tbody style="border-bottom: 2">
+		<tbody>
 			<tr>
-				<td align="right"><a target="_blank"
-					href="http://aurin.org.au/"
-					style="margin-top: 30px; margin-right: 10px; width: 450px; height: 100px; background-image: url('./resources/aurin_logo.gif'); z-index: 10000; display: block;"></a></td>
-				<td align="left" id="ext-gen1277"><a target="_blank"
-					href="http://www.csdila.unimelb.edu.au/"
-					style="margin-right: 20px; width: 82px; height: 136px; background-image: url('./resources/csdila_logo.png'); z-index: 10000; display: block;"></a></td>
-				<td align="left"><a target="_blank"
+				<td colpan="3"><a target="_blank" href="http://aurin.org.au/"
+					style="margin-top: 5px; margin-right: 10px; width: 440px; height: 100px; background-image: url('./resources/aurin_logo.gif'); z-index: 10000; display: block;"></a></td>
+				<td align="right" rowspan="2" width="100%" id="ext-gen1277"><a
+					target="_blank" href="http://www.csdila.unimelb.edu.au/"
+					style="margin-top: 0px;margin-right: 20px; width: 65px; height: 106px; background-image: url('./resources/csdila_logo.png'); z-index: 10000; display: block;"></a></td>
+				<td align="right" rowspan="2" width="100%"><a target="_blank"
 					href="http://www.unimelb.edu.au/"
-					style="margin-right: 10px; width: 140px; height: 140px; background-image: url('./resources/melbourne_uni_logo.png'); z-index: 10000; display: block;"></a></td>
+					style="margin-top: 13px; margin-right: 10px; width: 100px; height: 104px; background-image: url('./resources/melbourne_uni_logo.png'); z-index: 10000; display: block;"></a></td>
 			</tr>
 
 		</tbody>
 	</table>
 
 	<div class="x-hidden" id="login" align="center"
-		style="margin-top: 30px; margin-bottom: 30px;">
-		<h2 style="margin-top: 30px; margin-bottom: 30px;">Login with
-			Username and Password</h2>
+		style="margin-top: 50px; margin-bottom: 30px;">
+		<h1 style="margin-top: 30px; margin-bottom: 30px; font-size : 16px; ">Login with
+			Username and Password</h1>
 
 		<c:if test="${not empty error}">
 			<div class="errorblock" style="color: red">
@@ -52,21 +50,21 @@
 			<table border="0" style='align: center;'>
 				<tr>
 					<td align="center" width="135"></td>
-					<td align="left"><h4>User:</h4></td>
-					<td><input type='text' name='j_username' value=''></td>
+					<td align="left" style="font-size : 16px; color:#335995;"><h4>User:</h4></td>
+					<td><input type='text' name='j_username' value='' style='height: 25px; width: 150px'></td>
 				</tr>
 				<tr>
 					<td align="center"></td>
-					<td align="left"><h4>Password:</h4></td>
-					<td><input type='password' name='j_password' /></td>
+					<td align="left" style="font-size : 16px; color:#335995;"><h4>Password:</h4></td>
+					<td><input type='password' name='j_password' style='height: 25px; width: 150px'/></td>
 				</tr>
 				<tr>
 					<td></td>
 					<td colspan='1' align="right"><input name="submit"
 						type="submit" value="submit"
-						style='margin-top: 20px; margin-left: 50px;' /></td>
+						style='margin-top: 20px; margin-left: 50px; height: 25px; width: 60px' /></td>
 					<td align="left"><input name="reset" type="reset"
-						style='margin-top: 20px;' /></td>
+						style='margin-top: 20px; height: 25px; width: 60px' /></td>
 				</tr>				
 			</table>
 		</form>
