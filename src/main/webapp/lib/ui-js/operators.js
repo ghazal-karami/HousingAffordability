@@ -81,7 +81,7 @@ var VCATCombo = Ext.create('Ext.form.ComboBox', {
 			value : '=',
 			selectOnFocus : true,
 			size : 3,
-			margin : '5 0 5 4'
+			margin : '2 0 1 4'
 		});
 // ///////////////
 var dpiCombo = Ext.create('Ext.form.ComboBox', {

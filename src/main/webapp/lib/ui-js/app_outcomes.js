@@ -33,8 +33,16 @@ var outcomesGrid = Ext.create('Ext.grid.GridPanel', {
 						flex : 1
 					}],
 			margin : '8 10 5 0',
-			height : 160,
-			anchor : '100%'
+			height : 170,
+			anchor : '100%',
+			listeners : {
+				render : function(p) {
+					Ext.QuickTips.register({
+						target : p.getEl(),
+						text : 'Shows the information that relates to the decision made by the Responsible Authority and, if applicable, VCAT.'
+					});
+				}
+			}
 		});
 		
 

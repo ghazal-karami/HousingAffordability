@@ -6,7 +6,7 @@ var geographicVariables = Ext.create('Ext.form.Panel', {
 			border : false,
 			defaultType : 'checkboxfield',
 			fieldDefaults : {
-				margin : '5 5 10 5'
+				margin : '3 5 6 5'
 			},			
 			bodyPadding : 3,
 			items : [{
@@ -30,7 +30,7 @@ var developAssesVariables = Ext.create('Ext.form.Panel', {
 			bodyPadding : 5,
 			defaultType : 'checkboxfield',
 			fieldDefaults : {
-				margin : '8 50 6 5'
+				margin : '5 50 6 5'
 			},
 			items : [{
 						xtype : 'checkboxfield',
@@ -61,7 +61,7 @@ var environmentalVariables = Ext.create('Ext.form.Panel', {
 			bodyPadding : 5,
 			defaultType : 'checkboxfield',
 			fieldDefaults : {
-				margin : '2 30 6 5'
+				margin : '2 30 4 5'
 			},
 			items : [{
 						xtype : 'checkboxfield',
@@ -106,7 +106,7 @@ var heritage = Ext.create('Ext.form.Panel', {
 						xtype : 'checkboxfield',
 						id : 'heritageId',
 						boxLabel : 'Heritage Overlay',
-						margin : '7 0 10 8'
+						margin : '3 0 6 7'
 					}]
 		});
 
@@ -120,7 +120,7 @@ var ownershipVariables = Ext.create('Ext.form.Panel', {
 	bodyPadding : 5,
 	defaultType : 'checkboxfield',
 	fieldDefaults : {
-		margin : '2 50 5 5'
+		margin : '2 50 2 5'
 	},
 	listeners : {
 		render : function(p) {

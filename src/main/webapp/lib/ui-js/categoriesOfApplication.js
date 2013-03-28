@@ -3,7 +3,15 @@ var numOfDwelling = Ext.create('Ext.form.Panel', {
 			border : false,
 			autoHeight : true,
 			anchor : '100%',
-			margin : '4 20 10 5',
+			margin : '4 7 10 5',
+			listeners : {
+					render : function(p) {
+						Ext.QuickTips.register({
+							target : p.getEl(),
+							text : 'Shows the number of new dwellings (yield) that would be created as a result of a planning permit. Eg, if an application is to demolish an existing building and construct 3 new dwellings, then the yield is 2 new dwellings.'
+						});
+					}
+				},
 			items : [numOfDwellingCombo, {
 				xtype : "numberfield",
 				id : 'numOfDwellingId_value',

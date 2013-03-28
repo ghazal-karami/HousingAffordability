@@ -7,9 +7,7 @@ import it.geosolutions.geoserver.rest.encoder.GSLayerEncoder;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
 
 import org.slf4j.Logger;

@@ -31,7 +31,15 @@ var categoriesGrid = Ext.create('Ext.grid.Panel', {
 						dataIndex : 'desc',
 						flex : 1
 					}],			
-			height : 245,
+			height : 194,
 			anchor : '100%',
-			margin : '8 10 5 0'
+			margin : '8 10 5 0',
+			listeners : {
+				render : function(p) {
+					Ext.QuickTips.register({
+						target : p.getEl(),
+						text : 'Shows information that relates to the reason for application and the use of the land that is the subject of the application.'
+					});
+				}
+			}
 		});

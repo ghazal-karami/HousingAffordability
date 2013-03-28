@@ -7,28 +7,28 @@ var leftForm_Potential = Ext.create('Ext.form.Panel', {
 						title : 'DPI',
 						xtype : 'fieldset',
 						border : true,
-						bodyPadding : 5,
+						bodyPadding : 3,
 						collapsible : true,
 						items : [dpi]
 					}, {
 						title : 'Distance To Public Transport',
 						xtype : 'fieldset',
 						border : true,
-						bodyPadding : 5,
+						bodyPadding : 3,
 						collapsible : true,
 						items : [transports]
 					}, {
 						title : 'Distance To Public Facilities',
 						xtype : 'fieldset',
 						border : true,
-						bodyPadding : 5,
+						bodyPadding : 3,
 						collapsible : true,
 						items : [facilities]
 					}, {
 						title : 'Potential LandUse',
 						xtype : 'fieldset',
 						border : true,
-						bodyPadding : 5,
+						bodyPadding : 3,
 						collapsible : true,
 						items : [landuses]
 					}]
@@ -83,7 +83,7 @@ var rightForm_Potential = Ext.create('Ext.form.Panel', {
 var footerPanel_Potential = Ext.create('Ext.form.Panel', {
 	layout : 'column',
 	border : true,
-	bodyPadding : 10,
+	bodyPadding : 5,
 	bodyStyle : {
 		"background-color" : "#DFE8F6"
 	},

@@ -10,12 +10,12 @@ var trainStation = Ext.create('Ext.form.Panel', {
 				xtype : 'label',
 				forId : 'trainStationId_value',
 				text : 'Train Station Distance:',
-				margin : '5 4 7 4',
+				margin : '2 4 5 4',
 				width : '25%'
 			}, {
 				xtype : "numberfield",
 				id : 'trainStationId_value',
-				margin : '5 2 0 0',
+				margin : '2 2 0 0',
 				size : 3 ,
 				value : 0,
 				hideTrigger : true,
@@ -33,7 +33,7 @@ var trainStation = Ext.create('Ext.form.Panel', {
 			}, {
 				xtype : 'label',
 				text : 'm',
-				margin : '5 4 0 0'
+				margin : '2 4 0 0'
 
 			}, {
 				xtype : 'sliderfield',
@@ -43,7 +43,7 @@ var trainStation = Ext.create('Ext.form.Panel', {
 				value : 0,
 				minValue : 0,
 				maxValue : 2000,
-				margin : '5 10 0 0',
+				margin : '2 10 0 0',
 				listeners : {
 					change : function(select, thumb, newval, oldval) {
 						Ext.getCmp("trainStationId_value").setValue(thumb);
@@ -64,14 +64,14 @@ var trainRoute = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'trainRouteId_value',
 						text : 'Train Route Distance:',
-						margin : '9 4 7 4',
+						margin : '6 4 7 4',
 						width : '25%'
 					}, {
 						xtype : "numberfield",
 						id : 'trainRouteId_value',
 						readOnly : false,
 						size : 3,
-						margin : '7 2 0 0',
+						margin : '4 2 0 0',
 						value : 0,
 						hideTrigger : true,
 						listeners : {
@@ -89,7 +89,7 @@ var trainRoute = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'label',
 						text : 'm',
-						margin : '9 4 0 0'
+						margin : '6 4 0 0'
 					}, {
 						xtype : 'sliderfield',
 						id : 'trainRouteId',
@@ -98,7 +98,7 @@ var trainRoute = Ext.create('Ext.form.Panel', {
 						value : 0,
 						minValue : 0,
 						maxValue : 2000,
-						margin : '9 10 0 0',
+						margin : '6 10 0 0',
 						listeners : {
 							change : function(select, thumb, newval, oldval) {
 								Ext.getCmp("trainRouteId_value")
@@ -120,7 +120,7 @@ var tramRoute = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'tramRouteId_value',
 						text : 'Tram Route Distance:',
-						margin : '9 4 7 4',
+						margin : '6 4 7 4',
 						width : '25%'
 					}, {
 						xtype : "numberfield",
@@ -128,7 +128,7 @@ var tramRoute = Ext.create('Ext.form.Panel', {
 						readOnly : false,
 						size : 3,
 						value : 0,
-						margin : '7 2 0 0',
+						margin : '4 2 0 0',
 						hideTrigger : true,
 						listeners : {
 							specialkey : function(field, e) {
@@ -145,7 +145,7 @@ var tramRoute = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'label',
 						text : 'm',
-						margin : '9 4 0 0'
+						margin : '6 4 0 0'
 					}, {
 						xtype : 'sliderfield',
 						id : 'tramRouteId',
@@ -154,7 +154,7 @@ var tramRoute = Ext.create('Ext.form.Panel', {
 						value : 0,
 						minValue : 0,
 						maxValue : 2000,
-						margin : '9 10 0 0',
+						margin : '6 10 0 0',
 						listeners : {
 							change : function(select, thumb, newval, oldval) {
 								Ext.getCmp("tramRouteId_value").setValue(thumb);
@@ -175,7 +175,7 @@ var busRoute = Ext.create('Ext.form.Panel', {
 				xtype : 'label',
 				forId : 'busRouteId_value',
 				text : 'Bus Route Distance:',
-				margin : '7 4 3 4',
+				margin : '4 4 1 6',
 				width : '25%'
 			}, {
 				xtype : "numberfield",
@@ -183,7 +183,7 @@ var busRoute = Ext.create('Ext.form.Panel', {
 				readOnly : false,
 				size : 3,
 				value : 0,
-				margin : '5 2 3 0',
+				margin : '2 2 1 0',
 				hideTrigger : true,
 				listeners : {
 					specialkey : function(field, e) {
@@ -198,7 +198,7 @@ var busRoute = Ext.create('Ext.form.Panel', {
 			}, {
 				xtype : 'label',
 				text : 'm',
-				margin : '9 4 0 0'
+				margin : '6 4 0 0'
 			}, {
 				xtype : 'sliderfield',
 				id : 'busRouteId',
@@ -207,7 +207,7 @@ var busRoute = Ext.create('Ext.form.Panel', {
 				value : 0,
 				minValue : 0,
 				maxValue : 2000,
-				margin : '9 10 4 0',
+				margin : '6 10 1 0',
 				listeners : {
 					change : function(select, thumb, newval, oldval) {
 						Ext.getCmp("busRouteId_value").setValue(thumb);

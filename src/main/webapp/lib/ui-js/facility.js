@@ -11,7 +11,7 @@ var recreation = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'recreationId_value',
 						text : 'Recreation Distance:',
-						margin : '10 4 7 4',
+						margin : '6 4 7 4',
 						width : '25%'
 					}, {
 						xtype : "numberfield",
@@ -19,7 +19,7 @@ var recreation = Ext.create('Ext.form.Panel', {
 						readOnly : false,
 						size : 3 ,
 						value : 0,
-						margin : '5 2 0 0',
+						margin : '3 2 0 0',
 						hideTrigger : true,
 						listeners : {
 							specialkey : function(field, e) {
@@ -36,7 +36,7 @@ var recreation = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'label',
 						text : 'm',
-						margin : '10 4 0 0'
+						margin : '6 4 0 0'
 
 					}, {
 						xtype : 'sliderfield',
@@ -46,7 +46,7 @@ var recreation = Ext.create('Ext.form.Panel', {
 						value : 0,
 						minValue : 0,
 						maxValue : 2000,
-						margin : '10 10 0 0',
+						margin : '6 10 0 0',
 						listeners : {
 							change : function(select, thumb, newval, oldval) {
 								Ext.getCmp("recreationId_value")
@@ -67,7 +67,7 @@ var education = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'educationId_value',
 						text : 'Education Distance:',
-						margin : '9 4 7 4',
+						margin : '5 4 7 4',
 						width : '25%'
 					}, {
 						xtype : "numberfield",
@@ -75,7 +75,7 @@ var education = Ext.create('Ext.form.Panel', {
 						readOnly : false,
 						size : 3 ,
 						value : 0,
-						margin : '7 2 0 0',
+						margin : '3 2 0 0',
 						hideTrigger : true,
 						listeners : {
 							specialkey : function(field, e) {
@@ -92,7 +92,7 @@ var education = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'label',
 						text : 'm',
-						margin : '9 4 0 0'
+						margin : '5 4 0 0'
 
 					}, {
 						xtype : 'sliderfield',
@@ -102,7 +102,7 @@ var education = Ext.create('Ext.form.Panel', {
 						value : 0,
 						minValue : 0,
 						maxValue : 2000,
-						margin : '9 10 0 0',
+						margin : '5 10 0 0',
 						listeners : {
 							change : function(select, thumb, newval, oldval) {
 								Ext.getCmp("educationId_value").setValue(thumb);
@@ -124,7 +124,7 @@ var medical = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'medicalId_value',
 						text : 'Medical Distance:',
-						margin : '9 4 7 4',
+						margin : '5 4 7 4',
 						width : '25%'
 					}, {
 						xtype : "numberfield",
@@ -132,7 +132,7 @@ var medical = Ext.create('Ext.form.Panel', {
 						readOnly : false,
 						size : 3 ,
 						value : 0,
-						margin : '7 2 0 0',
+						margin : '3 2 0 0',
 						hideTrigger : true,
 						listeners : {
 							specialkey : function(field, e) {
@@ -149,7 +149,7 @@ var medical = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'label',
 						text : 'm',
-						margin : '9 4 0 0'
+						margin : '5 4 0 0'
 
 					}, {
 						xtype : 'sliderfield',
@@ -159,7 +159,7 @@ var medical = Ext.create('Ext.form.Panel', {
 						value : 0,
 						minValue : 0,
 						maxValue : 2000,
-						margin : '9 10 0 0',
+						margin : '5 10 0 0',
 						listeners : {
 							change : function(select, thumb, newval, oldval) {
 								Ext.getCmp("medicalId_value").setValue(thumb);
@@ -180,7 +180,7 @@ var community = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'communityId_value',
 						text : 'Community Distance:',
-						margin : '9 4 7 4',
+						margin : '4 4 7 4',
 						width : '25%'
 					}, {
 						xtype : "numberfield",
@@ -188,7 +188,7 @@ var community = Ext.create('Ext.form.Panel', {
 						readOnly : false,
 						size : 3 ,
 						value : 0,
-						margin : '7 2 0 0',
+						margin : '3 2 0 0',
 						hideTrigger : true,
 						listeners : {
 							specialkey : function(field, e) {
@@ -205,7 +205,7 @@ var community = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'label',
 						text : 'm',
-						margin : '9 4 0 0'
+						margin : '5 4 0 0'
 					}, {
 						xtype : 'sliderfield',
 						id : 'communityId',
@@ -214,7 +214,7 @@ var community = Ext.create('Ext.form.Panel', {
 						value : 0,
 						minValue : 0,
 						maxValue : 2000,
-						margin : '9 10 0 0',
+						margin : '5 10 0 0',
 						listeners : {
 							change : function(select, thumb, newval, oldval) {
 								Ext.getCmp("communityId_value").setValue(thumb);
@@ -235,7 +235,7 @@ var utility = Ext.create('Ext.form.Panel', {
 						xtype : 'label',
 						forId : 'utilityId_value',
 						text : 'Utility Distance:',
-						margin : '7 4 7 4',
+						margin : '6 4 4 4',
 						width : '25%'
 					}, {
 						xtype : "numberfield",
@@ -243,7 +243,7 @@ var utility = Ext.create('Ext.form.Panel', {
 						readOnly : false,
 						size : 3 ,
 						value : 0,
-						margin : '5 2 5 0',
+						margin : '4 2 2 0',
 						hideTrigger : true,
 						listeners : {
 							specialkey : function(field, e) {
@@ -260,7 +260,7 @@ var utility = Ext.create('Ext.form.Panel', {
 					}, {
 						xtype : 'label',
 						text : 'm',
-						margin : '9 4 0 0'
+						margin : '8 4 0 0'
 
 					}, {
 						xtype : 'sliderfield',
@@ -270,7 +270,7 @@ var utility = Ext.create('Ext.form.Panel', {
 						value : 0,
 						minValue : 0,
 						maxValue : 2000,
-						margin : '9 10 4 0',
+						margin : '6 10 1 0',
 						listeners : {
 							change : function(select, thumb, newval, oldval) {
 								Ext.getCmp("utilityId_value").setValue(thumb);
