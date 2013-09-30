@@ -110,8 +110,6 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 				durationWithVCATVal : durationWithVCATVal
 			},
 			success : function(response) {
-				console.log("222222222222222222");
-
 				waitingMsg1.hide();
 				try {
 					var jresp = Ext.JSON.decode(response.responseText);
@@ -143,7 +141,6 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 									}]
 								}).show();
 					} else if (jresp.successStatus == "unsuccess") {
-						console.log("333333333333333333333333333");
 						Ext.Msg.show({
 									title : 'Analysis Status',
 									msg : jresp.message,
@@ -152,7 +149,6 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 									icon : Ext.MessageBox.WARNING
 								});
 					} else if (jresp.successStatus == "invalidate") {
-						console.log("44444444444444444444444444");
 						Ext.Msg.show({
 									title : 'Analysis Status',
 									msg : jresp.message,
@@ -166,8 +162,6 @@ var analyseBtn_DevelopAssessment = Ext.create('Ext.Button', {
 				}
 			},
 			failure : function(response, options) {
-				console.log("555555555555555555555555555");
-				console.log("errrrrrrrrrrrrrrrrrrrrrrrror");
 				 waitingMsg1.hide();
 				if (response.status == 500) {
 					var sessionExpired = new Ext.Window({
